@@ -1,0 +1,3304 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profesor legislație rutieră – Țîcșa Cristian Costel</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; }
+
+  :root {
+    --bg: #0b1020;
+    --glow-1: #1b2a4a;
+    --glow-2: #2a1b4a;
+    --panel: #141c30;
+    --panel-2: #1b2540;
+    --border: #2a3858;
+    --text: #e6edf3;
+    --muted: #9aa8c0;
+    --accent: #58a6ff;
+    --accent-2: #a371f7;
+    --accent-3: #f778ba;
+    --ok: #3fb950;
+    --warn: #ffb454;
+    --danger: #ff7b72;
+    --shadow: rgba(0,0,0,0.45);
+    --overlay: rgba(4, 8, 20, 0.78);
+    --code-bg: #06090f;
+    --card-hover-border: #3a4a6a;
+  }
+
+  html[data-theme="light"] {
+    --bg: #f4f6fb;
+    --glow-1: #dbeafe;
+    --glow-2: #ede9fe;
+    --panel: #ffffff;
+    --panel-2: #f2f5fb;
+    --border: #dbe2ee;
+    --text: #16203a;
+    --muted: #5d6a86;
+    --accent: #2563eb;
+    --accent-2: #7c3aed;
+    --accent-3: #db2777;
+    --ok: #16a34a;
+    --warn: #d97706;
+    --danger: #dc2626;
+    --shadow: rgba(30, 45, 90, 0.13);
+    --overlay: rgba(20, 30, 55, 0.55);
+    --code-bg: #0f1626;
+    --card-hover-border: #b9c6e0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background:
+      radial-gradient(1200px 600px at 10% -10%, var(--glow-1) 0%, transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, var(--glow-2) 0%, transparent 55%),
+      var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    transition: background 0.35s ease, color 0.35s ease;
+  }
+
+  .app { width: 100%; max-width: 1180px; display: flex; flex-direction: column; gap: 1.5rem; }
+
+  header {
+    text-align: center;
+    padding: 1.4rem 1rem;
+    background: linear-gradient(135deg, rgba(88,166,255,0.12), rgba(163,113,247,0.08));
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    box-shadow: 0 18px 40px var(--shadow);
+    position: relative;
+    transition: background 0.35s, border-color 0.35s, box-shadow 0.35s;
+  }
+
+  html[data-theme="light"] header {
+    background: linear-gradient(135deg, rgba(37,99,235,0.08), rgba(124,58,237,0.06));
+  }
+
+  header .badge {
+    display: inline-block;
+    background: rgba(88,166,255,0.18);
+    border: 1px solid rgba(88,166,255,0.35);
+    color: var(--accent);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0.35rem 1rem;
+    border-radius: 30px;
+    margin-bottom: 0.7rem;
+  }
+
+  header h1 {
+    font-size: clamp(1.05rem, 2.8vw, 1.5rem);
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1.25;
+  }
+
+  header h1 span {
+    display: block;
+    font-size: 0.62em;
+    font-weight: 600;
+    letter-spacing: 0;
+    margin-top: 0.35rem;
+    color: var(--muted);
+    -webkit-text-fill-color: var(--muted);
+  }
+
+  header p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 0.6rem;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .admin-flag {
+    position: absolute;
+    top: 14px;
+    right: 78px;
+    display: none;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.32rem 0.75rem;
+    border-radius: 20px;
+    background: rgba(63,185,80,0.15);
+    border: 1px solid rgba(63,185,80,0.45);
+    color: var(--ok);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  body.is-admin .admin-flag { display: inline-flex; }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(63,185,80,0.45); }
+    50% { box-shadow: 0 0 0 6px rgba(63,185,80,0); }
+  }
+
+  .theme-toggle {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    transition: transform 0.25s, background 0.25s, border-color 0.25s, color 0.25s;
+    overflow: hidden;
+    z-index: 5;
+  }
+
+  .theme-toggle:hover { transform: rotate(18deg) scale(1.08); border-color: var(--accent); color: var(--accent); }
+  .theme-toggle .icon-sun, .theme-toggle .icon-moon { position: absolute; transition: opacity 0.3s, transform 0.35s; }
+  html[data-theme="dark"] .theme-toggle .icon-sun { opacity: 0; transform: translateY(18px) rotate(-90deg); }
+  html[data-theme="dark"] .theme-toggle .icon-moon { opacity: 1; transform: translateY(0) rotate(0); }
+  html[data-theme="light"] .theme-toggle .icon-sun { opacity: 1; transform: translateY(0) rotate(0); }
+  html[data-theme="light"] .theme-toggle .icon-moon { opacity: 0; transform: translateY(-18px) rotate(90deg); }
+
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .toolbar-left .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+  }
+
+  .toolbar-search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 200px;
+    max-width: 360px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    padding: 0.5rem 1rem;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    order: 3;
+  }
+  @media (min-width: 900px) { .toolbar-search { order: 2; } }
+
+  .toolbar-search:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(88,166,255,0.12); }
+  .toolbar-search .search-icon { color: var(--muted); font-size: 0.9rem; flex-shrink: 0; }
+  .toolbar-search input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    font-family: inherit;
+    min-width: 0;
+  }
+  .toolbar-search input::placeholder { color: var(--muted); }
+  .toolbar-search .search-clear {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    display: none;
+    font-size: 0.85rem;
+    padding: 0;
+    flex-shrink: 0;
+  }
+  .toolbar-search.has-value .search-clear { display: block; }
+  .toolbar-search .search-clear:hover { color: var(--danger); }
+
+  .toolbar-right {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+    order: 2;
+  }
+  @media (min-width: 900px) { .toolbar-right { order: 3; } }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    padding: 0.7rem 1.4rem;
+    border-radius: 40px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.18s;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #fff;
+    box-shadow: 0 8px 22px rgba(88,166,255,0.35);
+  }
+
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(163,113,247,0.45); }
+
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  .btn-ghost:hover { color: var(--text); border-color: var(--accent); }
+
+  .btn-admin { border-color: rgba(63,185,80,0.5); color: var(--ok); }
+  .btn-admin:hover { color: var(--ok); border-color: var(--ok); background: rgba(63,185,80,0.12); }
+
+  body.is-admin .btn-admin {
+    background: rgba(63,185,80,0.15);
+    border-color: var(--ok);
+    color: var(--ok);
+  }
+
+  body:not(.is-admin) .admin-only { display: none !important; }
+
+  .view-toggle {
+    display: inline-flex;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    padding: 3px;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+  .view-toggle button {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    padding: 0.45rem 0.75rem;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    line-height: 1;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .view-toggle button.active {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(88,166,255,0.35);
+  }
+
+  /* ===== FORM ===== */
+  .form-panel {
+    display: none;
+    background: linear-gradient(180deg, var(--panel), var(--panel-2));
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 1.5rem;
+    box-shadow: 0 18px 40px var(--shadow);
+    animation: fade 0.3s ease;
+  }
+
+  .form-panel.open { display: block; }
+
+  .form-panel.editing { border-color: rgba(163,113,247,0.6); box-shadow: 0 18px 40px rgba(163,113,247,0.25); }
+
+  @keyframes fade { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .form-panel h2 {
+    font-size: 1.15rem;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .form-panel h2 .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent-3);
+    box-shadow: 0 0 12px var(--accent-3);
+  }
+
+  .form-panel.editing h2 .dot { background: var(--accent-2); box-shadow: 0 0 12px var(--accent-2); }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 700px) { .form-grid { grid-template-columns: 1fr; } }
+
+  .form-field { display: flex; flex-direction: column; gap: 0.35rem; }
+  .form-field.full { grid-column: 1 / -1; }
+
+  .form-field label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--muted);
+    font-weight: 700;
+  }
+
+  .form-field input,
+  .form-field textarea,
+  .form-field select {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.75rem 0.9rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+  }
+
+  .form-field input:focus,
+  .form-field textarea:focus,
+  .form-field select:focus { border-color: var(--accent); }
+
+  .form-field textarea { resize: vertical; min-height: 140px; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.86rem; line-height: 1.55; }
+  .form-field textarea.short { min-height: 90px; }
+
+  .form-hint {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+    line-height: 1.4;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 0.7rem;
+    margin-top: 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  /* ===== IMAGE UPLOAD ===== */
+  .image-input-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+  .image-input-row input[type="text"] { flex: 1; min-width: 180px; }
+
+  .btn-upload {
+    background: linear-gradient(135deg, rgba(88,166,255,0.15), rgba(163,113,247,0.1));
+    border: 1px solid rgba(88,166,255,0.4);
+    color: var(--accent);
+    padding: 0.7rem 1.2rem;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .btn-upload:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, rgba(88,166,255,0.28), rgba(163,113,247,0.18));
+    border-color: var(--accent);
+    box-shadow: 0 8px 20px rgba(88,166,255,0.25);
+  }
+
+  html[data-theme="light"] .btn-upload {
+    background: linear-gradient(135deg, rgba(37,99,235,0.09), rgba(124,58,237,0.06));
+    border-color: rgba(37,99,235,0.3);
+  }
+
+  .image-preview {
+    position: relative;
+    margin-top: 0.6rem;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--panel-2);
+    max-width: 100%;
+    animation: fade 0.25s ease;
+  }
+  .image-preview img {
+    width: 100%;
+    max-height: 240px;
+    object-fit: contain;
+    display: block;
+    background: repeating-conic-gradient(rgba(128,128,128,0.08) 0% 25%, transparent 0% 50%) 50% / 20px 20px;
+  }
+  .img-remove {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    backdrop-filter: blur(4px);
+  }
+  .img-remove:hover { background: var(--danger); border-color: var(--danger); transform: rotate(90deg); }
+
+  .img-size-info {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    backdrop-filter: blur(4px);
+  }
+
+  .upload-progress {
+    margin-top: 0.5rem;
+    height: 4px;
+    background: var(--panel-2);
+    border-radius: 4px;
+    overflow: hidden;
+    display: none;
+  }
+  .upload-progress.active { display: block; }
+  .upload-progress .bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    width: 0%;
+    transition: width 0.3s ease;
+    border-radius: 4px;
+  }
+
+  /* ===== CARDS GRID ===== */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 1.3rem;
+    transition: all 0.3s ease;
+  }
+
+  @media (max-width: 640px) { .cards-grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: linear-gradient(180deg, var(--panel), var(--panel-2));
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.1rem 1.2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    box-shadow: 0 14px 32px var(--shadow);
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, background 0.35s;
+    animation: cardIn 0.4s ease both;
+    position: relative;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  @keyframes cardIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+    opacity: 0.85;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    border-color: var(--card-hover-border);
+    box-shadow: 0 22px 46px var(--shadow);
+  }
+
+  .card-image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 0.2rem;
+    background: linear-gradient(135deg, rgba(88,166,255,0.15), rgba(163,113,247,0.1));
+    position: relative;
+    flex-shrink: 0;
+  }
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .card:hover .card-image img { transform: scale(1.04); }
+
+  .card-image.placeholder::after {
+    content: attr(data-emoji);
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    opacity: 0.55;
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .card-cat {
+    font-size: 0.66rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    padding: 0.28rem 0.75rem;
+    border-radius: 20px;
+    background: rgba(88,166,255,0.14);
+    border: 1px solid rgba(88,166,255,0.32);
+    color: var(--accent);
+  }
+
+  html[data-theme="light"] .card-cat { background: rgba(37,99,235,0.09); border-color: rgba(37,99,235,0.25); }
+
+  .card-date {
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    white-space: nowrap;
+  }
+
+  .card-title {
+    font-size: 1.14rem;
+    font-weight: 800;
+    line-height: 1.35;
+    color: var(--text);
+  }
+
+  .card-excerpt {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--muted);
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .tag {
+    font-size: 0.64rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.22rem 0.65rem;
+    border-radius: 20px;
+    background: rgba(163,113,247,0.15);
+    border: 1px solid rgba(163,113,247,0.35);
+    color: var(--accent-2);
+  }
+
+  html[data-theme="light"] .tag { background: rgba(124,58,237,0.09); border-color: rgba(124,58,237,0.25); }
+
+  .tag.warn { background: rgba(255,180,84,0.14); border-color: rgba(255,180,84,0.35); color: var(--warn); }
+  .tag.danger { background: rgba(255,123,114,0.14); border-color: rgba(255,123,114,0.35); color: var(--danger); }
+  .tag.ok { background: rgba(63,185,80,0.14); border-color: rgba(63,185,80,0.35); color: var(--ok); }
+
+  .card-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.6rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .btn-read {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 30px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: transform 0.18s, box-shadow 0.18s;
+    box-shadow: 0 6px 18px rgba(88,166,255,0.3);
+  }
+
+  .btn-read:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(163,113,247,0.42); }
+  .btn-read .arrow { transition: transform 0.2s; }
+  .btn-read:hover .arrow { transform: translateX(4px); }
+
+  .card-admin-actions { display: flex; gap: 0.35rem; }
+
+  .icon-btn {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.82rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+
+  .icon-btn:hover { transform: translateY(-2px); }
+  .icon-btn.edit:hover { color: var(--accent-2); border-color: var(--accent-2); background: rgba(163,113,247,0.1); }
+  .icon-btn.clear:hover { color: var(--warn); border-color: var(--warn); background: rgba(255,180,84,0.1); }
+  .icon-btn.del:hover { color: var(--danger); border-color: var(--danger); background: rgba(255,123,114,0.1); }
+
+  .card.is-empty-content { border-color: rgba(255,180,84,0.4); }
+
+  .cards-grid.list-view { grid-template-columns: 1fr; gap: 1rem; }
+
+  .cards-grid.list-view .card {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 1.3rem;
+    padding: 1rem 1.3rem 1rem 1rem;
+  }
+
+  .cards-grid.list-view .card-image {
+    width: 230px;
+    aspect-ratio: auto;
+    min-height: 170px;
+    margin-bottom: 0;
+    align-self: stretch;
+    height: auto;
+  }
+
+  .cards-grid.list-view .card:hover { transform: translateY(-3px); }
+
+  @media (max-width: 640px) {
+    .cards-grid.list-view .card { flex-direction: column; }
+    .cards-grid.list-view .card-image { width: 100%; aspect-ratio: 16/9; min-height: 0; }
+  }
+
+  .empty-content-note {
+    background: rgba(255,180,84,0.08);
+    border: 1px dashed rgba(255,180,84,0.4);
+    color: var(--warn);
+    padding: 0.7rem 0.9rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-style: italic;
+    text-align: center;
+  }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3.5rem 1rem;
+    color: var(--muted);
+  }
+
+  .empty-state .icon { font-size: 2.8rem; margin-bottom: 0.8rem; }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.78rem;
+    padding: 1rem 0 2rem;
+  }
+
+  footer strong { color: var(--accent); }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translate(-50%, 24px);
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.85rem 1.4rem;
+    border-radius: 14px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 9999;
+    box-shadow: 0 14px 34px var(--shadow);
+    max-width: calc(100vw - 40px);
+    pointer-events: none;
+  }
+
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  .toast-ok { border-color: rgba(63,185,80,0.55); }
+  .toast-err { border-color: rgba(255,123,114,0.55); }
+  .toast-info { border-color: rgba(88,166,255,0.55); }
+
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--overlay);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 1rem;
+    opacity: 0;
+    transition: opacity 0.22s ease;
+  }
+
+  .overlay.open { display: flex; opacity: 1; }
+
+  .modal {
+    background: linear-gradient(180deg, var(--panel), var(--panel-2));
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 1.8rem 1.7rem 1.5rem;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 24px 60px var(--shadow);
+    animation: modalPop 0.28s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  }
+
+  @keyframes modalPop {
+    from { opacity: 0; transform: scale(0.93) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .modal.shake { animation: pinShake 0.4s ease; }
+
+  @keyframes pinShake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-10px); }
+    40% { transform: translateX(9px); }
+    60% { transform: translateX(-6px); }
+    80% { transform: translateX(4px); }
+  }
+
+  .modal .modal-icon { font-size: 2rem; margin-bottom: 0.6rem; display: inline-block; }
+  .modal h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: 0.4rem; color: var(--text); }
+  .modal p { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.2rem; line-height: 1.5; }
+
+  #pinInput {
+    width: 100%;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.9rem 1rem;
+    border-radius: 14px;
+    font-size: 1.6rem;
+    font-family: 'Consolas', 'Monaco', monospace;
+    letter-spacing: 0.6em;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.15s;
+    padding-left: calc(1rem + 0.6em);
+  }
+
+  #pinInput:focus { border-color: var(--accent); }
+  #pinInput.error { border-color: var(--danger); }
+
+  .modal-actions { display: flex; gap: 0.6rem; margin-top: 1.2rem; }
+  .modal-actions .btn { flex: 1; justify-content: center; }
+
+  .pin-error {
+    margin-top: 0.8rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--danger);
+    min-height: 1rem;
+  }
+
+  .reader {
+    background: linear-gradient(180deg, var(--panel), var(--panel-2));
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 880px;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 30px 70px var(--shadow);
+    animation: modalPop 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.15);
+    text-align: left;
+  }
+
+  .reader-head {
+    padding: 1.4rem 1.6rem 1.1rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    background: linear-gradient(135deg, rgba(88,166,255,0.08), rgba(163,113,247,0.05));
+    flex-shrink: 0;
+  }
+
+  html[data-theme="light"] .reader-head { background: linear-gradient(135deg, rgba(37,99,235,0.06), rgba(124,58,237,0.04)); }
+
+  .reader-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.15s;
+    font-family: inherit;
+    z-index: 2;
+  }
+  .reader-close:hover { color: var(--danger); border-color: var(--danger); transform: rotate(90deg); }
+
+  .reader-title {
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: 0.7rem;
+    padding-right: 2.5rem;
+    color: var(--text);
+  }
+
+  .reader-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.7rem;
+    font-size: 0.76rem;
+    color: var(--muted);
+    font-weight: 700;
+  }
+
+  .reader-meta .sep { opacity: 0.45; }
+
+  .reader-share {
+    display: flex;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+    margin-top: 0.9rem;
+  }
+
+  .share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.5rem 0.9rem;
+    border-radius: 30px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .share-btn:hover { transform: translateY(-2px); }
+  .share-btn.fb:hover { border-color: #1877f2; color: #1877f2; }
+  .share-btn.wa:hover { border-color: #25d366; color: #25d366; }
+  .share-btn.tw:hover { border-color: var(--text); color: var(--text); }
+  .share-btn.cp:hover { border-color: var(--accent-2); color: var(--accent-2); }
+
+  .reader-body {
+    padding: 1.5rem 1.6rem 2rem;
+    overflow-y: auto;
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.75;
+  }
+
+  .reader-hero {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 1.4rem;
+    background: var(--panel-2);
+  }
+  .reader-hero img {
+    width: 100%;
+    display: block;
+    max-height: 400px;
+    object-fit: cover;
+  }
+  .reader-hero figcaption {
+    padding: 0.6rem 1rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-align: center;
+    border-top: 1px solid var(--border);
+    background: var(--panel);
+    font-style: italic;
+  }
+
+  .topic-body h4 {
+    color: var(--text);
+    font-size: 1.02rem;
+    margin: 1.4rem 0 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .topic-body h4:first-child { margin-top: 0; }
+
+  .topic-body h4::before {
+    content: '';
+    width: 4px;
+    height: 16px;
+    border-radius: 4px;
+    background: linear-gradient(180deg, var(--accent), var(--accent-2));
+    flex-shrink: 0;
+  }
+
+  .topic-body ul, .topic-body ol { margin: 0.6rem 0 0.9rem 1.4rem; }
+  .topic-body li { margin-bottom: 0.4rem; }
+
+  .topic-body p { margin-bottom: 0.85rem; }
+  .topic-body strong { color: var(--text); font-weight: 800; }
+  html[data-theme="dark"] .topic-body strong { color: #fff; }
+
+  .topic-body .highlight {
+    background: rgba(88,166,255,0.1);
+    border-left: 4px solid var(--accent);
+    padding: 0.9rem 1.1rem;
+    border-radius: 0 12px 12px 0;
+    margin: 1rem 0;
+  }
+
+  html[data-theme="light"] .topic-body .highlight { background: rgba(37,99,235,0.07); }
+
+  .topic-body .danger-box {
+    background: rgba(255,123,114,0.1);
+    border-left: 4px solid var(--danger);
+    padding: 0.9rem 1.1rem;
+    border-radius: 0 12px 12px 0;
+    margin: 1rem 0;
+  }
+
+  html[data-theme="light"] .topic-body .danger-box { background: rgba(220,38,38,0.07); }
+
+  .topic-body .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.8rem;
+    margin: 1rem 0;
+  }
+
+  .stat-card {
+    background: rgba(0,0,0,0.22);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 0.9rem;
+    text-align: center;
+  }
+
+  html[data-theme="light"] .stat-card { background: rgba(37,99,235,0.05); }
+
+  .stat-card .num {
+    font-size: 1.6rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .stat-card .lbl {
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 700;
+    margin-top: 0.2rem;
+  }
+
+  .flashcards-section {
+    margin-top: 2.2rem;
+    padding-top: 1.5rem;
+    border-top: 2px dashed var(--border);
+  }
+
+  .flashcards-section .fc-head {
+    font-size: 1.05rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 0.35rem;
+    color: var(--text);
+  }
+
+  .flashcards-section .fc-head::before {
+    content: '';
+    width: 4px;
+    height: 18px;
+    border-radius: 4px;
+    background: linear-gradient(180deg, var(--accent-3), var(--accent-2));
+  }
+
+  .fc-hint {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 1.1rem;
+    font-style: italic;
+  }
+
+  .flashcards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0.9rem;
+  }
+
+  .flashcard {
+    perspective: 1200px;
+    height: 200px;
+    cursor: pointer;
+    outline: none;
+    border-radius: 16px;
+  }
+
+  .flashcard:focus-visible .flashcard-inner { box-shadow: 0 0 0 3px var(--accent); }
+
+  .flashcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transform-style: preserve-3d;
+    border-radius: 16px;
+  }
+
+  .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+
+  .flashcard-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 16px;
+    padding: 1.1rem 1.15rem 1.7rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid var(--border);
+    overflow: auto;
+    text-align: left;
+  }
+
+  .flashcard-front {
+    background: linear-gradient(135deg, rgba(88,166,255,0.14), rgba(163,113,247,0.08));
+    border-color: rgba(88,166,255,0.35);
+  }
+
+  html[data-theme="light"] .flashcard-front {
+    background: linear-gradient(135deg, rgba(37,99,235,0.09), rgba(124,58,237,0.05));
+    border-color: rgba(37,99,235,0.28);
+  }
+
+  .flashcard-back {
+    background: linear-gradient(135deg, rgba(63,185,80,0.14), rgba(88,166,255,0.08));
+    border-color: rgba(63,185,80,0.38);
+    transform: rotateY(180deg);
+  }
+
+  html[data-theme="light"] .flashcard-back {
+    background: linear-gradient(135deg, rgba(22,163,74,0.09), rgba(37,99,235,0.05));
+    border-color: rgba(22,163,74,0.3);
+  }
+
+  .fc-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .flashcard-back .fc-label { color: var(--ok); }
+
+  .flashcard-face p {
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: var(--text);
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .flashcard-front p { font-weight: 700; }
+
+  .fc-tap-hint {
+    position: absolute;
+    bottom: 0.55rem;
+    right: 0.8rem;
+    font-size: 0.6rem;
+    color: var(--muted);
+    opacity: 0.75;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+  }
+
+  .bulk-modal {
+    background: linear-gradient(180deg, var(--panel), var(--panel-2));
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 720px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 30px 70px var(--shadow);
+    animation: modalPop 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.15);
+    text-align: left;
+  }
+
+  .bulk-head {
+    padding: 1.2rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    position: relative;
+    background: linear-gradient(90deg, rgba(88,166,255,0.08), rgba(163,113,247,0.05));
+  }
+
+  .bulk-head h3 { font-size: 1.05rem; font-weight: 800; }
+
+  .bulk-head .code-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent-3);
+    box-shadow: 0 0 12px var(--accent-3);
+    flex-shrink: 0;
+  }
+
+  .bulk-close {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .bulk-close:hover { color: var(--danger); border-color: var(--danger); }
+
+  .bulk-desc {
+    padding: 0.9rem 1.5rem 0;
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .bulk-desc code {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    padding: 0.1rem 0.35rem;
+    border-radius: 6px;
+    font-size: 0.76rem;
+    color: var(--accent);
+  }
+
+  #bulkTextarea {
+    flex: 1;
+    min-height: 300px;
+    margin: 0.9rem 1.5rem 0;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    color: #e6edf3;
+    padding: 1rem;
+    border-radius: 14px;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    resize: none;
+    outline: none;
+    white-space: pre;
+    overflow: auto;
+    tab-size: 2;
+    transition: border-color 0.15s;
+  }
+  #bulkTextarea:focus { border-color: var(--accent); }
+
+  .bulk-hint {
+    padding: 0.6rem 1.5rem 0;
+    font-size: 0.75rem;
+    min-height: 1.1rem;
+    line-height: 1.4;
+    color: var(--muted);
+  }
+  .bulk-hint.ok { color: var(--ok); }
+  .bulk-hint.err { color: var(--danger); }
+
+  .bulk-actions {
+    display: flex;
+    gap: 0.6rem;
+    padding: 1rem 1.5rem 1.3rem;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .code-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--overlay);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    z-index: 9499;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .code-overlay.open { opacity: 1; pointer-events: auto; }
+
+  .code-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(760px, 96vw);
+    background: linear-gradient(180deg, var(--panel), var(--panel-2));
+    border-left: 1px solid var(--border);
+    box-shadow: -24px 0 60px var(--shadow);
+    z-index: 9500;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.32s cubic-bezier(0.18, 0.89, 0.32, 1.05);
+  }
+
+  .code-panel.open { transform: translateX(0); }
+
+  .code-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(90deg, rgba(88,166,255,0.08), rgba(163,113,247,0.05));
+  }
+
+  .code-panel-title { display: flex; align-items: center; gap: 0.6rem; }
+  .code-panel-title h3 { font-size: 1rem; font-weight: 800; }
+  .code-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent-3);
+    box-shadow: 0 0 12px var(--accent-3);
+  }
+
+  .code-close {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .code-close:hover { color: var(--danger); border-color: var(--danger); }
+
+  .code-panel-controls {
+    padding: 0.9rem 1.2rem 0.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .code-panel-controls label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--muted);
+    font-weight: 700;
+  }
+
+  .code-panel-controls select {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.65rem 0.9rem;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .code-panel-controls select:focus { border-color: var(--accent); }
+
+  #codeTextarea {
+    flex: 1;
+    margin: 0.6rem 1.2rem;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    color: #e6edf3;
+    padding: 1rem;
+    border-radius: 12px;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    resize: none;
+    outline: none;
+    white-space: pre;
+    overflow: auto;
+    tab-size: 2;
+    transition: border-color 0.15s;
+  }
+  #codeTextarea:focus { border-color: var(--accent); }
+
+  .code-hint {
+    padding: 0 1.2rem 0.6rem;
+    font-size: 0.72rem;
+    color: var(--muted);
+    min-height: 1.2rem;
+    line-height: 1.4;
+  }
+
+  .code-hint.ok { color: var(--ok); }
+  .code-hint.err { color: var(--danger); }
+
+  .code-panel-actions {
+    display: flex;
+    gap: 0.6rem;
+    padding: 0.9rem 1.2rem 1.2rem;
+    border-top: 1px solid var(--border);
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+  @media (max-width: 600px) {
+    body { padding: 1rem; }
+    .card { padding: 1rem; }
+    .card-title { font-size: 1.02rem; }
+    .btn { padding: 0.6rem 1rem; font-size: 0.82rem; }
+    .admin-flag { font-size: 0.58rem; padding: 0.22rem 0.55rem; right: 66px; }
+    .theme-toggle { width: 40px; height: 40px; font-size: 1.05rem; }
+    .code-panel { width: 100vw; }
+    #codeTextarea { margin: 0.5rem 0.8rem; font-size: 0.76rem; padding: 0.7rem; }
+    .code-panel-controls { padding: 0.8rem 0.8rem 0.3rem; }
+    .code-hint { padding: 0 0.8rem 0.5rem; }
+    .code-panel-actions { padding: 0.7rem 0.8rem 1rem; }
+    .reader-body { padding: 1.1rem; }
+    .reader-head { padding: 1.1rem; }
+    #bulkTextarea { margin: 0.7rem 1rem 0; }
+    .bulk-actions { padding: 0.8rem 1rem 1.1rem; }
+    .bulk-desc, .bulk-hint { padding-left: 1rem; padding-right: 1rem; }
+    .toolbar-search { max-width: 100%; }
+    .flashcards-grid { grid-template-columns: 1fr; }
+    .image-input-row { flex-direction: column; }
+    .btn-upload { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <header>
+    <div class="badge">📘 Platformă interactivă</div>
+    <div class="admin-flag" id="adminFlag">🔓 Admin activ</div>
+    <button class="theme-toggle" id="themeToggle" title="Comută modul zi / noapte" aria-label="Comută tema">
+      <span class="icon-sun">☀️</span>
+      <span class="icon-moon">🌙</span>
+    </button>
+    <h1>
+      Profesor legislație rutieră: Țîcșa Cristian Costel
+      <span>Subiecte de legislație rutieră actualizate periodic</span>
+    </h1>
+    <p>Conținutul este protejat. Doar administratorul (autentificat cu PIN) poate exporta, importa, adăuga, edita, șterge sau modifica direct codul subiectelor.</p>
+  </header>
+
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <span class="dot"></span>
+      <span id="topicCount">0 subiecte publicate</span>
+    </div>
+
+    <label class="toolbar-search" id="searchWrap">
+      <span class="search-icon" aria-hidden="true">🔍</span>
+      <input type="search" id="searchInput" placeholder="Caută în articole…" aria-label="Caută în articole">
+      <button type="button" class="search-clear" id="searchClear" aria-label="Șterge căutarea">✕</button>
+    </label>
+
+    <div class="toolbar-right">
+      <div class="view-toggle" role="group" aria-label="Mod de afișare">
+        <button type="button" id="viewGrid" class="active" title="Afișare grilă" aria-label="Afișare grilă">▦</button>
+        <button type="button" id="viewList" title="Afișare listă" aria-label="Afișare listă">☰</button>
+      </div>
+      <button class="btn btn-ghost admin-only" id="bulkAddBtn" title="Adaugă mai multe articole deodată, lipind un array JSON">📚 Adaugă în bloc (JSON)</button>
+      <button class="btn btn-ghost admin-only" id="exportBtn" title="Descarcă toate subiectele ca fișier JSON (doar admin)">📤 Export</button>
+      <button class="btn btn-ghost admin-only" id="importBtn" title="Încarcă subiecte dintr-un fișier JSON">📥 Import</button>
+      <button class="btn btn-ghost admin-only" id="codeEditorBtn" title="Deschide editorul paralel de cod">📝 Editor cod</button>
+      <button class="btn btn-ghost admin-only" id="headerEditBtn" title="Personalizează antetul blogului">🎨 Antet</button>
+      <button class="btn btn-primary admin-only" id="openFormBtn">➕ Adaugă subiect nou</button>
+      <button class="btn btn-ghost btn-admin" id="adminBtn" title="Autentificare administrator">🔐 Admin</button>
+      <input type="file" id="importFile" accept=".json,application/json" hidden>
+    </div>
+  </div>
+
+  <div class="form-panel" id="formPanel">
+    <h2><span class="dot"></span> <span id="formTitle">Subiect nou de legislație rutieră</span></h2>
+    <form id="topicForm">
+      <div class="form-grid">
+        <div class="form-field full">
+          <label for="fTitle">Titlu subiect *</label>
+          <input type="text" id="fTitle" placeholder="Ex: Conducerea agresivă" required>
+        </div>
+        <div class="form-field">
+          <label for="fDate">Data publicării *</label>
+          <input type="date" id="fDate" required>
+        </div>
+        <div class="form-field">
+          <label for="fTime">Ora</label>
+          <input type="time" id="fTime">
+        </div>
+        <div class="form-field">
+          <label for="fCategory">Categorie</label>
+          <select id="fCategory">
+            <option value="Legislație">Legislație rutieră</option>
+            <option value="Indicatoare">Indicatoare rutiere</option>
+            <option value="Conducere">Conducere</option>
+            <option value="Sancțiuni">Sancțiuni</option>
+            <option value="Prevenire">Prevenire</option>
+            <option value="Actualizare">Actualizare legislativă</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="fTags">Etichete (separate prin virgulă)</label>
+          <input type="text" id="fTags" placeholder="agresivitate, siguranță, Cod Rutier">
+        </div>
+        <div class="form-field full">
+          <label for="fExcerpt">Rezumat scurt afișat pe card (opțional)</label>
+          <input type="text" id="fExcerpt" placeholder="Ex: O frază reprezentativă care apare pe card.">
+          <div class="form-hint">💡 Dacă lași gol, rezumatul este extras automat din primele fraze ale conținutului.</div>
+        </div>
+
+        <div class="form-field full">
+          <label for="fImage">Imagine reprezentativă</label>
+          <div class="image-input-row">
+            <input type="text" id="fImage" placeholder="Lipește un URL sau încarcă un fișier →">
+            <button type="button" class="btn-upload" id="uploadImgBtn" title="Încarcă o imagine de pe dispozitiv">
+              📁 Alege fișier
+            </button>
+            <input type="file" id="uploadImgFile" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+          </div>
+          <div class="upload-progress" id="uploadProgress">
+            <div class="bar" id="uploadProgressBar"></div>
+          </div>
+          <div class="image-preview" id="imagePreview" style="display:none;">
+            <img id="imagePreviewImg" alt="Previzualizare imagine selectată">
+            <button type="button" class="img-remove" id="imageRemoveBtn" title="Elimină imaginea" aria-label="Elimină imaginea">✕</button>
+            <span class="img-size-info" id="imgSizeInfo"></span>
+          </div>
+          <div class="form-hint">💡 Poți lipi un URL extern <strong>sau</strong> încărca un fișier de pe dispozitiv. Imaginile mari sunt redimensionate automat (max. 1200px lățime) pentru a nu încărca memoria browserului.</div>
+        </div>
+
+        <div class="form-field full">
+          <label for="fImageAlt">Text alternativ imagine (alt)</label>
+          <input type="text" id="fImageAlt" placeholder="Ex: Șofer care schimbă banda fără semnalizare">
+          <div class="form-hint">💡 Obligatoriu pentru accesibilitate. Descrie pe scurt ce se vede în imagine.</div>
+        </div>
+
+        <div class="form-field full">
+          <label for="fFlashcards">Flashcards – întrebare | răspuns (una pe linie)</label>
+          <textarea id="fFlashcards" class="short" placeholder="Ce este conducerea agresivă? | Efectuarea pe drumul public a uneia dintre cele 9 manevre prevăzute de Art. 54¹.&#10;Care este sancțiunea? | Amendă clasa a II-a + suspendare 30 de zile."></textarea>
+          <div class="form-hint">💡 Fiecare linie = un flashcard. Folosește <code>|</code> pentru a separa întrebarea de răspuns.</div>
+        </div>
+
+        <div class="form-field full">
+          <label for="fContent">Conținut subiect *</label>
+          <textarea id="fContent" placeholder="Scrie aici materialul legislativ..." required></textarea>
+          <div class="form-hint">💡 Poți folosi HTML: <code>&lt;p&gt;</code>, <code>&lt;h4&gt;</code>, <code>&lt;ul&gt;/&lt;ol&gt;/&lt;li&gt;</code>, <code>&lt;strong&gt;</code>, <code>&lt;div class="highlight"&gt;</code>, <code>&lt;div class="danger-box"&gt;</code>, <code>&lt;div class="stat-grid"&gt;</code>.</div>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" id="submitBtn">💾 Salvează subiectul</button>
+        <button type="button" class="btn btn-ghost" id="cancelFormBtn">Anulează</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="cards-grid" id="cardsGrid"></div>
+
+  <footer>
+    Realizat de <strong>Țîcșa Cristian Costel</strong> · Profesor legislație rutieră · Platformă interactivă de subiecte
+  </footer>
+
+</div>
+
+<!-- ===== READER MODAL ===== -->
+<div class="overlay" id="readerOverlay" role="dialog" aria-modal="true" aria-labelledby="readerTitle">
+  <div class="reader">
+    <div class="reader-head">
+      <button class="reader-close" id="readerClose" aria-label="Închide articolul">✕</button>
+      <h2 class="reader-title" id="readerTitle"></h2>
+      <div class="reader-meta" id="readerMeta"></div>
+      <div class="card-tags" id="readerTags"></div>
+      <div class="reader-share" id="readerShare">
+        <button class="share-btn fb" data-share="facebook" aria-label="Distribuie pe Facebook">📘 Facebook</button>
+        <button class="share-btn wa" data-share="whatsapp" aria-label="Distribuie pe WhatsApp">💬 WhatsApp</button>
+        <button class="share-btn tw" data-share="twitter" aria-label="Distribuie pe X / Twitter">🐦 X</button>
+        <button class="share-btn cp" data-share="copy" aria-label="Copiază linkul">🔗 Copiază link</button>
+      </div>
+    </div>
+    <div class="reader-body" id="readerBody">
+      <div id="readerHero"></div>
+      <div class="topic-body" id="readerContent"></div>
+      <div class="flashcards-section" id="flashcardsSection" style="display:none;">
+        <div class="fc-head">🎴 Flashcards – verifică-ți cunoștințele</div>
+        <div class="fc-hint">Apasă pe un card pentru a-l întoarce.</div>
+        <div class="flashcards-grid" id="flashcardsGrid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BULK JSON MODAL ===== -->
+<div class="overlay" id="bulkOverlay" role="dialog" aria-modal="true" aria-labelledby="bulkTitle">
+  <div class="bulk-modal">
+    <div class="bulk-head">
+      <span class="code-dot"></span>
+      <h3 id="bulkTitle">📚 Adaugă articole în bloc (JSON)</h3>
+      <button class="bulk-close" id="bulkClose" aria-label="Închide">✕</button>
+    </div>
+    <div class="bulk-desc">
+      Lipește un <strong>array JSON</strong> de articole. Câmpuri acceptate:
+      <code>title</code>, <code>content</code>, <code>date</code>, <code>time</code>,
+      <code>category</code>, <code>tags</code> (array), <code>excerpt</code>,
+      <code>image</code> (URL sau data URL), <code>imageAlt</code>,
+      <code>flashcards</code> (array de <code>{front, back}</code>).
+    </div>
+    <textarea id="bulkTextarea" spellcheck="false" wrap="off" aria-label="JSON articole"></textarea>
+    <div class="bulk-hint" id="bulkHint">Exemplu rapid: apasă „Șablon” pentru a genera structura.</div>
+    <div class="bulk-actions">
+      <button class="btn btn-ghost" id="bulkTemplate" type="button">🧩 Șablon</button>
+      <button class="btn btn-ghost" id="bulkCancel" type="button">Anulează</button>
+      <button class="btn btn-primary" id="bulkAdd" type="button">➕ Adaugă articolele</button>
+    </div>
+  </div>
+</div>
+
+<!-- PANOU EDITOR COD -->
+<div class="code-overlay" id="codeOverlay"></div>
+<aside class="code-panel" id="codePanel" aria-hidden="true" role="dialog" aria-labelledby="codeTitle">
+  <div class="code-panel-header">
+    <div class="code-panel-title">
+      <span class="code-dot"></span>
+      <h3 id="codeTitle">📝 Editor cod – Admin</h3>
+    </div>
+    <button class="code-close" id="codeClose" aria-label="Închide editorul">✕</button>
+  </div>
+  <div class="code-panel-controls">
+    <label for="codeTarget">Selectează ce editezi</label>
+    <select id="codeTarget"></select>
+  </div>
+  <textarea id="codeTextarea" spellcheck="false" wrap="off" aria-label="Conținut cod"></textarea>
+  <div class="code-hint" id="codeHint">Selectează un subiect sau lista completă.</div>
+  <div class="code-panel-actions">
+    <button class="btn btn-ghost" id="codeReset" type="button">↺ Resetează</button>
+    <button class="btn btn-primary" id="codeApply" type="button">💾 Aplică modificările</button>
+  </div>
+</aside>
+
+<!-- ===== HEADER EDITOR MODAL ===== -->
+<div class="overlay" id="headerOverlay" role="dialog" aria-modal="true" aria-labelledby="headerTitle">
+  <div class="bulk-modal" style="max-width:640px;">
+    <div class="bulk-head">
+      <span class="code-dot"></span>
+      <h3 id="headerTitle">🎨 Personalizează antetul blogului</h3>
+      <button class="bulk-close" id="headerClose" aria-label="Închide">✕</button>
+    </div>
+    <div class="bulk-desc">
+      Modifică textele din antet și adaugă CSS personalizat. Modificările se aplică instant după salvare.
+    </div>
+    <div style="padding: 0 1.5rem; overflow-y:auto; flex:1;">
+      <div class="form-field" style="margin-top:.9rem;">
+        <label for="hBadge">Badge (textul mic de sus)</label>
+        <input type="text" id="hBadge" placeholder="📘 Platformă interactivă">
+      </div>
+      <div class="form-field" style="margin-top:.9rem;">
+        <label for="hTitle">Titlu principal</label>
+        <input type="text" id="hTitle" placeholder="Profesor legislație rutieră: Țîcșa Cristian Costel">
+      </div>
+      <div class="form-field" style="margin-top:.9rem;">
+        <label for="hSubtitle">Subtitlu (rândul doi, mai mic)</label>
+        <input type="text" id="hSubtitle" placeholder="Subiecte de legislație rutieră actualizate periodic">
+      </div>
+      <div class="form-field" style="margin-top:.9rem;">
+        <label for="hDesc">Descriere</label>
+        <textarea id="hDesc" class="short" style="min-height:80px;" placeholder="Text descriptiv..."></textarea>
+        <div class="form-hint">💡 Poți folosi HTML simplu: <code>&lt;strong&gt;</code>, <code>&lt;br&gt;</code>, <code>&lt;em&gt;</code>.</div>
+      </div>
+      <div class="form-field" style="margin-top:.9rem; margin-bottom:1rem;">
+        <label for="hCss">CSS personalizat (opțional)</label>
+        <textarea id="hCss" class="short" spellcheck="false" placeholder="header { background: linear-gradient(135deg, #58a6ff, #a371f7); }&#10;header h1 { font-size: 2rem; }" style="font-family:'Consolas','Monaco',monospace; font-size:0.82rem;"></textarea>
+        <div class="form-hint">💡 Reguli CSS care se aplică antetului. Ex: <code>header { background: gold; }</code></div>
+      </div>
+    </div>
+    <div class="bulk-actions">
+      <button class="btn btn-ghost" id="headerReset" type="button">↺ Resetează</button>
+      <button class="btn btn-ghost" id="headerCancel" type="button">Anulează</button>
+      <button class="btn btn-primary" id="headerSave" type="button">💾 Salvează antetul</button>
+    </div>
+  </div>
+</div>
+
+<!-- PIN MODAL -->
+<div class="overlay" id="pinOverlay" role="dialog" aria-modal="true" aria-labelledby="pinTitle">
+  <div class="modal" id="pinModal">
+    <div class="modal-icon">🔐</div>
+    <h3 id="pinTitle">Acces administrator</h3>
+    <p>Introdu PIN-ul pentru a debloca editarea subiectelor.<br>Sesiunea expiră automat la închiderea browserului.</p>
+    <input type="password" id="pinInput" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off" aria-label="PIN administrator">
+    <div class="pin-error" id="pinError" role="alert"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="pinCancel" type="button">Anulează</button>
+      <button class="btn btn-primary" id="pinSubmit" type="button">Deblochează</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  const STORAGE_KEY = 'legislatieRutieraSubiecte_v1';
+  const ADMIN_KEY = 'legislatieRutieraAdmin_v1';
+  const THEME_KEY = 'legislatieRutieraTheme_v1';
+  const VIEW_KEY = 'legislatieRutieraView_v1';
+  const HEADER_KEY = 'legislatieRutieraHeader_v1';
+  const ADMIN_PIN = '2302';
+
+  const DEFAULT_HEADER = {
+    badge: '📘 Platformă interactivă',
+    title: 'Profesor legislație rutieră: Țîcșa Cristian Costel',
+    subtitle: 'Subiecte de legislație rutieră actualizate periodic',
+    description: 'Conținutul este protejat. Doar administratorul (autentificat cu PIN) poate exporta, importa, adăuga, edita, șterge sau modifica direct codul subiectelor.',
+    customCss: ''
+  };
+
+  const cardsGrid = document.getElementById('cardsGrid');
+  const topicCountEl = document.getElementById('topicCount');
+  const formPanel = document.getElementById('formPanel');
+  const formTitleEl = document.getElementById('formTitle');
+  const openFormBtn = document.getElementById('openFormBtn');
+  const cancelFormBtn = document.getElementById('cancelFormBtn');
+  const submitBtn = document.getElementById('submitBtn');
+  const topicForm = document.getElementById('topicForm');
+  const exportBtn = document.getElementById('exportBtn');
+  const importBtn = document.getElementById('importBtn');
+  const importFile = document.getElementById('importFile');
+  const adminBtn = document.getElementById('adminBtn');
+  const pinOverlay = document.getElementById('pinOverlay');
+  const pinModal = document.getElementById('pinModal');
+  const pinInput = document.getElementById('pinInput');
+  const pinSubmit = document.getElementById('pinSubmit');
+  const pinCancel = document.getElementById('pinCancel');
+  const pinError = document.getElementById('pinError');
+  const themeToggle = document.getElementById('themeToggle');
+
+  const searchWrap = document.getElementById('searchWrap');
+  const searchInput = document.getElementById('searchInput');
+  const searchClear = document.getElementById('searchClear');
+  const viewGrid = document.getElementById('viewGrid');
+  const viewList = document.getElementById('viewList');
+
+  // Image upload
+  const uploadImgBtn = document.getElementById('uploadImgBtn');
+  const uploadImgFile = document.getElementById('uploadImgFile');
+  const imagePreview = document.getElementById('imagePreview');
+  const imagePreviewImg = document.getElementById('imagePreviewImg');
+  const imageRemoveBtn = document.getElementById('imageRemoveBtn');
+  const imgSizeInfo = document.getElementById('imgSizeInfo');
+  const uploadProgress = document.getElementById('uploadProgress');
+  const uploadProgressBar = document.getElementById('uploadProgressBar');
+  const fImage = document.getElementById('fImage');
+
+  const readerOverlay = document.getElementById('readerOverlay');
+  const readerClose = document.getElementById('readerClose');
+  const readerTitle = document.getElementById('readerTitle');
+  const readerMeta = document.getElementById('readerMeta');
+  const readerTags = document.getElementById('readerTags');
+  const readerShare = document.getElementById('readerShare');
+  const readerHero = document.getElementById('readerHero');
+  const readerContent = document.getElementById('readerContent');
+  const readerBody = document.getElementById('readerBody');
+  const flashcardsSection = document.getElementById('flashcardsSection');
+  const flashcardsGrid = document.getElementById('flashcardsGrid');
+
+  const bulkAddBtn = document.getElementById('bulkAddBtn');
+  const bulkOverlay = document.getElementById('bulkOverlay');
+  const bulkClose = document.getElementById('bulkClose');
+  const bulkCancel = document.getElementById('bulkCancel');
+  const bulkAdd = document.getElementById('bulkAdd');
+  const bulkTemplate = document.getElementById('bulkTemplate');
+  const bulkTextarea = document.getElementById('bulkTextarea');
+  const bulkHint = document.getElementById('bulkHint');
+
+  const codeEditorBtn = document.getElementById('codeEditorBtn');
+  const codePanel = document.getElementById('codePanel');
+  const codeOverlay = document.getElementById('codeOverlay');
+  const codeClose = document.getElementById('codeClose');
+  const codeTarget = document.getElementById('codeTarget');
+  const codeTextarea = document.getElementById('codeTextarea');
+  const codeHint = document.getElementById('codeHint');
+  const codeApply = document.getElementById('codeApply');
+  const codeReset = document.getElementById('codeReset');
+
+  // Header editor
+  const headerEditBtn = document.getElementById('headerEditBtn');
+  const headerOverlay = document.getElementById('headerOverlay');
+  const headerClose = document.getElementById('headerClose');
+  const headerCancel = document.getElementById('headerCancel');
+  const headerSave = document.getElementById('headerSave');
+  const headerReset = document.getElementById('headerReset');
+
+  const DEFAULT_TOPICS = [
+    {
+      id: 'agresiv-2026',
+      title: 'Conducerea agresivă – definiție, sancțiuni și prevenire',
+      date: '2026-10-02',
+      time: '08:00',
+      category: 'Conducere',
+      tags: ['agresivitate', 'siguranță rutieră', 'Cod Rutier', 'sancțiuni', 'prevenire'],
+      excerpt: 'Conducerea agresivă este definită legal prin OUG 195/2002 și se sancționează cu amendă din clasa a II-a și suspendarea permisului pentru 30 de zile.',
+      image: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1200&q=70',
+      imageAlt: 'Șosea aglomerată văzută de la nivelul capotei, cu mașini pe mai multe benzi',
+      flashcards: [
+        { front: 'Ce este conducerea agresivă?', back: 'Efectuarea pe drumul public a uneia dintre cele 9 manevre prevăzute de Art. 54¹ alin. 2 din OUG 195/2002.' },
+        { front: 'Care este sancțiunea pentru conducere agresivă?', back: 'Amendă clasa a II-a (4-5 puncte) + suspendarea permisului 30 de zile. Dacă rezultă accident cu pagube: clasa III + 60 de zile.' },
+        { front: 'Care este valoarea unui punct de amendă în 2026?', back: '216,25 lei (5% din salariul minim brut pe țară, 4.325 lei din iulie 2026).' },
+        { front: 'Cum reacționezi la un șofer agresiv?', back: 'Păstrează calmul, mărește distanța de siguranță, nu răspunde provocărilor, raportează abaterea pe hub.mai.gov.ro.' }
+      ],
+      content: `<p><strong>Conducerea agresivă</strong> reprezintă unul dintre cele mai periculoase comportamente în trafic și a fost definită pentru prima dată în legislația română prin modificările din 2022 ale OUG nr. 195/2002.</p>
+
+<h4>📜 Definiția legală (Art. 54¹ alin. 2 din OUG 195/2002)</h4>
+<p>Prin <strong>comportament agresiv</strong> se înțelege efectuarea, pe drumul public, de către conducătorul de vehicul, a uneia dintre următoarele manevre:</p>
+<ol>
+  <li>Deplasarea succesivă de pe o bandă de circulație pe alta sau de pe un rând pe altul, alternând din stânga în dreapta, în scopul depășirii unui șir de vehicule.</li>
+  <li>Întoarcerea vehiculului prin folosirea frânei de ajutor.</li>
+  <li>Pornirea vehiculului de pe loc prin patinarea excesivă a roților motoare.</li>
+  <li>Circulația cu vehiculul la o distanță foarte redusă față de un alt vehicul, ori reducerea bruscă a vitezei fără motiv.</li>
+  <li>Folosirea repetată a semnalelor sonore și/sau luminoase de natură a obliga nejustificat conducătorul din față.</li>
+  <li>Conducerea mopedului sau motocicletei având în contact cu partea carosabilă numai una dintre roți.</li>
+  <li>Mersul cu spatele cu vehiculul în scopul intimidării celorlalți participanți la trafic.</li>
+  <li>Realizarea intenționată a unui derapaj controlat al vehiculului.</li>
+  <li>Conducerea intenționată a unui vehicul prin accelerarea repetată a motorului.</li>
+</ol>
+
+<div class="danger-box">
+  <strong>⚠️ Important:</strong> Toate aceste manevre constituie <strong>contravenție</strong> și se sancționează cu amendă din clasa a II-a de sancțiuni și cu <strong>suspendarea permisului de conducere pentru 30 de zile</strong>. Dacă din conducerea agresivă rezultă un accident cu pagube materiale, suspendarea se majorează la <strong>60 de zile</strong>.
+</div>
+
+<h4>💰 Sancțiuni actualizate (2026)</h4>
+<div class="stat-grid">
+  <div class="stat-card">
+    <div class="num">4–5</div>
+    <div class="lbl">puncte de amendă</div>
+  </div>
+  <div class="stat-card">
+    <div class="num">865–1081</div>
+    <div class="lbl">lei amendă (clasa II)</div>
+  </div>
+  <div class="stat-card">
+    <div class="num">30</div>
+    <div class="lbl">zile suspendare permis</div>
+  </div>
+  <div class="stat-card">
+    <div class="num">60</div>
+    <div class="lbl">zile dacă e accident</div>
+  </div>
+</div>
+
+<h4>🛡️ Cum prevenim și cum reacționăm?</h4>
+<ol>
+  <li><strong>Planifică traseul</strong> și pleacă mai devreme.</li>
+  <li><strong>Păstrează calmul</strong> – nu răspunde provocărilor.</li>
+  <li><strong>Mărește distanța de siguranță</strong> – dacă cineva te urmărește prea aproape, încetinește treptat.</li>
+  <li><strong>Folosește semnalizarea corect</strong> și nu bloca banda de circulație.</li>
+  <li><strong>Raportează comportamentul agresiv</strong> – pe hub.mai.gov.ro.</li>
+</ol>
+
+<div class="highlight">
+  <strong>💡 Sfat de la profesor:</strong> Conducerea agresivă nu demonstrează îndemânare, ci <strong>lipsă de responsabilitate</strong> față de ceilalți participanți la trafic.
+</div>`
+    }
+  ];
+
+  let topics = [];
+  let editingId = null;
+  let formInitialState = '';
+  let isAdmin = false;
+  let codeOriginalValue = '';
+  let searchQuery = '';
+  let currentView = 'grid';
+  let currentReaderId = null;
+  let headerConfig = { ...DEFAULT_HEADER };
+
+  /* ============================================================
+     THEME
+     ============================================================ */
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
+  }
+  function initTheme() {
+    let saved = null;
+    try { saved = localStorage.getItem(THEME_KEY); } catch (e) {}
+    if (saved === 'light' || saved === 'dark') { applyTheme(saved); return; }
+    const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    applyTheme(prefersLight ? 'light' : 'dark');
+  }
+  themeToggle.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme');
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  });
+
+  /* ============================================================
+     VIEW MODE
+     ============================================================ */
+  function applyView(view) {
+    currentView = view === 'list' ? 'list' : 'grid';
+    cardsGrid.classList.toggle('list-view', currentView === 'list');
+    viewGrid.classList.toggle('active', currentView === 'grid');
+    viewList.classList.toggle('active', currentView === 'list');
+    try { localStorage.setItem(VIEW_KEY, currentView); } catch (e) {}
+  }
+  function initView() {
+    let saved = null;
+    try { saved = localStorage.getItem(VIEW_KEY); } catch (e) {}
+    applyView(saved === 'list' ? 'list' : 'grid');
+  }
+  viewGrid.addEventListener('click', () => applyView('grid'));
+  viewList.addEventListener('click', () => applyView('list'));
+
+  /* ============================================================
+     ADMIN
+     ============================================================ */
+  function loadAdminState() {
+    try { isAdmin = sessionStorage.getItem(ADMIN_KEY) === '1'; }
+    catch (e) { isAdmin = false; }
+  }
+  function persistAdminState() {
+    try {
+      if (isAdmin) sessionStorage.setItem(ADMIN_KEY, '1');
+      else sessionStorage.removeItem(ADMIN_KEY);
+    } catch (e) {}
+  }
+  function applyAdminUI() {
+    document.body.classList.toggle('is-admin', isAdmin);
+    adminBtn.innerHTML = isAdmin ? '🔓 Admin activ' : '🔐 Admin';
+    adminBtn.title = isAdmin ? 'Ieși din modul administrator' : 'Autentificare administrator';
+    if (!isAdmin) {
+      if (formPanel.classList.contains('open')) closeForm(true);
+      if (codePanel.classList.contains('open')) closeCodeEditor();
+      if (bulkOverlay.classList.contains('open')) closeBulk();
+      if (headerOverlay.classList.contains('open')) closeHeaderEditor();
+    }
+    render();
+  }
+  function openPinModal() {
+    pinError.textContent = '';
+    pinInput.value = '';
+    pinInput.classList.remove('error');
+    pinOverlay.classList.add('open');
+    setTimeout(() => pinInput.focus(), 100);
+  }
+  function closePinModal() {
+    pinOverlay.classList.remove('open');
+    pinModal.classList.remove('shake');
+    pinInput.value = '';
+    pinError.textContent = '';
+    pinInput.classList.remove('error');
+  }
+  function tryUnlockPin() {
+    const value = pinInput.value.trim();
+    if (value === ADMIN_PIN) {
+      isAdmin = true;
+      persistAdminState();
+      closePinModal();
+      applyAdminUI();
+      toast('Mod administrator activat.', 'ok');
+      return;
+    }
+    pinInput.classList.add('error');
+    pinError.textContent = value.length === 0 ? 'Introdu PIN-ul.' : 'PIN incorect. Încearcă din nou.';
+    pinModal.classList.remove('shake');
+    void pinModal.offsetWidth;
+    pinModal.classList.add('shake');
+    pinInput.value = '';
+    pinInput.focus();
+  }
+  function lockAdmin(silent) {
+    isAdmin = false;
+    persistAdminState();
+    applyAdminUI();
+    if (!silent) toast('Ai ieșit din modul administrator.', 'info');
+  }
+  adminBtn.addEventListener('click', () => {
+    if (isAdmin) lockAdmin(false);
+    else openPinModal();
+  });
+  pinSubmit.addEventListener('click', tryUnlockPin);
+  pinCancel.addEventListener('click', closePinModal);
+  pinInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); tryUnlockPin(); }
+  });
+  pinInput.addEventListener('input', () => {
+    pinInput.value = pinInput.value.replace(/\D/g, '').slice(0, 4);
+    if (pinInput.classList.contains('error')) {
+      pinInput.classList.remove('error');
+      pinError.textContent = '';
+    }
+  });
+  pinOverlay.addEventListener('click', e => { if (e.target === pinOverlay) closePinModal(); });
+
+  /* ============================================================
+     PERSISTENȚĂ
+     ============================================================ */
+  function loadTopics() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw !== null) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) { topics = parsed; return; }
+      }
+    } catch (e) {}
+    topics = JSON.parse(JSON.stringify(DEFAULT_TOPICS));
+    saveTopics();
+  }
+  function saveTopics() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(topics)); }
+    catch (e) {
+      toast('Eroare la salvare: spațiu insuficient în browser. Șterge imagini vechi sau folosește mai puține articole.', 'err', 5000);
+    }
+  }
+
+  /* ============================================================
+     SANITIZARE
+     ============================================================ */
+  function sanitizeHtml(html) {
+    let out = String(html);
+    out = out.replace(/<script\b[\s\S]*?<\/script\s*>/gi, '');
+    out = out.replace(/<style\b[\s\S]*?<\/style\s*>/gi, '');
+    out = out.replace(/<(iframe|object|embed|link|meta|base)\b[^>]*>/gi, '');
+    out = out.replace(/\s+on[a-z]+\s*=\s*"[^"]*"/gi, '');
+    out = out.replace(/\s+on[a-z]+\s*=\s*'[^']*'/gi, '');
+    out = out.replace(/\s+on[a-z]+\s*=\s*[^\s>]+/gi, '');
+    out = out.replace(/(href|src|xlink:href)\s*=\s*(["'])\s*(javascript|data|vbscript):[^"']*\2/gi, '$1="#"');
+    return out;
+  }
+
+  function sanitizeUrl(url, allowDataImage) {
+    const s = String(url || '').trim();
+    if (!s) return '';
+    if (/^javascript:|^vbscript:/i.test(s)) return '';
+    if (/^data:/i.test(s)) {
+      if (allowDataImage && /^data:image\/(png|jpe?g|gif|webp);base64,/i.test(s)) return s;
+      return '';
+    }
+    return s;
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+  function renderContent(text) {
+    const str = String(text);
+    if (/<[a-z][\s\S]*>/i.test(str)) return sanitizeHtml(str);
+    return str.split(/\n\s*\n/).map(p => '<p>' + escapeHtml(p.trim()) + '</p>').join('');
+  }
+  function stripHtml(html) {
+    return String(html)
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+  function getExcerpt(topic) {
+    if (topic.excerpt && String(topic.excerpt).trim()) return String(topic.excerpt).trim();
+    const text = stripHtml(topic.content || '');
+    if (!text) return 'Acest subiect nu are încă un rezumat.';
+    const m = text.match(/^.{50,230}?[.!?](\s|$)/);
+    if (m) return m[0].trim();
+    return text.slice(0, 210) + (text.length > 210 ? '…' : '');
+  }
+  function categoryEmoji(cat) {
+    const c = String(cat || '').toLowerCase();
+    if (/indicator/.test(c)) return '🚸';
+    if (/conducere/.test(c)) return '🚗';
+    if (/sanc/.test(c)) return '⚠️';
+    if (/preven/.test(c)) return '🛡️';
+    if (/actual/.test(c)) return '🆕';
+    return '📘';
+  }
+  function formatDate(dateStr, timeStr) {
+    try {
+      const d = new Date(dateStr + 'T' + (timeStr || '00:00'));
+      if (isNaN(d.getTime())) return dateStr;
+      const months = ['ian.', 'feb.', 'mar.', 'apr.', 'mai', 'iun.', 'iul.', 'aug.', 'sept.', 'oct.', 'nov.', 'dec.'];
+      let out = d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+      if (timeStr) out += ' · ' + timeStr;
+      return out;
+    } catch (e) { return dateStr; }
+  }
+  function tagClass(tag) {
+    const lower = String(tag).toLowerCase();
+    if (/sanc|amend|pedeaps|interz/.test(lower)) return 'tag danger';
+    if (/preven|sfat|sigur/.test(lower)) return 'tag ok';
+    if (/actual|modific|nou/.test(lower)) return 'tag warn';
+    return 'tag';
+  }
+  function todayLocal() {
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+  function nowLocal() {
+    const d = new Date();
+    return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  }
+  function normalizeFlashcards(arr) {
+    if (!Array.isArray(arr)) return [];
+    return arr.map(fc => {
+      if (!fc || typeof fc !== 'object') return null;
+      const front = String(fc.front || fc.q || fc.intrebare || '').trim();
+      const back = String(fc.back || fc.a || fc.raspuns || fc.răspuns || '').trim();
+      if (!front && !back) return null;
+      return { front, back };
+    }).filter(Boolean);
+  }
+  function flashcardsToText(fcs) {
+    if (!Array.isArray(fcs)) return '';
+    return fcs.map(fc => (fc.front || '') + ' | ' + (fc.back || '')).join('\n');
+  }
+  function textToFlashcards(text) {
+    if (!text) return [];
+    return String(text).split('\n')
+      .map(line => line.trim())
+      .filter(Boolean)
+      .map(line => {
+        const idx = line.indexOf('|');
+        if (idx === -1) return { front: line, back: '' };
+        return { front: line.slice(0, idx).trim(), back: line.slice(idx + 1).trim() };
+      })
+      .filter(fc => fc.front || fc.back);
+  }
+
+  /* ============================================================
+     TOAST
+     ============================================================ */
+  function toast(message, type = 'info', duration = 2800) {
+    const el = document.createElement('div');
+    el.className = 'toast toast-' + type;
+    el.textContent = message;
+    el.setAttribute('role', 'status');
+    el.setAttribute('aria-live', 'polite');
+    document.body.appendChild(el);
+    requestAnimationFrame(() => el.classList.add('show'));
+    setTimeout(() => {
+      el.classList.remove('show');
+      setTimeout(() => el.remove(), 320);
+    }, duration);
+  }
+
+  /* ============================================================
+     SEARCH
+     ============================================================ */
+  let searchTimer = null;
+  function onSearchInput() {
+    const v = searchInput.value;
+    searchWrap.classList.toggle('has-value', v.length > 0);
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      searchQuery = v.trim().toLowerCase();
+      render();
+    }, 180);
+  }
+  searchInput.addEventListener('input', onSearchInput);
+  searchClear.addEventListener('click', () => {
+    searchInput.value = '';
+    searchWrap.classList.remove('has-value');
+    searchQuery = '';
+    render();
+    searchInput.focus();
+  });
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      searchInput.focus();
+      searchInput.select();
+    }
+  });
+
+  function getFilteredTopics() {
+    const sorted = topics.slice().sort((a, b) => {
+      const da = (a.date || '') + 'T' + (a.time || '00:00');
+      const db = (b.date || '') + 'T' + (b.time || '00:00');
+      return db.localeCompare(da);
+    });
+    if (!searchQuery) return sorted;
+    const q = searchQuery;
+    return sorted.filter(t => {
+      if ((t.title || '').toLowerCase().includes(q)) return true;
+      if ((t.excerpt || '').toLowerCase().includes(q)) return true;
+      if ((t.category || '').toLowerCase().includes(q)) return true;
+      if (stripHtml(t.content || '').toLowerCase().includes(q)) return true;
+      if ((t.tags || []).some(tag => String(tag).toLowerCase().includes(q))) return true;
+      return false;
+    });
+  }
+
+  /* ============================================================
+     IMAGE UPLOAD
+     ============================================================ */
+  function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+  }
+
+  function updateImagePreview() {
+    const v = fImage.value.trim();
+    if (!v) {
+      imagePreview.style.display = 'none';
+      imagePreviewImg.removeAttribute('src');
+      imgSizeInfo.textContent = '';
+      return;
+    }
+    imagePreviewImg.src = v;
+    imagePreview.style.display = '';
+    if (/^data:/i.test(v)) {
+      const base64Len = v.split(',')[1] ? v.split(',')[1].length : 0;
+      const approxBytes = Math.round(base64Len * 3 / 4);
+      imgSizeInfo.textContent = '📦 ' + formatBytes(approxBytes);
+    } else {
+      imgSizeInfo.textContent = '🌐 URL extern';
+    }
+  }
+
+  function removeImage() {
+    fImage.value = '';
+    uploadImgFile.value = '';
+    updateImagePreview();
+    toast('Imagine eliminată.', 'info');
+  }
+
+  function showProgress(pct) {
+    uploadProgress.classList.add('active');
+    uploadProgressBar.style.width = pct + '%';
+    if (pct >= 100) {
+      setTimeout(() => {
+        uploadProgress.classList.remove('active');
+        uploadProgressBar.style.width = '0%';
+      }, 400);
+    }
+  }
+
+  function resizeImage(dataUrl, maxWidth, quality) {
+    maxWidth = maxWidth || 1200;
+    quality = quality || 0.82;
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        try {
+          let { width, height } = img;
+          const isPng = dataUrl.startsWith('data:image/png');
+          const isGif = dataUrl.startsWith('data:image/gif');
+          if (width <= maxWidth && dataUrl.length < 500000) {
+            resolve(dataUrl);
+            return;
+          }
+          if (width > maxWidth) {
+            height = Math.round(height * maxWidth / width);
+            width = maxWidth;
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          if (!isPng) {
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, width, height);
+          }
+          ctx.drawImage(img, 0, 0, width, height);
+          const outType = (isPng || isGif) ? 'image/png' : 'image/jpeg';
+          const out = canvas.toDataURL(outType, quality);
+          if (out.length > dataUrl.length && width === img.width) {
+            resolve(dataUrl);
+          } else {
+            resolve(out);
+          }
+        } catch (err) {
+          reject(err);
+        }
+      };
+      img.onerror = () => reject(new Error('Imaginea nu a putut fi încărcată.'));
+      img.src = dataUrl;
+    });
+  }
+
+  function handleImageUpload(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    if (!file.type || !file.type.startsWith('image/')) {
+      toast('Fișierul selectat nu este o imagine.', 'err');
+      uploadImgFile.value = '';
+      return;
+    }
+    const maxSize = 10 * 1024 * 1024;
+    if (file.size > maxSize) {
+      toast('Imaginea este prea mare (max 10 MB). Alege o imagine mai mică.', 'err', 4000);
+      uploadImgFile.value = '';
+      return;
+    }
+
+    showProgress(15);
+    const reader = new FileReader();
+    reader.onprogress = ev => {
+      if (ev.lengthComputable) {
+        showProgress(15 + Math.round((ev.loaded / ev.total) * 50));
+      }
+    };
+    reader.onerror = () => {
+      showProgress(100);
+      toast('Nu am putut citi fișierul.', 'err');
+    };
+    reader.onload = ev => {
+      showProgress(75);
+      resizeImage(ev.target.result).then(dataUrl => {
+        showProgress(100);
+        fImage.value = dataUrl;
+        updateImagePreview();
+        const savedPct = Math.round(100 - (dataUrl.length / ev.target.result.length * 100));
+        if (savedPct > 5) {
+          toast('Imagine încărcată și comprimată cu ' + savedPct + '%.', 'ok', 3500);
+        } else {
+          toast('Imagine încărcată.', 'ok');
+        }
+      }).catch(err => {
+        showProgress(100);
+        fImage.value = ev.target.result;
+        updateImagePreview();
+        toast('Imagine încărcată (fără compresie).', 'ok');
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+
+  uploadImgBtn.addEventListener('click', () => uploadImgFile.click());
+  uploadImgFile.addEventListener('change', handleImageUpload);
+  imageRemoveBtn.addEventListener('click', removeImage);
+  fImage.addEventListener('input', updateImagePreview);
+
+  /* ============================================================
+     RENDER
+     ============================================================ */
+  function render() {
+    cardsGrid.innerHTML = '';
+
+    const filtered = getFilteredTopics();
+
+    topicCountEl.textContent = searchQuery
+      ? (filtered.length + ' din ' + topics.length + ' subiecte')
+      : (topics.length + (topics.length === 1 ? ' subiect publicat' : ' subiecte publicate'));
+
+    if (topics.length === 0) {
+      cardsGrid.innerHTML = `
+        <div class="empty-state">
+          <div class="icon">📭</div>
+          <p>Nu există subiecte publicate.${isAdmin ? ' Apasă „Adaugă subiect nou” sau folosește „Adaugă în bloc (JSON)”.' : ' Reveniți curând.'}</p>
+        </div>`;
+      return;
+    }
+
+    if (filtered.length === 0) {
+      cardsGrid.innerHTML = `
+        <div class="empty-state">
+          <div class="icon">🔍</div>
+          <p>Niciun articol nu corespunde căutării „<strong>${escapeHtml(searchInput.value)}</strong>”.</p>
+          <p style="margin-top:.6rem;"><button class="btn btn-ghost" type="button" id="resetSearchBtn">Șterge căutarea</button></p>
+        </div>`;
+      const rb = document.getElementById('resetSearchBtn');
+      if (rb) rb.addEventListener('click', () => searchClear.click());
+      return;
+    }
+
+    filtered.forEach((t, i) => {
+      const card = document.createElement('article');
+      card.className = 'card' + ((!t.content || !String(t.content).trim()) ? ' is-empty-content' : '');
+      card.dataset.id = t.id;
+      card.style.animationDelay = Math.min(i * 45, 400) + 'ms';
+
+      const tagsHtml = (t.tags || []).map(tag =>
+        `<span class="${tagClass(tag)}">${escapeHtml(tag)}</span>`
+      ).join('');
+
+      const emptyContent = !t.content || !String(t.content).trim();
+      const imgUrl = sanitizeUrl(t.image, true);
+      const imgAlt = String(t.imageAlt || t.title || '').trim();
+
+      const imageHtml = imgUrl
+        ? `<div class="card-image"><img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(imgAlt)}" loading="lazy" onerror="this.parentNode.classList.add('placeholder');this.parentNode.setAttribute('data-emoji','${categoryEmoji(t.category)}');this.remove();"></div>`
+        : `<div class="card-image placeholder" data-emoji="${categoryEmoji(t.category)}" aria-hidden="true"></div>`;
+
+      const adminHtml = isAdmin ? `
+        <div class="card-admin-actions">
+          <button class="icon-btn edit" data-action="edit" data-id="${escapeHtml(t.id)}" title="Editează subiectul" aria-label="Editează">✏</button>
+          <button class="icon-btn clear" data-action="clear" data-id="${escapeHtml(t.id)}" title="Golește conținutul" aria-label="Golește conținutul">🧹</button>
+          <button class="icon-btn del" data-action="delete" data-id="${escapeHtml(t.id)}" title="Șterge subiectul" aria-label="Șterge">🗑</button>
+        </div>` : '';
+
+      card.innerHTML = `
+        ${imageHtml}
+        <div class="card-content">
+          <div class="card-top">
+            <span class="card-cat">${escapeHtml(t.category || 'Legislație')}</span>
+            <span class="card-date">🗓 ${escapeHtml(formatDate(t.date, t.time))}</span>
+          </div>
+          <h3 class="card-title">${escapeHtml(t.title)}</h3>
+          <p class="card-excerpt">${emptyContent ? '📭 Conținutul acestui subiect a fost golit.' : escapeHtml(getExcerpt(t))}</p>
+          <div class="card-tags">${tagsHtml}</div>
+          <div class="card-foot">
+            <button class="btn-read" data-action="read" data-id="${escapeHtml(t.id)}"${emptyContent ? ' disabled style="opacity:.55;cursor:not-allowed;box-shadow:none;"' : ''}>
+              📖 Citește mai mult <span class="arrow">→</span>
+            </button>
+            ${adminHtml}
+          </div>
+        </div>`;
+
+      cardsGrid.appendChild(card);
+    });
+
+    cardsGrid.querySelectorAll('[data-action]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const action = btn.dataset.action;
+        const id = btn.dataset.id;
+        if (action === 'read') openReader(id);
+        else if (action === 'edit') handleEdit(id);
+        else if (action === 'clear') handleClear(id);
+        else if (action === 'delete') handleDelete(id);
+      });
+    });
+  }
+
+  /* ============================================================
+     CARD ACTIONS
+     ============================================================ */
+  function handleEdit(id) {
+    const t = topics.find(x => x.id === id);
+    if (!t) return;
+    if (formPanel.classList.contains('open') && serializeForm() !== formInitialState) {
+      if (!confirm('Ai modificări nesalvate în formular. Le vei pierde. Continui?')) return;
+    }
+    openForm(t);
+  }
+  function handleClear(id) {
+    const t = topics.find(x => x.id === id);
+    if (!t) return;
+    if (!String(t.content || '').trim()) { toast('Conținutul este deja gol.', 'info'); return; }
+    if (!confirm('Sigur vrei să GOLEȘTI COMPLET conținutul subiectului „' + t.title + '”?')) return;
+    const backup = t.content;
+    t.content = '';
+    saveTopics();
+    render();
+    refreshCodeTargets();
+    toast('Conținut golit.', 'ok', 5000);
+    showUndoClear(t.id, backup);
+  }
+  function handleDelete(id) {
+    const t = topics.find(x => x.id === id);
+    if (!t) return;
+    if (!confirm('Sigur vrei să ștergi subiectul „' + t.title + '”?')) return;
+    topics = topics.filter(x => x.id !== id);
+    saveTopics();
+    render();
+    refreshCodeTargets();
+    toast('Subiect șters complet.', 'info');
+  }
+  function showUndoClear(topicId, backupContent) {
+    const existing = document.getElementById('undoClearBar');
+    if (existing) existing.remove();
+    const bar = document.createElement('div');
+    bar.id = 'undoClearBar';
+    bar.className = 'toast toast-ok show';
+    bar.style.cssText = 'bottom: 90px; pointer-events: auto; display: flex; align-items: center; gap: 0.8rem;';
+    bar.innerHTML = '<span>Conținut golit.</span>';
+    const undoBtn = document.createElement('button');
+    undoBtn.textContent = '↩ Anulează';
+    undoBtn.style.cssText = 'background: var(--accent); color: #fff; border: none; padding: 0.35rem 0.9rem; border-radius: 20px; font-weight: 700; cursor: pointer; font-family: inherit; font-size: 0.8rem;';
+    undoBtn.addEventListener('click', () => {
+      const t = topics.find(x => x.id === topicId);
+      if (!t) { bar.remove(); return; }
+      t.content = backupContent;
+      saveTopics();
+      render();
+      refreshCodeTargets();
+      bar.remove();
+      toast('Conținut restaurat.', 'ok');
+    });
+    bar.appendChild(undoBtn);
+    document.body.appendChild(bar);
+    setTimeout(() => { if (bar.parentNode) bar.remove(); }, 6000);
+  }
+
+  /* ============================================================
+     READER
+     ============================================================ */
+  function openReader(id) {
+    const t = topics.find(x => x.id === id);
+    if (!t) return;
+    if (!String(t.content || '').trim()) { toast('Acest subiect nu are conținut.', 'info'); return; }
+
+    currentReaderId = id;
+    readerTitle.textContent = t.title;
+    readerMeta.innerHTML = `
+      <span class="card-cat">${escapeHtml(t.category || 'Legislație')}</span>
+      <span>🗓 ${escapeHtml(formatDate(t.date, t.time))}</span>
+      <span class="sep">·</span>
+      <span>Publicat de Țîcșa Cristian Costel</span>`;
+
+    readerTags.innerHTML = (t.tags || []).map(tag =>
+      `<span class="${tagClass(tag)}">${escapeHtml(tag)}</span>`
+    ).join('');
+
+    const imgUrl = sanitizeUrl(t.image, true);
+    if (imgUrl) {
+      readerHero.innerHTML = `<figure class="reader-hero"><img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(t.imageAlt || t.title)}" loading="lazy">${t.imageAlt ? `<figcaption>${escapeHtml(t.imageAlt)}</figcaption>` : ''}</figure>`;
+    } else {
+      readerHero.innerHTML = '';
+    }
+
+    readerContent.innerHTML = renderContent(t.content);
+
+    const fcs = normalizeFlashcards(t.flashcards);
+    if (fcs.length > 0) {
+      flashcardsSection.style.display = '';
+      flashcardsGrid.innerHTML = fcs.map((fc, i) => `
+        <div class="flashcard" tabindex="0" role="button" aria-label="Flashcard ${i+1}: apasă pentru a întoarce" data-idx="${i}">
+          <div class="flashcard-inner">
+            <div class="flashcard-face flashcard-front">
+              <span class="fc-label">❓ Întrebare</span>
+              <p>${escapeHtml(fc.front)}</p>
+              <span class="fc-tap-hint">👆 Apasă pentru răspuns</span>
+            </div>
+            <div class="flashcard-face flashcard-back">
+              <span class="fc-label">✓ Răspuns</span>
+              <p>${escapeHtml(fc.back)}</p>
+            </div>
+          </div>
+        </div>`).join('');
+
+      flashcardsGrid.querySelectorAll('.flashcard').forEach(fc => {
+        const toggle = () => fc.classList.toggle('flipped');
+        fc.addEventListener('click', toggle);
+        fc.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+        });
+      });
+    } else {
+      flashcardsSection.style.display = 'none';
+      flashcardsGrid.innerHTML = '';
+    }
+
+    readerOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    readerBody.scrollTop = 0;
+  }
+  function closeReader() {
+    readerOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+    currentReaderId = null;
+  }
+  readerClose.addEventListener('click', closeReader);
+  readerOverlay.addEventListener('click', e => { if (e.target === readerOverlay) closeReader(); });
+
+  /* ============================================================
+     SHARE
+     ============================================================ */
+  function getTopicShareUrl(topic) {
+    const base = window.location.href.split('#')[0];
+    return base + '#topic-' + encodeURIComponent(topic.id);
+  }
+  function getTopicShareText(topic) {
+    return '📘 ' + topic.title + ' – Profesor legislație rutieră, Țîcșa Cristian Costel';
+  }
+  readerShare.addEventListener('click', e => {
+    const btn = e.target.closest('[data-share]');
+    if (!btn) return;
+    const t = topics.find(x => x.id === currentReaderId);
+    if (!t) return;
+    const url = getTopicShareUrl(t);
+    const text = getTopicShareText(t);
+    const kind = btn.dataset.share;
+
+    if (kind === 'facebook') {
+      const u = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+      window.open(u, '_blank', 'noopener,noreferrer,width=640,height=560');
+    } else if (kind === 'whatsapp') {
+      const u = 'https://wa.me/?text=' + encodeURIComponent(text + '\n' + url);
+      window.open(u, '_blank', 'noopener,noreferrer');
+    } else if (kind === 'twitter') {
+      const u = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url);
+      window.open(u, '_blank', 'noopener,noreferrer,width=640,height=560');
+    } else if (kind === 'copy') {
+      copyToClipboard(url).then(() => toast('Link copiat în clipboard.', 'ok'))
+        .catch(() => {
+          const ta = document.createElement('textarea');
+          ta.value = url;
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand('copy'); toast('Link copiat.', 'ok'); }
+          catch (err) { toast('Nu am putut copia linkul.', 'err'); }
+          ta.remove();
+        });
+    }
+  });
+  function copyToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+    return Promise.reject(new Error('No clipboard API'));
+  }
+
+  /* ============================================================
+     BULK JSON ADD
+     ============================================================ */
+  function openBulk() {
+    if (!isAdmin) { openPinModal(); return; }
+    bulkTextarea.value = '';
+    bulkHint.className = 'bulk-hint';
+    bulkHint.textContent = 'Exemplu rapid: apasă „Șablon” pentru a genera structura.';
+    bulkOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => bulkTextarea.focus(), 120);
+  }
+  function closeBulk() {
+    bulkOverlay.classList.remove('open');
+    if (!readerOverlay.classList.contains('open')) document.body.style.overflow = '';
+  }
+  function bulkTemplateInsert() {
+    const sample = [
+      {
+        title: 'Titlul articolului nou',
+        date: todayLocal(),
+        time: nowLocal(),
+        category: 'Legislație',
+        tags: ['etichetă1', 'etichetă2'],
+        excerpt: 'O frază reprezentativă care apare pe card.',
+        image: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1200&q=70',
+        imageAlt: 'Descrierea imaginii pentru accesibilitate',
+        flashcards: [
+          { front: 'Întrebare 1?', back: 'Răspuns 1.' },
+          { front: 'Întrebare 2?', back: 'Răspuns 2.' }
+        ],
+        content: '<p>Textul complet al articolului, cu HTML permis.</p>'
+      }
+    ];
+    bulkTextarea.value = JSON.stringify(sample, null, 2);
+    bulkHint.className = 'bulk-hint';
+    bulkHint.textContent = 'Șablon inserat. Modifică și apasă „Adaugă articolele”.';
+    bulkTextarea.focus();
+  }
+  function bulkSubmit() {
+    if (!isAdmin) { toast('Doar administratorul poate adăuga.', 'err'); return; }
+    const raw = bulkTextarea.value.trim();
+    bulkHint.className = 'bulk-hint';
+    if (!raw) {
+      bulkHint.classList.add('err');
+      bulkHint.textContent = '✗ Lipește un array JSON.';
+      return;
+    }
+    let parsed;
+    try { parsed = JSON.parse(raw); }
+    catch (err) {
+      bulkHint.classList.add('err');
+      bulkHint.textContent = '✗ JSON invalid: ' + err.message;
+      return;
+    }
+    if (!Array.isArray(parsed)) {
+      bulkHint.classList.add('err');
+      bulkHint.textContent = '✗ Rădăcina trebuie să fie un array [ ... ].';
+      return;
+    }
+    const valid = parsed.filter(t => t && typeof t === 'object' && t.title && t.content);
+    if (valid.length === 0) {
+      bulkHint.classList.add('err');
+      bulkHint.textContent = '✗ Niciun articol valid (fiecare are nevoie de „title” și „content”).';
+      return;
+    }
+    const added = valid.map(t => ({
+      id: String(t.id || ('topic-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7))),
+      title: String(t.title),
+      date: String(t.date || todayLocal()),
+      time: String(t.time || ''),
+      category: String(t.category || 'Legislație'),
+      tags: Array.isArray(t.tags) ? t.tags.map(String) : [],
+      excerpt: String(t.excerpt || ''),
+      image: String(t.image || ''),
+      imageAlt: String(t.imageAlt || ''),
+      flashcards: normalizeFlashcards(t.flashcards),
+      content: String(t.content)
+    }));
+    topics = topics.concat(added);
+    saveTopics();
+    render();
+    refreshCodeTargets();
+    bulkHint.classList.add('ok');
+    bulkHint.textContent = '✓ ' + added.length + ' articole adăugate.';
+    closeBulk();
+    toast(added.length + ' articole adăugate în blog.', 'ok');
+  }
+  bulkAddBtn.addEventListener('click', openBulk);
+  bulkClose.addEventListener('click', closeBulk);
+  bulkCancel.addEventListener('click', closeBulk);
+  bulkAdd.addEventListener('click', bulkSubmit);
+  bulkTemplate.addEventListener('click', bulkTemplateInsert);
+  bulkOverlay.addEventListener('click', e => { if (e.target === bulkOverlay) closeBulk(); });
+  bulkTextarea.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+      e.preventDefault();
+      bulkSubmit();
+    }
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const s = bulkTextarea.selectionStart, en = bulkTextarea.selectionEnd;
+      bulkTextarea.value = bulkTextarea.value.substring(0, s) + '  ' + bulkTextarea.value.substring(en);
+      bulkTextarea.selectionStart = bulkTextarea.selectionEnd = s + 2;
+    }
+  });
+
+  /* ============================================================
+     FORMULAR
+     ============================================================ */
+  function serializeForm() {
+    return JSON.stringify({
+      title: document.getElementById('fTitle').value,
+      date: document.getElementById('fDate').value,
+      time: document.getElementById('fTime').value,
+      category: document.getElementById('fCategory').value,
+      tags: document.getElementById('fTags').value,
+      excerpt: document.getElementById('fExcerpt').value,
+      image: document.getElementById('fImage').value,
+      imageAlt: document.getElementById('fImageAlt').value,
+      flashcards: document.getElementById('fFlashcards').value,
+      content: document.getElementById('fContent').value
+    });
+  }
+  function openForm(topic) {
+    if (!isAdmin) { toast('Doar administratorul poate edita subiecte.', 'err'); openPinModal(); return; }
+    formPanel.classList.add('open');
+    formPanel.classList.toggle('editing', !!topic);
+    if (topic) {
+      editingId = topic.id;
+      formTitleEl.textContent = 'Editează subiectul';
+      submitBtn.textContent = '💾 Salvează modificările';
+      document.getElementById('fTitle').value = topic.title || '';
+      document.getElementById('fDate').value = topic.date || todayLocal();
+      document.getElementById('fTime').value = topic.time || '';
+      document.getElementById('fCategory').value = topic.category || 'Legislație';
+      document.getElementById('fTags').value = (topic.tags || []).join(', ');
+      document.getElementById('fExcerpt').value = topic.excerpt || '';
+      document.getElementById('fImage').value = topic.image || '';
+      document.getElementById('fImageAlt').value = topic.imageAlt || '';
+      document.getElementById('fFlashcards').value = flashcardsToText(topic.flashcards);
+      document.getElementById('fContent').value = topic.content || '';
+    } else {
+      editingId = null;
+      formTitleEl.textContent = 'Subiect nou de legislație rutieră';
+      submitBtn.textContent = '💾 Salvează subiectul';
+      topicForm.reset();
+      document.getElementById('fDate').value = todayLocal();
+      document.getElementById('fTime').value = nowLocal();
+      document.getElementById('fCategory').value = 'Legislație';
+      document.getElementById('fImage').value = '';
+    }
+    updateImagePreview();
+    formInitialState = serializeForm();
+    formPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    setTimeout(() => document.getElementById('fTitle').focus(), 200);
+  }
+  function closeForm(force) {
+    if (!force && formPanel.classList.contains('open') && serializeForm() !== formInitialState) {
+      if (!confirm('Ai modificări nesalvate. Sigur vrei să închizi?')) return;
+    }
+    formPanel.classList.remove('open', 'editing');
+    topicForm.reset();
+    editingId = null;
+    formInitialState = '';
+    updateImagePreview();
+  }
+  openFormBtn.addEventListener('click', () => {
+    if (!isAdmin) { openPinModal(); return; }
+    if (formPanel.classList.contains('open')) closeForm();
+    else openForm(null);
+  });
+  cancelFormBtn.addEventListener('click', () => closeForm(false));
+
+  topicForm.addEventListener('submit', e => {
+    e.preventDefault();
+    if (!isAdmin) { toast('Nu ai permisiunea de a salva.', 'err'); return; }
+    const title = document.getElementById('fTitle').value.trim();
+    const date = document.getElementById('fDate').value;
+    const time = document.getElementById('fTime').value;
+    const category = document.getElementById('fCategory').value;
+    const tagsRaw = document.getElementById('fTags').value.trim();
+    const excerpt = document.getElementById('fExcerpt').value.trim();
+    const image = document.getElementById('fImage').value.trim();
+    const imageAlt = document.getElementById('fImageAlt').value.trim();
+    const flashcardsRaw = document.getElementById('fFlashcards').value;
+    const content = document.getElementById('fContent').value.trim();
+
+    if (!title || !date || !content) { toast('Completează titlul, data și conținutul.', 'err'); return; }
+    const tags = tagsRaw ? tagsRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+    const flashcards = textToFlashcards(flashcardsRaw);
+
+    if (editingId) {
+      const idx = topics.findIndex(t => t.id === editingId);
+      if (idx === -1) { toast('Subiectul nu mai există.', 'err'); closeForm(true); return; }
+      topics[idx] = { ...topics[idx], title, date, time, category, tags, excerpt, image, imageAlt, flashcards, content };
+      saveTopics();
+      closeForm(true);
+      render();
+      refreshCodeTargets();
+      toast('Modificări salvate.', 'ok');
+    } else {
+      const newTopic = {
+        id: 'topic-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7),
+        title, date, time, category, tags, excerpt, image, imageAlt, flashcards, content
+      };
+      topics.push(newTopic);
+      saveTopics();
+      closeForm(true);
+      render();
+      refreshCodeTargets();
+      toast('Subiect publicat.', 'ok');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* ============================================================
+     EDITOR COD
+     ============================================================ */
+  function openCodeEditor() {
+    if (!isAdmin) { toast('Doar administratorul poate accesa editorul de cod.', 'err'); openPinModal(); return; }
+    refreshCodeTargets();
+    if (!codeTarget.value) codeTarget.value = '__all__';
+    loadCodeTarget();
+    codePanel.classList.add('open');
+    codePanel.setAttribute('aria-hidden', 'false');
+    codeOverlay.classList.add('open');
+    setTimeout(() => codeTextarea.focus(), 200);
+  }
+  function closeCodeEditor() {
+    codePanel.classList.remove('open');
+    codePanel.setAttribute('aria-hidden', 'true');
+    codeOverlay.classList.remove('open');
+  }
+  function refreshCodeTargets() {
+    const previous = codeTarget.value;
+    codeTarget.innerHTML = '';
+    const allOpt = document.createElement('option');
+    allOpt.value = '__all__';
+    allOpt.textContent = '📦 Toate subiectele (JSON complet)';
+    codeTarget.appendChild(allOpt);
+
+    const headerOpt = document.createElement('option');
+    headerOpt.value = '__header__';
+    headerOpt.textContent = '🎨 Antet blog (JSON configurare)';
+    codeTarget.appendChild(headerOpt);
+
+    topics.forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = t.id;
+      const shortTitle = t.title.length > 70 ? t.title.slice(0, 67) + '...' : t.title;
+      opt.textContent = '📄 ' + shortTitle;
+      codeTarget.appendChild(opt);
+    });
+    if (previous && Array.from(codeTarget.options).some(o => o.value === previous)) {
+      codeTarget.value = previous;
+    } else {
+      codeTarget.value = '__all__';
+    }
+  }
+  function loadCodeTarget() {
+    const val = codeTarget.value;
+    codeHint.classList.remove('ok', 'err');
+    if (val === '__header__') {
+      codeOriginalValue = JSON.stringify(headerConfig, null, 2);
+      codeHint.textContent = '✎ Editezi configurația antetului (JSON). Câmpuri: badge, title, subtitle, description, customCss.';
+      codeTextarea.value = codeOriginalValue;
+      return;
+    }
+    if (val === '__all__') {
+      codeOriginalValue = JSON.stringify(topics, null, 2);
+      codeHint.textContent = '✎ Editezi lista COMPLETĂ de subiecte în format JSON.';
+    } else {
+      const t = topics.find(x => x.id === val);
+      codeOriginalValue = t ? String(t.content || '') : '';
+      codeHint.textContent = '✎ Editezi doar CONȚINUTUL (HTML) al subiectului selectat.';
+    }
+    codeTextarea.value = codeOriginalValue;
+  }
+  function applyCodeChanges() {
+    const val = codeTarget.value;
+    const newValue = codeTextarea.value;
+    codeHint.classList.remove('ok', 'err');
+
+    if (val === '__header__') {
+      let parsed;
+      try { parsed = JSON.parse(newValue); }
+      catch (err) {
+        codeHint.classList.add('err');
+        codeHint.textContent = '✗ JSON invalid: ' + err.message;
+        return;
+      }
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+        codeHint.classList.add('err');
+        codeHint.textContent = '✗ Trebuie să fie un obiect JSON { ... }.';
+        return;
+      }
+      headerConfig = { ...DEFAULT_HEADER, ...parsed };
+      saveHeaderConfig();
+      applyHeaderConfig();
+      codeOriginalValue = JSON.stringify(headerConfig, null, 2);
+      codeTextarea.value = codeOriginalValue;
+      codeHint.classList.add('ok');
+      codeHint.textContent = '✓ Antet actualizat.';
+      toast('Antet salvat din editorul de cod.', 'ok');
+      return;
+    }
+
+    if (val === '__all__') {
+      let parsed;
+      try { parsed = JSON.parse(newValue); }
+      catch (err) {
+        codeHint.classList.add('err');
+        codeHint.textContent = '✗ JSON invalid: ' + err.message;
+        toast('JSON invalid.', 'err', 4000);
+        return;
+      }
+      if (!Array.isArray(parsed)) {
+        codeHint.classList.add('err');
+        codeHint.textContent = '✗ JSON-ul trebuie să fie un ARRAY.';
+        return;
+      }
+      const before = topics.length;
+      const cleaned = parsed
+        .filter(t => t && typeof t === 'object')
+        .map(t => ({
+          id: String(t.id || ('topic-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7))),
+          title: String(t.title || 'Fără titlu'),
+          date: String(t.date || ''),
+          time: String(t.time || ''),
+          category: String(t.category || 'Legislație'),
+          tags: Array.isArray(t.tags) ? t.tags.map(String) : [],
+          excerpt: String(t.excerpt || ''),
+          image: String(t.image || ''),
+          imageAlt: String(t.imageAlt || ''),
+          flashcards: normalizeFlashcards(t.flashcards),
+          content: String(t.content || '')
+        }));
+      if (cleaned.length !== parsed.length) {
+        if (!confirm('Unele elemente nu erau obiecte valide și vor fi ignorate. Continui?')) return;
+      }
+      if (before > 0 && cleaned.length < before) {
+        if (!confirm('Atenție: vei trece de la ' + before + ' subiecte la ' + cleaned.length + '.\n\nContinui?')) return;
+      }
+      topics = cleaned;
+      saveTopics();
+      render();
+      refreshCodeTargets();
+      codeOriginalValue = JSON.stringify(topics, null, 2);
+      codeTextarea.value = codeOriginalValue;
+      codeHint.classList.add('ok');
+      codeHint.textContent = '✓ Modificări aplicate. Acum ai ' + topics.length + ' subiecte.';
+      toast('Editor cod: ' + topics.length + ' subiecte salvate.', 'ok');
+    } else {
+      const t = topics.find(x => x.id === val);
+      if (!t) {
+        codeHint.classList.add('err');
+        codeHint.textContent = '✗ Subiectul nu mai există.';
+        return;
+      }
+      t.content = newValue;
+      saveTopics();
+      render();
+      codeOriginalValue = newValue;
+      codeHint.classList.add('ok');
+      codeHint.textContent = '✓ Conținut actualizat pentru „' + t.title + '”.';
+      toast('Conținut salvat.', 'ok');
+    }
+  }
+  codeEditorBtn.addEventListener('click', () => {
+    if (codePanel.classList.contains('open')) closeCodeEditor();
+    else openCodeEditor();
+  });
+  codeClose.addEventListener('click', closeCodeEditor);
+  codeOverlay.addEventListener('click', closeCodeEditor);
+  codeTarget.addEventListener('change', () => {
+    if (codeTextarea.value !== codeOriginalValue) {
+      if (!confirm('Ai modificări nesalvate în editor. Le vei pierde. Continui?')) return;
+    }
+    loadCodeTarget();
+  });
+  codeApply.addEventListener('click', applyCodeChanges);
+  codeReset.addEventListener('click', () => {
+    if (codeTextarea.value === codeOriginalValue) { toast('Nimic de resetat.', 'info'); return; }
+    if (!confirm('Sigur revii la versiunea salvată?')) return;
+    codeTextarea.value = codeOriginalValue;
+    codeHint.classList.remove('ok', 'err');
+    codeHint.textContent = '↺ Resetat la versiunea salvată.';
+  });
+  codeTextarea.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+      e.preventDefault();
+      applyCodeChanges();
+    }
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const start = codeTextarea.selectionStart;
+      const end = codeTextarea.selectionEnd;
+      codeTextarea.value = codeTextarea.value.substring(0, start) + '  ' + codeTextarea.value.substring(end);
+      codeTextarea.selectionStart = codeTextarea.selectionEnd = start + 2;
+    }
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape') return;
+    if (pinOverlay.classList.contains('open')) { closePinModal(); return; }
+    if (headerOverlay.classList.contains('open')) { closeHeaderEditor(); return; }
+    if (bulkOverlay.classList.contains('open')) { closeBulk(); return; }
+    if (readerOverlay.classList.contains('open')) { closeReader(); return; }
+    if (codePanel.classList.contains('open')) { closeCodeEditor(); return; }
+    if (formPanel.classList.contains('open')) closeForm(false);
+  });
+
+  /* ============================================================
+     HEADER PERSONALIZATION
+     ============================================================ */
+  function loadHeaderConfig() {
+    try {
+      const raw = localStorage.getItem(HEADER_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === 'object') {
+          headerConfig = { ...DEFAULT_HEADER, ...parsed };
+          return;
+        }
+      }
+    } catch (e) {}
+    headerConfig = { ...DEFAULT_HEADER };
+  }
+
+  function saveHeaderConfig() {
+    try { localStorage.setItem(HEADER_KEY, JSON.stringify(headerConfig)); } catch (e) {}
+  }
+
+  function applyCustomHeaderCss(css) {
+    let styleEl = document.getElementById('customHeaderCss');
+    if (!styleEl) {
+      styleEl = document.createElement('style');
+      styleEl.id = 'customHeaderCss';
+      document.head.appendChild(styleEl);
+    }
+    const clean = String(css || '')
+      .replace(/<\/style/gi, '')
+      .replace(/@import[^;]*;?/gi, '')
+      .replace(/javascript\s*:/gi, '');
+    styleEl.textContent = clean;
+  }
+
+  function applyHeaderConfig() {
+    const badgeEl = document.querySelector('header .badge');
+    const h1El = document.querySelector('header h1');
+    const descEl = document.querySelector('header p');
+
+    if (badgeEl) badgeEl.textContent = headerConfig.badge || '';
+    if (h1El) {
+      h1El.innerHTML = '';
+      h1El.appendChild(document.createTextNode(headerConfig.title || ''));
+      const span = document.createElement('span');
+      span.textContent = headerConfig.subtitle || '';
+      h1El.appendChild(span);
+    }
+    if (descEl) descEl.innerHTML = sanitizeHtml(headerConfig.description || '');
+
+    applyCustomHeaderCss(headerConfig.customCss);
+  }
+
+  function fillHeaderForm() {
+    document.getElementById('hBadge').value = headerConfig.badge || '';
+    document.getElementById('hTitle').value = headerConfig.title || '';
+    document.getElementById('hSubtitle').value = headerConfig.subtitle || '';
+    document.getElementById('hDesc').value = headerConfig.description || '';
+    document.getElementById('hCss').value = headerConfig.customCss || '';
+  }
+
+  function openHeaderEditor() {
+    if (!isAdmin) { openPinModal(); return; }
+    fillHeaderForm();
+    headerOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById('hBadge').focus(), 120);
+  }
+
+  function closeHeaderEditor() {
+    headerOverlay.classList.remove('open');
+    if (!readerOverlay.classList.contains('open') && !bulkOverlay.classList.contains('open')) {
+      document.body.style.overflow = '';
+    }
+  }
+
+  function saveHeaderForm() {
+    if (!isAdmin) { toast('Doar administratorul poate salva antetul.', 'err'); return; }
+    headerConfig = {
+      badge: document.getElementById('hBadge').value.trim(),
+      title: document.getElementById('hTitle').value.trim(),
+      subtitle: document.getElementById('hSubtitle').value.trim(),
+      description: document.getElementById('hDesc').value.trim(),
+      customCss: document.getElementById('hCss').value
+    };
+    saveHeaderConfig();
+    applyHeaderConfig();
+    closeHeaderEditor();
+    toast('Antet actualizat.', 'ok');
+  }
+
+  function resetHeaderForm() {
+    if (!confirm('Sigur revii la antetul implicit?')) return;
+    headerConfig = { ...DEFAULT_HEADER };
+    saveHeaderConfig();
+    applyHeaderConfig();
+    fillHeaderForm();
+    toast('Antet resetat la valorile implicite.', 'info');
+  }
+
+  headerEditBtn.addEventListener('click', () => {
+    if (headerOverlay.classList.contains('open')) closeHeaderEditor();
+    else openHeaderEditor();
+  });
+  headerClose.addEventListener('click', closeHeaderEditor);
+  headerCancel.addEventListener('click', closeHeaderEditor);
+  headerSave.addEventListener('click', saveHeaderForm);
+  headerReset.addEventListener('click', resetHeaderForm);
+  headerOverlay.addEventListener('click', e => { if (e.target === headerOverlay) closeHeaderEditor(); });
+
+  /* ============================================================
+     EXPORT / IMPORT
+     ============================================================ */
+  function exportTopics() {
+    if (!isAdmin) { toast('Doar administratorul poate exporta subiectele.', 'err'); openPinModal(); return; }
+    if (topics.length === 0) {
+      if (!confirm('Nu există subiecte de exportat. Exporti oricum un fișier gol?')) return;
+    }
+    const payload = {
+      app: 'Profesor legislatie rutiera',
+      author: 'Țîcșa Cristian Costel',
+      version: 5,
+      exportedAt: new Date().toISOString(),
+      count: topics.length,
+      header: headerConfig,
+      topics: topics
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const stamp = new Date().toISOString().slice(0, 10);
+    a.href = url;
+    a.download = 'legislatie-rutiera-' + stamp + '.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    toast('Export realizat: ' + topics.length + ' subiecte.', 'ok');
+  }
+  function importTopics(file) {
+    if (!isAdmin) { toast('Doar administratorul poate importa.', 'err'); return; }
+    const reader = new FileReader();
+    reader.onerror = () => toast('Nu am putut citi fișierul.', 'err');
+    reader.onload = ev => {
+      let data;
+      try { data = JSON.parse(ev.target.result); }
+      catch (err) { toast('Fișier JSON invalid.', 'err'); return; }
+      let incoming = [];
+      if (Array.isArray(data)) incoming = data;
+      else if (data && Array.isArray(data.topics)) incoming = data.topics;
+      else { toast('Structură necunoscută în fișier.', 'err'); return; }
+
+      if (data && data.header && typeof data.header === 'object') {
+        if (confirm('Fișierul conține și o configurație de antet. Vrei să o imporți?')) {
+          headerConfig = { ...DEFAULT_HEADER, ...data.header };
+          saveHeaderConfig();
+          applyHeaderConfig();
+          toast('Antet importat.', 'ok');
+        }
+      }
+
+      incoming = incoming.filter(t => t && typeof t === 'object' && t.title && t.content);
+      if (incoming.length === 0) { toast('Fișierul nu conține subiecte valide.', 'err'); return; }
+      incoming = incoming.map(t => ({
+        id: t.id || ('topic-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7)),
+        title: String(t.title),
+        date: t.date || todayLocal(),
+        time: t.time || '',
+        category: t.category || 'Legislație',
+        tags: Array.isArray(t.tags) ? t.tags.map(String) : [],
+        excerpt: String(t.excerpt || ''),
+        image: String(t.image || ''),
+        imageAlt: String(t.imageAlt || ''),
+        flashcards: normalizeFlashcards(t.flashcards),
+        content: String(t.content)
+      }));
+      const replace = confirm(
+        'Ai ' + incoming.length + ' subiecte în fișier.\n\n' +
+        'OK = ÎNLOCUIEȘTE tot conținutul actual (' + topics.length + ' subiecte)\n' +
+        'Anulează = FUZIONEAZĂ (adaugă doar cele care nu există deja după id)'
+      );
+      if (replace) {
+        if (!confirm('Confirmi înlocuirea celor ' + topics.length + ' subiecte existente?')) return;
+        topics = incoming;
+      } else {
+        const existing = new Set(topics.map(t => t.id));
+        let added = 0;
+        incoming.forEach(t => {
+          if (!existing.has(t.id)) { topics.push(t); existing.add(t.id); added++; }
+        });
+        toast('Fuziune: ' + added + ' subiecte noi adăugate.', 'ok');
+      }
+      saveTopics();
+      render();
+      refreshCodeTargets();
+      if (replace) toast('Import realizat: ' + topics.length + ' subiecte.', 'ok');
+    };
+    reader.readAsText(file);
+  }
+  exportBtn.addEventListener('click', exportTopics);
+  importBtn.addEventListener('click', () => {
+    if (!isAdmin) { openPinModal(); return; }
+    importFile.click();
+  });
+  importFile.addEventListener('change', e => {
+    const file = e.target.files && e.target.files[0];
+    if (file) importTopics(file);
+    importFile.value = '';
+  });
+
+  /* ============================================================
+     INIT
+     ============================================================ */
+  initTheme();
+  initView();
+  loadHeaderConfig();
+  applyHeaderConfig();
+  loadTopics();
+  loadAdminState();
+  applyAdminUI();
+  refreshCodeTargets();
+  updateImagePreview();
+
+  function openFromHash() {
+    const m = window.location.hash.match(/^#topic-(.+)$/);
+    if (!m) return;
+    const id = decodeURIComponent(m[1]);
+    if (topics.some(t => t.id === id)) openReader(id);
+  }
+  window.addEventListener('hashchange', openFromHash);
+  openFromHash();
+
+})();
+</script>
+</body>
+</html>
