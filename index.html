@@ -1,0 +1,2253 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curs - Conducerea automobilului</title>
+<style>
+  :root{
+    --primary:#1e40af;--primary-light:#3b82f6;--primary-dark:#1e3a8a;
+    --accent:#dc2626;--ok:#16a34a;
+    --bg:#f1f5f9;--surface:#ffffff;--surface-alt:#f8fafc;
+    --text:#1e293b;--muted:#64748b;--border:#e2e8f0;
+    --card-warn:#fef2f2;--card-ok:#f0fdf4;--card-tip:#fffbeb;
+    --quiz-bg1:#eff6ff;--quiz-bg2:#e0e7ff;--quiz-border:#c7d2fe;
+    --chip-bg:#e0e7ff;--chip-text:#1e3a8a;
+    --chip-red-bg:#fee2e2;--chip-red-text:#991b1b;
+    --chip-green-bg:#dcfce7;--chip-green-text:#166534;
+    --shadow:0 8px 30px rgba(15,23,42,.06);
+    --bar-h:54px;--nav-h:58px;
+  }
+  body[data-theme="intunecat"]{
+    --primary:#fbbf24;--primary-light:#f59e0b;--primary-dark:#fcd34d;
+    --accent:#f87171;--ok:#34d399;
+    --bg:#0f172a;--surface:#1e293b;--surface-alt:#273449;
+    --text:#e2e8f0;--muted:#94a3b8;--border:#334155;
+    --card-warn:#3b1f1f;--card-ok:#14361f;--card-tip:#3b2f1a;
+    --quiz-bg1:#1e293b;--quiz-bg2:#1e3a5f;--quiz-border:#334155;
+    --chip-bg:#334155;--chip-text:#fbbf24;
+    --chip-red-bg:#3b1f1f;--chip-red-text:#fca5a5;
+    --chip-green-bg:#14361f;--chip-green-text:#86efac;
+    --shadow:0 8px 30px rgba(0,0,0,.5);
+  }
+  body[data-theme="intunecat"] .topbar,
+  body[data-theme="intunecat"] .nav{background:#111827;border-color:#334155}
+  body[data-theme="verde"]{
+    --primary:#047857;--primary-light:#10b981;--primary-dark:#065f46;
+    --bg:#ecfdf5;--surface:#fff;--surface-alt:#f0fdf4;
+    --card-ok:#d1fae5;--quiz-bg1:#d1fae5;--quiz-bg2:#a7f3d0;
+    --quiz-border:#6ee7b7;--chip-bg:#d1fae5;--chip-text:#065f46;
+  }
+  body[data-theme="violet"]{
+    --primary:#6d28d9;--primary-light:#a78bfa;--primary-dark:#4c1d95;
+    --bg:#faf5ff;--surface:#fff;--surface-alt:#f5f3ff;
+    --quiz-bg1:#ede9fe;--quiz-bg2:#ddd6fe;--quiz-border:#c4b5fd;
+    --chip-bg:#ede9fe;--chip-text:#5b21b6;
+  }
+  body[data-theme="portocaliu"]{
+    --primary:#c2410c;--primary-light:#fb923c;--primary-dark:#9a3412;
+    --bg:#fff7ed;--surface:#fff;--surface-alt:#ffedd5;
+    --quiz-bg1:#fed7aa;--quiz-bg2:#fdba74;--quiz-border:#fb923c;
+    --chip-bg:#fed7aa;--chip-text:#9a3412;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{font-size:20px}
+  html,body{height:100%}
+  body{
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--text);
+    line-height:1.42;overflow:hidden;
+    transition:background .3s,color .3s;
+  }
+  @media(max-width:900px){html{font-size:17px}}
+  @media(max-width:768px){html{font-size:15px}}
+
+  .topbar{
+    position:fixed;top:0;left:0;right:0;height:var(--bar-h);
+    background:var(--surface);border-bottom:1px solid var(--border);
+    z-index:50;transition:background .3s,border-color .3s;
+  }
+  .progress{position:absolute;top:0;left:0;right:0;height:3px;background:var(--border);overflow:hidden}
+  .progress>div{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--primary-light));transition:width .3s}
+  .topbar-inner{
+    position:absolute;top:3px;bottom:0;left:0;right:0;
+    display:flex;align-items:center;padding:0 .85rem;gap:.4rem;
+    overflow-x:auto;scrollbar-width:none;
+  }
+  .topbar-inner::-webkit-scrollbar{display:none}
+  .brand{font-weight:800;color:var(--primary);font-size:.98rem;white-space:nowrap;margin-right:.1rem}
+  .module-pills{display:flex;gap:.25rem;flex-shrink:0}
+  .pill{
+    border:1.5px solid var(--border);background:var(--surface);color:var(--muted);
+    padding:.28rem .7rem;border-radius:999px;font-size:.85rem;font-weight:700;
+    cursor:pointer;transition:.15s;white-space:nowrap;
+  }
+  .pill:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .pill.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+  body[data-theme="intunecat"] .pill.active,
+  body[data-theme="intunecat"] .pill:hover{color:#111827}
+  .themes{
+    display:flex;gap:.25rem;align-items:center;
+    margin-left:auto;padding-left:.4rem;
+    border-left:1px solid var(--border);flex-shrink:0;
+  }
+  .theme-btn{width:24px;height:24px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:.15s;padding:0}
+  .theme-btn:hover{transform:scale(1.15)}
+  .theme-btn.active{border-color:var(--text)}
+  .theme-btn[data-t="clasic"]{background:linear-gradient(135deg,#1e40af,#3b82f6)}
+  .theme-btn[data-t="intunecat"]{background:linear-gradient(135deg,#0f172a,#fbbf24)}
+  .theme-btn[data-t="verde"]{background:linear-gradient(135deg,#047857,#10b981)}
+  .theme-btn[data-t="violet"]{background:linear-gradient(135deg,#6d28d9,#a78bfa)}
+  .theme-btn[data-t="portocaliu"]{background:linear-gradient(135deg,#c2410c,#fb923c)}
+  .icon-btn{
+    background:var(--surface);color:var(--text);
+    border:1.5px solid var(--border);width:32px;height:32px;border-radius:7px;
+    cursor:pointer;font-size:1.05rem;display:flex;align-items:center;justify-content:center;
+    transition:.15s;flex-shrink:0;
+  }
+  .icon-btn:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+  /* ===== MOD TOGGLE ===== */
+  .mode-toggle{
+    display:flex;gap:.15rem;background:var(--surface-alt);
+    border:1.5px solid var(--border);border-radius:999px;
+    padding:.15rem;flex-shrink:0;margin-left:.3rem;
+  }
+  .mode-toggle button{
+    border:none;background:transparent;color:var(--muted);
+    padding:.24rem .55rem;border-radius:999px;
+    font-size:.78rem;font-weight:700;cursor:pointer;
+    transition:.15s;white-space:nowrap;font-family:inherit;
+  }
+  .mode-toggle button.active{background:var(--primary);color:#fff}
+  body[data-theme="intunecat"] .mode-toggle button.active{color:#0f172a}
+
+  /* ===== MOD STUDIU ===== */
+  body[data-mode="studiu"] .stage{
+    overflow-y:auto !important;display:block;padding:1rem;
+  }
+  body[data-mode="studiu"] .slide,
+  body[data-mode="studiu"] .title-slide{
+    display:block !important;position:relative !important;
+    inset:auto !important;margin:0 auto .8rem auto;
+    max-width:1000px;padding:1rem 1.4rem;
+    border:2px solid var(--border);border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);
+  }
+  body[data-mode="studiu"] .slide:not(.active),
+  body[data-mode="studiu"] .title-slide:not(.active){
+    opacity:1 !important;visibility:visible !important;transform:none !important;
+  }
+  body[data-mode="studiu"] .slide.active > *:not(.quiz){flex-shrink:initial}
+  body[data-mode="studiu"] .slide .quiz,
+  body[data-mode="studiu"] .slide > .quiz{
+    max-height:none !important;overflow:visible !important;
+  }
+  body[data-mode="studiu"] #btnPrev,
+  body[data-mode="studiu"] #btnNext{display:none}
+
+  .stage{
+    position:absolute;top:var(--bar-h);bottom:var(--nav-h);left:0;right:0;
+    overflow:hidden;background:var(--bg);transition:background .3s;
+  }
+
+  .slide,.title-slide{
+    display:none;position:absolute;inset:0;
+    background:var(--surface);
+    padding:.75rem 1.4rem .75rem 1.4rem;
+    animation:fadeIn .3s ease;transition:background .3s;
+  }
+  .slide.active{display:flex;flex-direction:column;overflow:hidden}
+  .slide.active > *:not(.quiz){flex-shrink:0}
+  .slide.active > .quiz{flex-shrink:1;min-height:50px;overflow-y:auto;max-height:45vh}
+  .slide.scrollable.active{overflow-y:auto;overflow-x:hidden}
+  .slide.scrollable.active > *{flex-shrink:0 !important}
+  .slide.scrollable.active > .quiz{overflow-y:visible;max-height:none}
+
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @media(max-width:768px){.slide,.title-slide{padding:.55rem .7rem}}
+
+  .slide h2{
+    color:var(--primary-dark);
+    font-size:clamp(1.55rem,2.35vw,2.1rem);
+    padding-bottom:.25rem;margin-bottom:.4rem;
+    border-bottom:2.5px solid var(--primary-light);line-height:1.18;
+  }
+  .slide h3{color:var(--primary);font-size:clamp(1.2rem,1.65vw,1.5rem);margin:.4rem 0 .2rem;line-height:1.28}
+  .slide h4{color:var(--primary-dark);font-size:clamp(1.1rem,1.35vw,1.28rem);margin:.32rem 0 .16rem}
+  .slide p{margin:.2rem 0;font-size:clamp(1.1rem,1.25vw,1.22rem)}
+  .slide ul,.slide ol{margin:.2rem 0 .32rem 1.4rem}
+  .slide li{margin:.06rem 0;font-size:clamp(1.1rem,1.25vw,1.22rem);line-height:1.36}
+  .slide strong{color:var(--primary-dark);font-weight:700}
+
+  .module-badge{
+    display:inline-block;background:var(--primary);color:#fff;
+    padding:.2rem .7rem;border-radius:999px;font-size:.85rem;
+    font-weight:700;letter-spacing:.3px;margin-bottom:.28rem;text-transform:uppercase;
+    align-self:flex-start;
+  }
+  .module-badge.m1{background:#1e40af}
+  .module-badge.m2{background:#0891b2}
+  .module-badge.m3{background:#7c3aed}
+  .module-badge.m4{background:#dc2626}
+  .module-badge.m5{background:#059669}
+  .module-badge.m6{background:#d97706}
+  .module-badge.m7{background:#111827}
+  body[data-theme="intunecat"] .module-badge{color:#0f172a}
+
+  .card{
+    background:var(--surface-alt);border-left:3.5px solid var(--primary-light);
+    padding:.42rem .75rem;border-radius:8px;margin:.28rem 0;transition:background .3s;
+  }
+  .card.warn{background:var(--card-warn);border-left-color:var(--accent)}
+  .card.ok{background:var(--card-ok);border-left-color:var(--ok)}
+  .card.tip{background:var(--card-tip);border-left-color:#f59e0b}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin:.22rem 0}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin:.22rem 0}
+  @media(max-width:820px){.grid2,.grid3{grid-template-columns:1fr}}
+
+  table{
+    width:100%;border-collapse:collapse;margin:.28rem 0;
+    font-size:clamp(1rem,1.1vw,1.12rem);
+    border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+  th{background:var(--primary);color:#fff;padding:.28rem .55rem;text-align:left;font-size:1.04rem;font-weight:700}
+  body[data-theme="intunecat"] th{color:#0f172a}
+  td{padding:.22rem .55rem;border-bottom:1px solid var(--border);vertical-align:top;font-size:1.08rem;line-height:1.3}
+  tr:nth-child(even) td{background:var(--surface-alt)}
+  tr:last-child td{border-bottom:none}
+
+  .chips{display:flex;flex-wrap:wrap;gap:.28rem;margin:.28rem 0}
+  .chip{
+    background:var(--chip-bg);color:var(--chip-text);
+    padding:.2rem .65rem;border-radius:999px;
+    font-size:clamp(1rem,1.1vw,1.1rem);font-weight:600;
+  }
+  .chip.red{background:var(--chip-red-bg);color:var(--chip-red-text)}
+  .chip.green{background:var(--chip-green-bg);color:var(--chip-green-text)}
+
+  .class-tag{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-width:44px;padding:.18rem .55rem;border-radius:8px;
+    font-weight:800;font-size:1rem;letter-spacing:.02em;
+    background:linear-gradient(130deg,var(--primary),var(--primary-light));color:#fff;
+    margin-right:.3rem;
+  }
+  .class-tag.c2{background:linear-gradient(130deg,#0891b2,#22d3ee)}
+  .class-tag.c3{background:linear-gradient(130deg,#7c3aed,#a78bfa)}
+  .class-tag.c4{background:linear-gradient(130deg,#dc2626,#f87171)}
+  .class-tag.c5{background:linear-gradient(130deg,#111827,#374151)}
+
+  .cols-2{columns:2;column-gap:1.5rem}
+  .cols-2 > li{break-inside:avoid}
+
+  /* ===== INDICATOARE SVG ===== */
+  .sign-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
+    gap:.5rem;margin:.35rem 0;
+  }
+  .sign-card{
+    background:var(--surface-alt);border:1.5px solid var(--border);
+    border-radius:10px;padding:.5rem .3rem;text-align:center;
+    display:flex;flex-direction:column;align-items:center;gap:.2rem;
+    transition:.15s;
+  }
+  .sign-card:hover{border-color:var(--primary-light);transform:translateY(-2px)}
+  .sign-card svg{width:56px;height:56px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.15))}
+  .sign-card .sign-name{
+    font-size:.72rem;font-weight:700;color:var(--primary-dark);line-height:1.15;
+  }
+  .sign-card .sign-detail{font-size:.65rem;color:var(--muted);line-height:1.15}
+
+  /* ===== QUIZ ===== */
+  .quiz{
+    background:linear-gradient(135deg,var(--quiz-bg1),var(--quiz-bg2));
+    border:1px solid var(--quiz-border);border-radius:10px;
+    padding:.48rem .8rem;margin:.38rem 0;transition:background .3s;
+  }
+  .quiz .q{
+    font-weight:700;color:var(--primary-dark);margin-bottom:.28rem;
+    font-size:clamp(1.08rem,1.25vw,1.22rem);line-height:1.32;
+  }
+  .reveal-btn{
+    background:var(--primary);color:#fff;border:none;
+    padding:.35rem .85rem;border-radius:6px;font-weight:700;
+    cursor:pointer;font-size:1rem;transition:.2s;
+  }
+  .reveal-btn:hover{background:var(--primary-dark)}
+  body[data-theme="intunecat"] .reveal-btn{color:#0f172a}
+  .answer{
+    margin-top:.32rem;background:var(--surface);
+    border-left:3px solid var(--ok);padding:.38rem .7rem;border-radius:6px;
+    font-size:clamp(1rem,1.1vw,1.1rem);color:var(--text);
+  }
+  .answer.hidden{display:none}
+  .mcq .options{display:flex;flex-direction:column;gap:.3rem;margin-top:.32rem}
+  .opt{
+    text-align:left;background:var(--surface);border:1.5px solid var(--border);
+    padding:.4rem .75rem;border-radius:6px;cursor:pointer;
+    font-size:clamp(1rem,1.1vw,1.1rem);transition:.15s;color:var(--text);line-height:1.32;
+    font-family:inherit;
+  }
+  .opt:hover{border-color:var(--primary-light);background:var(--surface-alt)}
+  .opt.correct{background:var(--chip-green-bg);border-color:var(--ok);font-weight:600;color:var(--chip-green-text)}
+  .opt.wrong{background:var(--chip-red-bg);border-color:var(--accent);color:var(--chip-red-text)}
+  .opt:disabled{cursor:default;opacity:.9}
+  .feedback{margin-top:.32rem;font-weight:600;font-size:1rem}
+
+  .nav{
+    position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);
+    background:var(--surface);border-top:1px solid var(--border);
+    z-index:50;display:grid;grid-template-columns:auto 1fr auto;
+    align-items:center;padding:0 1.15rem;gap:.75rem;
+    transition:background .3s,border-color .3s;
+  }
+  .nav button{
+    background:var(--primary);color:#fff;border:none;
+    padding:.42rem 1.15rem;border-radius:8px;font-weight:700;
+    cursor:pointer;font-size:1rem;transition:.2s;
+    display:flex;align-items:center;gap:.3rem;font-family:inherit;
+  }
+  body[data-theme="intunecat"] .nav button{color:#0f172a}
+  .nav button:hover:not(:disabled){background:var(--primary-dark);transform:translateY(-1px)}
+  .nav button:disabled{opacity:.35;cursor:not-allowed}
+  .counter{font-size:1.05rem;color:var(--muted);font-weight:700;text-align:center}
+  .counter b{color:var(--primary);font-size:1.15rem}
+  .hint{font-size:.78rem;color:var(--muted);display:block;font-weight:400;margin-top:.08rem}
+  @media(max-width:640px){
+    .nav{padding:0 .55rem}
+    .nav button{padding:.38rem .7rem;font-size:.9rem}
+    .hint{display:none}
+  }
+
+  .title-slide.active{
+    display:flex;flex-direction:column;align-items:center;text-align:center;
+    overflow-y:auto;overflow-x:hidden;
+    background:linear-gradient(135deg,#1e3a8a,#1e40af 45%,#3b82f6);
+    color:#fff;padding:.75rem 1rem;
+  }
+  .title-slide.active::before,
+  .title-slide.active::after{content:'';display:block;flex-shrink:0;height:0;margin:auto 0}
+  .title-slide.active > *{flex-shrink:0}
+
+  body[data-theme="verde"] .title-slide.active{background:linear-gradient(135deg,#064e3b,#047857 45%,#10b981)}
+  body[data-theme="violet"] .title-slide.active{background:linear-gradient(135deg,#4c1d95,#6d28d9 45%,#a78bfa)}
+  body[data-theme="portocaliu"] .title-slide.active{background:linear-gradient(135deg,#7c2d12,#c2410c 45%,#fb923c)}
+  body[data-theme="intunecat"] .title-slide.active{background:linear-gradient(135deg,#000,#1e293b 45%,#f59e0b)}
+
+  .title-slide h1{
+    font-size:clamp(1.5rem, 3.2vw, 2.5rem);
+    margin-bottom:.35rem;line-height:1.14;font-weight:800;letter-spacing:-.02em;
+  }
+  .title-slide .sub{font-size:clamp(1rem, 1.7vw, 1.3rem);opacity:.97;margin-bottom:.55rem;font-weight:600}
+  .title-slide .profesor{
+    display:inline-block;background:rgba(255,255,255,.2);
+    border:2px solid rgba(255,255,255,.5);
+    padding:.38rem 1.1rem;border-radius:999px;
+    font-size:clamp(.92rem, 1.35vw, 1.1rem);font-weight:700;letter-spacing:.3px;
+    margin-bottom:.5rem;backdrop-filter:blur(10px);
+  }
+  .title-slide .profesor span{opacity:.8;font-weight:500;margin-right:.35rem}
+  .title-slide .autor{font-size:clamp(.82rem, 1.05vw, .98rem);opacity:.88;margin-bottom:.75rem}
+  .title-slide .start{
+    background:#fff;color:#1e3a8a;border:none;
+    padding:.55rem 1.6rem;border-radius:999px;
+    font-weight:800;font-size:clamp(.95rem, 1.2vw, 1.1rem);
+    cursor:pointer;transition:.2s;
+    box-shadow:0 6px 20px rgba(0,0,0,.2);margin-bottom:.75rem;
+    font-family:inherit;
+  }
+  .title-slide .start:hover{transform:scale(1.05);box-shadow:0 10px 30px rgba(0,0,0,.3)}
+  .title-slide .modules{
+    display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:.35rem;margin-top:.2rem;width:100%;max-width:640px;
+  }
+  @media(max-width:520px){.title-slide .modules{grid-template-columns:repeat(2, minmax(0, 1fr))}}
+  .title-slide .modules div{
+    background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.28);
+    border-radius:8px;padding:.35rem .45rem;
+    font-size:clamp(.72rem, .92vw, .85rem);font-weight:600;line-height:1.2;
+  }
+  .title-slide .modules div b{display:block;font-size:clamp(.95rem, 1.15vw, 1.15rem);margin-bottom:.05rem;line-height:1}
+  .title-slide .theme-hint{margin-top:.5rem;font-size:clamp(.78rem, .95vw, .88rem);opacity:.85}
+
+  /* ===== CREDIT PAGINĂ ===== */
+  .site-credit{
+    display:inline-flex;align-items:center;gap:.5rem;
+    padding:.42rem 1.1rem;
+    background:rgba(255,255,255,.15);
+    border:1.5px solid rgba(255,255,255,.35);
+    border-radius:999px;
+    font-size:clamp(.82rem, 1.05vw, 1rem);
+    font-weight:700;letter-spacing:.25px;
+    backdrop-filter:blur(8px);
+    color:#fff;
+    text-align:center;
+  }
+  .site-credit::before{
+    content:'✍️';
+    font-size:1.15em;
+    opacity:.95;
+  }
+  .site-credit-top{
+    margin-bottom:.85rem;
+    animation:fadeIn .6s ease;
+  }
+  .site-credit-bottom{
+    margin:1rem auto .5rem auto;
+    background:var(--surface-alt);
+    border:1.5px solid var(--border);
+    color:var(--primary-dark);
+    box-shadow:0 4px 14px rgba(0,0,0,.06);
+  }
+  .site-credit-bottom::before{content:'👨‍🏫'}
+  body[data-theme="intunecat"] .site-credit-bottom{
+    background:var(--surface);color:var(--primary-dark);
+  }
+
+  /* ===== OVERVIEW MODAL ===== */
+  .overview-modal{
+    position:fixed;inset:0;z-index:100;background:rgba(15,23,42,.75);
+    display:none;align-items:flex-start;justify-content:center;
+    padding:2rem 1rem;overflow-y:auto;
+  }
+  .overview-modal.open{display:flex}
+  .overview-panel{
+    background:var(--surface);border-radius:16px;padding:1.5rem 1.8rem;
+    max-width:1000px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.4);
+    position:relative;
+  }
+  .overview-panel h3{color:var(--primary-dark);font-size:1.5rem;margin-bottom:.2rem}
+  .overview-panel .ov-sub{color:var(--muted);font-size:.95rem;margin-bottom:1rem}
+  .ov-close{
+    position:absolute;top:.8rem;right:.8rem;width:36px;height:36px;border-radius:50%;
+    border:none;background:var(--surface-alt);color:var(--text);
+    cursor:pointer;font-size:1.3rem;display:flex;align-items:center;justify-content:center;
+    font-family:inherit;
+  }
+  .ov-close:hover{background:var(--chip-red-bg);color:var(--accent)}
+  .ov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.65rem}
+  .ov-module{
+    border:2px solid var(--border);border-radius:10px;padding:.75rem;
+    cursor:pointer;transition:.15s;background:var(--surface-alt);
+  }
+  .ov-module:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:0 6px 20px rgba(30,64,175,.2)}
+  .ov-module.active{border-color:var(--primary);background:var(--chip-bg);box-shadow:0 0 0 3px var(--chip-bg)}
+  .ov-module .ov-badge{
+    display:inline-block;background:var(--primary);color:#fff;
+    padding:.15rem .55rem;border-radius:999px;font-size:.72rem;font-weight:700;margin-bottom:.35rem;
+  }
+  .ov-module .ov-title{font-weight:700;color:var(--text);font-size:.98rem;line-height:1.25;margin-bottom:.2rem}
+  .ov-module .ov-count{font-size:.75rem;color:var(--muted)}
+  .ov-module.m1 .ov-badge{background:#1e40af}
+  .ov-module.m2 .ov-badge{background:#0891b2}
+  .ov-module.m3 .ov-badge{background:#7c3aed}
+  .ov-module.m4 .ov-badge{background:#dc2626}
+  .ov-module.m5 .ov-badge{background:#059669}
+  .ov-module.m6 .ov-badge{background:#d97706}
+  .ov-module.m7 .ov-badge{background:#111827}
+</style>
+</head>
+<body data-theme="clasic" data-mode="prezentare">
+
+<!-- ===== BIBLIOTECĂ SVG INDICATOARE ===== -->
+<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="s-stop" viewBox="0 0 100 100">
+    <polygon points="30,5 70,5 95,30 95,70 70,95 30,95 5,70 5,30" fill="#c00" stroke="#fff" stroke-width="4"/>
+    <text x="50" y="58" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="18" font-weight="bold">STOP</text>
+  </symbol>
+  <symbol id="s-cedeaza" viewBox="0 0 100 100">
+    <polygon points="8,22 92,22 50,92" fill="#fff" stroke="#c00" stroke-width="5"/>
+    <polygon points="20,30 80,30 50,75" fill="#c00"/>
+  </symbol>
+  <symbol id="s-prioritate" viewBox="0 0 100 100">
+    <polygon points="50,8 92,50 50,92 8,50" fill="#fc0" stroke="#fff" stroke-width="4"/>
+    <polygon points="50,28 72,50 50,72 28,50" fill="#fff"/>
+  </symbol>
+  <symbol id="s-interzis" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="44" fill="#c00"/>
+    <circle cx="50" cy="50" r="34" fill="#fff"/>
+    <circle cx="50" cy="50" r="26" fill="#c00"/>
+    <rect x="12" y="42" width="76" height="16" fill="#fff"/>
+  </symbol>
+  <symbol id="s-lim50" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="44" fill="#fff" stroke="#c00" stroke-width="10"/>
+    <text x="50" y="64" text-anchor="middle" fill="#000" font-family="Arial,sans-serif" font-size="34" font-weight="bold">50</text>
+  </symbol>
+  <symbol id="s-giratoriu" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="44" fill="#06c"/>
+    <g fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round">
+      <path d="M50 20 a30 30 0 0 1 30 30"/>
+      <path d="M50 80 a30 30 0 0 1 -30 -30"/>
+    </g>
+    <polygon points="76,28 82,48 68,48" fill="#fff"/>
+    <polygon points="24,72 18,52 32,52" fill="#fff"/>
+  </symbol>
+  <symbol id="s-pietoni" viewBox="0 0 100 100">
+    <rect x="8" y="8" width="84" height="84" rx="4" fill="#06c"/>
+    <g fill="#fff">
+      <circle cx="50" cy="30" r="6"/>
+      <rect x="46" y="38" width="8" height="22" rx="2"/>
+      <rect x="44" y="60" width="5" height="22" rx="2"/>
+      <rect x="51" y="60" width="5" height="22" rx="2"/>
+      <rect x="36" y="42" width="10" height="4" rx="1" transform="rotate(-25 41 44)"/>
+      <rect x="54" y="42" width="10" height="4" rx="1" transform="rotate(25 59 44)"/>
+    </g>
+  </symbol>
+  <symbol id="s-copii" viewBox="0 0 100 100">
+    <polygon points="50,6 94,90 6,90" fill="#fff" stroke="#c00" stroke-width="5" stroke-linejoin="round"/>
+    <g fill="#2a1620">
+      <circle cx="42" cy="52" r="4.5"/>
+      <rect x="39" y="58" width="6" height="14" rx="1.5"/>
+      <rect x="38" y="70" width="3.5" height="12" rx="1"/>
+      <rect x="42" y="70" width="3.5" height="12" rx="1"/>
+      <circle cx="58" cy="46" r="5.5"/>
+      <rect x="54" y="53" width="8" height="16" rx="2"/>
+      <rect x="53" y="67" width="4" height="15" rx="1"/>
+      <rect x="59" y="67" width="4" height="15" rx="1"/>
+    </g>
+  </symbol>
+  <symbol id="s-curba" viewBox="0 0 100 100">
+    <polygon points="50,6 94,90 6,90" fill="#fff" stroke="#c00" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M50 82 Q50 55 75 45" fill="none" stroke="#2a1620" stroke-width="7" stroke-linecap="round"/>
+    <polygon points="75,45 66,40 66,50" fill="#2a1620"/>
+  </symbol>
+  <symbol id="s-tunel" viewBox="0 0 100 100">
+    <rect x="8" y="8" width="84" height="84" rx="4" fill="#06c"/>
+    <path d="M25 78 L25 55 Q25 38 50 38 Q75 38 75 55 L75 78 Z" fill="#fff"/>
+    <path d="M32 78 L32 58 Q32 46 50 46 Q68 46 68 58 L68 78 Z" fill="#1e40af"/>
+  </symbol>
+  <symbol id="s-cf" viewBox="0 0 100 100">
+    <polygon points="50,6 94,90 6,90" fill="#fff" stroke="#c00" stroke-width="5" stroke-linejoin="round"/>
+    <g fill="#2a1620">
+      <rect x="32" y="48" width="36" height="16" rx="3"/>
+      <rect x="35" y="44" width="10" height="5"/>
+      <rect x="48" y="44" width="10" height="5"/>
+      <rect x="28" y="64" width="8" height="6" rx="1"/>
+      <rect x="44" y="64" width="8" height="6" rx="1"/>
+      <rect x="60" y="64" width="8" height="6" rx="1"/>
+    </g>
+  </symbol>
+  <symbol id="s-semafor" viewBox="0 0 100 100">
+    <polygon points="50,6 94,90 6,90" fill="#fff" stroke="#c00" stroke-width="5" stroke-linejoin="round"/>
+    <rect x="40" y="40" width="20" height="42" rx="3" fill="#2a1620"/>
+    <circle cx="50" cy="48" r="4" fill="#c00"/>
+    <circle cx="50" cy="60" r="4" fill="#fc0"/>
+    <circle cx="50" cy="72" r="4" fill="#0a0"/>
+  </symbol>
+  <symbol id="s-ocolire" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="44" fill="#06c"/>
+    <path d="M30 60 L30 45 L62 45 L62 32 L78 50 L62 68 L62 55 L42 55 L42 60 Z" fill="#fff"/>
+  </symbol>
+  <symbol id="s-depasire" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="44" fill="#fff" stroke="#c00" stroke-width="8"/>
+    <g fill="#c00">
+      <rect x="22" y="42" width="20" height="10" rx="2"/>
+      <rect x="58" y="42" width="20" height="10" rx="2"/>
+      <circle cx="30" cy="55" r="3"/>
+      <circle cx="65" cy="55" r="3"/>
+    </g>
+    <rect x="15" y="42" width="70" height="14" fill="#c00"/>
+    <g fill="#fff">
+      <rect x="22" y="44" width="18" height="10" rx="2"/>
+      <rect x="60" y="44" width="18" height="10" rx="2"/>
+    </g>
+  </symbol>
+  <symbol id="s-oprire" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="44" fill="#06c" stroke="#c00" stroke-width="8"/>
+    <rect x="15" y="42" width="70" height="14" fill="#c00"/>
+    <g fill="#fff">
+      <circle cx="38" cy="49" r="3"/>
+      <circle cx="62" cy="49" r="3"/>
+    </g>
+  </symbol>
+  <symbol id="s-inainte" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="44" fill="#06c"/>
+    <polygon points="50,20 78,50 60,50 60,80 40,80 40,50 22,50" fill="#fff"/>
+  </symbol>
+</svg>
+
+<div class="topbar">
+  <div class="progress"><div id="progressBar"></div></div>
+  <div class="topbar-inner">
+    <div class="brand">🚦 Legislație Rutieră</div>
+    <div class="module-pills" id="modulePills">
+      <button class="pill" onclick="goToModule(1)" title="Semnalizarea rutieră">M1</button>
+      <button class="pill" onclick="goToModule(2)" title="Reguli de circulație">M2</button>
+      <button class="pill" onclick="goToModule(3)" title="Manevre">M3</button>
+      <button class="pill" onclick="goToModule(4)" title="Contravenții & Sancțiuni">M4</button>
+      <button class="pill" onclick="goToModule(5)" title="Prim ajutor">M5</button>
+      <button class="pill" onclick="goToModule(6)" title="Curs practic">M6</button>
+      <button class="pill" onclick="goToModule(7)" title="Quiz final">Quiz</button>
+    </div>
+    <div class="themes">
+      <button class="theme-btn active" data-t="clasic" title="Clasic" onclick="setTheme('clasic')"></button>
+      <button class="theme-btn" data-t="intunecat" title="Întunecat" onclick="setTheme('intunecat')"></button>
+      <button class="theme-btn" data-t="verde" title="Verde" onclick="setTheme('verde')"></button>
+      <button class="theme-btn" data-t="violet" title="Violet" onclick="setTheme('violet')"></button>
+      <button class="theme-btn" data-t="portocaliu" title="Portocaliu" onclick="setTheme('portocaliu')"></button>
+    </div>
+    <button class="icon-btn" onclick="openOverview()" title="Harta cursului (M)">🗺️</button>
+    <div class="mode-toggle" role="group" aria-label="Mod afișare">
+      <button type="button" id="modePres" class="active" onclick="setMode('prezentare')">▶ Prezentare</button>
+      <button type="button" id="modeStudy" onclick="setMode('studiu')">📖 Studiu</button>
+    </div>
+    <button class="icon-btn" onclick="toggleFullscreen()" title="Fullscreen (F)">⛶</button>
+  </div>
+</div>
+
+<div class="stage" id="stage">
+
+  <!-- TITLE -->
+  <section class="title-slide active" data-module="0">
+    <div class="site-credit site-credit-top">Pagină realizată și administrată de Țîcșa Cristian Costel</div>
+    <h1>Legislație Rutieră & Conducere Auto</h1>
+    <div class="sub">Curs - Conducerea automobilului</div>
+    <div class="profesor"><span>Profesor legislație:</span>Țîcșa Cristian Costel</div>
+    <div class="autor">Partea I: Legislație rutieră &nbsp;|&nbsp; Partea II: Curs practic</div>
+    <button class="start" onclick="next()">▶ Începe prezentarea</button>
+    <div class="modules">
+      <div><b>1</b>Semnalizare</div><div><b>2</b>Reguli</div><div><b>3</b>Manevre</div>
+      <div><b>4</b>Sancțiuni</div><div><b>5</b>Prim ajutor</div><div><b>6</b>Practic</div>
+    </div>
+    <div class="theme-hint">🎨 Alege tema · 🗺️ Harta curs · F = fullscreen</div>
+  </section>
+
+  <!-- MODUL 1 -->
+  <section class="slide" data-module="1">
+    <span class="module-badge m1">Modul 1 · Semnalizarea rutieră</span>
+    <h2>Introducere & Ordinea de prioritate</h2>
+    <div class="card"><p>Indicatoarele sunt instalate pe <strong>partea dreaptă</strong> a sensului de mers. Semnificația este valabilă pe <strong>toată lățimea părții carosabile</strong> — excepție: cele deasupra unei benzi, care se adresează doar celor de pe acea bandă.</p></div>
+    <h3>Ordinea de prioritate a semnalizării</h3>
+    <ol class="cols-2">
+      <li>Semnalele <strong>polițistului rutier</strong></li>
+      <li>Semnalele speciale ale vehiculelor <strong>prioritare</strong></li>
+      <li><strong>Semnalizarea temporară</strong></li>
+      <li><strong>Semafoarele</strong></li>
+      <li><strong>Indicatoarele</strong></li>
+      <li><strong>Marcajele</strong></li>
+      <li><strong>Regulile de circulație</strong></li>
+    </ol>
+    <div class="quiz">
+      <p class="q">❓ Ce se respectă cu prioritate — semaforul sau indicatorul?</p>
+      <button class="reveal-btn" onclick="toggleAnswer(this)">Arată răspunsul</button>
+      <p class="answer hidden">Semaforul (poziția 4) are prioritate față de indicator (poziția 5). Semnalele polițistului rutier le depășesc pe toate.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-module="1">
+    <span class="module-badge m1">Modul 1 · Semnalizarea rutieră</span>
+    <h2>Indicatoare de avertizare</h2>
+    <p>Previn conducătorii asupra unor pericole pe sectorul de drum care urmează.</p>
+    <div class="sign-grid">
+      <div class="sign-card"><svg><use href="#s-curba"/></svg><span class="sign-name">Curbă</span><span class="sign-detail">30/50 km/h</span></div>
+      <div class="sign-card"><svg><use href="#s-copii"/></svg><span class="sign-name">Copii</span><span class="sign-detail">30/50 km/h</span></div>
+      <div class="sign-card"><svg><use href="#s-cf"/></svg><span class="sign-name">Cale ferată</span><span class="sign-detail">Oprire</span></div>
+      <div class="sign-card"><svg><use href="#s-tunel"/></svg><span class="sign-name">Tunel</span><span class="sign-detail">Avarii obligatorii</span></div>
+      <div class="sign-card"><svg><use href="#s-semafor"/></svg><span class="sign-name">Semafoare</span><span class="sign-detail">Atenție</span></div>
+    </div>
+    <div class="card tip">💡 Zonele de acțiune sunt reglementate prin <strong>plăcuțe adiționale</strong>.</div>
+  </section>
+
+  <section class="slide" data-module="1">
+    <span class="module-badge m1">Modul 1 · Semnalizarea rutieră</span>
+    <h2>Indicatoare de prioritate</h2>
+    <div class="sign-grid">
+      <div class="sign-card"><svg><use href="#s-stop"/></svg><span class="sign-name">STOP</span><span class="sign-detail">Oprire</span></div>
+      <div class="sign-card"><svg><use href="#s-cedeaza"/></svg><span class="sign-name">Cedează</span><span class="sign-detail">Prioritate</span></div>
+      <div class="sign-card"><svg><use href="#s-prioritate"/></svg><span class="sign-name">Drum prioritar</span><span class="sign-detail">Ai prioritate</span></div>
+    </div>
+    <table>
+      <tr><th>Indicator</th><th>Semnificație / Obligație</th></tr>
+      <tr><td><strong>Cedează trecerea</strong></td><td>Reduci viteza, te asiguri, acorzi prioritate vehiculelor de pe drumul transversal</td></tr>
+      <tr><td><strong>STOP</strong></td><td>Oprire obligatorie la marcaj; prioritate tuturor vehiculelor</td></tr>
+      <tr><td><strong>Drum cu prioritate</strong></td><td>Ai prioritate; la viraj stânga acorzi prioritate celor din sens opus</td></tr>
+      <tr><td><strong>Sfârșitul drumului cu prioritate</strong></td><td>La prima intersecție respecți regulile acelei intersecții</td></tr>
+    </table>
+    <div class="quiz">
+      <p class="q">❓ Dacă drumul cu prioritate își schimbă direcția în intersecție, ce se instalează sub indicator?</p>
+      <button class="reveal-btn" onclick="toggleAnswer(this)">Arată răspunsul</button>
+      <p class="answer hidden">Un <strong>panou adițional</strong> care indică direcția drumului cu prioritate.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-module="1">
+    <span class="module-badge m1">Modul 1 · Semnalizarea rutieră</span>
+    <h2>Indicatoare de interzicere / restricție</h2>
+    <div class="card">
+      <p>Semnificația începe din dreptul indicatorului. Fără altă semnalizare, încetează la <strong>intersecția cea mai apropiată</strong>. Instalat lângă indicatorul de intrare în localitate → se aplică pe tot traseul până la ieșire.</p>
+    </div>
+    <div class="sign-grid">
+      <div class="sign-card"><svg><use href="#s-interzis"/></svg><span class="sign-name">Acces interzis</span></div>
+      <div class="sign-card"><svg><use href="#s-lim50"/></svg><span class="sign-name">Limitare</span><span class="sign-detail">Max. 50</span></div>
+      <div class="sign-card"><svg><use href="#s-depasire"/></svg><span class="sign-name">Depășire</span><span class="sign-detail">Interzisă</span></div>
+      <div class="sign-card"><svg><use href="#s-oprire"/></svg><span class="sign-name">Oprire</span><span class="sign-detail">Interzisă</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-module="1">
+    <span class="module-badge m1">Modul 1 · Semnalizarea rutieră</span>
+    <h2>Indicatoare de obligare</h2>
+    <p>Semnificația este valabilă <strong>doar în intersecția cea mai apropiată</strong>.</p>
+    <div class="sign-grid">
+      <div class="sign-card"><svg><use href="#s-inainte"/></svg><span class="sign-name">Înainte</span></div>
+      <div class="sign-card"><svg><use href="#s-giratoriu"/></svg><span class="sign-name">Sens giratoriu</span></div>
+      <div class="sign-card"><svg><use href="#s-ocolire"/></svg><span class="sign-name">Ocolire</span><span class="sign-detail">Pe dreapta</span></div>
+      <div class="sign-card"><svg><use href="#s-pietoni"/></svg><span class="sign-name">Pietoni</span><span class="sign-detail">Drum obligatoriu</span></div>
+    </div>
+    <div class="quiz">
+      <p class="q">❓ Ce indicator obligă la o viteză minimă de 40 km/h?</p>
+      <button class="reveal-btn" onclick="toggleAnswer(this)">Arată răspunsul</button>
+      <p class="answer hidden">Indicatorul rotund albastru cu cifra <strong>40</strong> — „Viteză minimă obligatorie”.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-module="1">
+    <span class="module-badge m1">Modul 1 · Semnalizarea rutieră</span>
+    <h2>Indicatoare de informare & orientare</h2>
+    <div class="grid2">
+      <div class="card"><h4>Informare</h4><p>Trecere pentru pietoni, sens unic, stație autobuz/tramvai, parcări, autostradă, tunele, limite de viteză, zonă rezidențială.</p></div>
+      <div class="card"><h4>Orientare</h4><p>Presemnalizări de traseu, direcții spre localități, benzi rezervate, benzi reversibile, intrare în localitate, drum național.</p></div>
+    </div>
+    <div class="quiz">
+      <p class="q">❓ Care indicator anunță intrarea pe autostradă?</p>
+      <button class="reveal-btn" onclick="toggleAnswer(this)">Arată răspunsul</button>
+      <p class="answer hidden">Indicatorul albastru cu simbolul autostrăzii (drum cu 2 benzi pe sens despărțite de un scuar).</p>
+    </div>
+  </section>
+
+  <section class="slide" data-module="1">
+    <span class="module-badge m1">Modul 1 · Semnalizarea rutieră</span>
+    <h2>Semnalizarea temporară</h2>
+    <div class="card warn"><p>Indicatoarele temporare au <strong>fond galben</strong> în loc de alb. Au aceleași caracteristici cu cele permanente.</p></div>
+    <div class="chips">
+      <span class="chip">Limitare de viteză temporară</span><span class="chip">Lucrări</span>
+      <span class="chip">Denivelare</span><span class="chip">Îngustare temporară</span>
+      <span class="chip">Abatere temporară</span><span class="chip">Presemnalizare rute ocolitoare</span>
+    </div>
+    <div class="quiz">
+      <p class="q">❓ Cu ce diferă indicatoarele temporare de cele permanente?</p>
+      <button class="reveal-btn" onclick="toggleAnswer(this)">Arată răspunsul</button>
+      <p class="answer hidden">Prin <strong>fondul galben</strong> (în loc de alb). Semnificația rămâne aceeași.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-module="1">
+    <span class="module-badge m1">Modul 1 · Semnalizarea rutieră</span>
+    <h2>Marcaje rutiere</h2>
+    <table>
+      <tr><th>Marcaj</th><th>Semnificație</th></tr>
+      <tr><td>Linie discontinuă simplă</td><td>Permite trecerea</td></tr>
+      <tr><td>Linie continuă simplă / dublă</td><td>Interzice încălcarea</td></tr>
+      <tr><td>Continuă + discontinuă</td><td>Respecți linia cea mai apropiată de sensul tău</td></tr>
+      <tr><td>Marcaj transversal cedare / STOP</td><td>Cedare trecere / oprire obligatorie</td></tr>
+      <tr><td>Benzi reversibile</td><td>Circulație alternantă</td></tr>
+      <tr><td>Bandă accelerare / decelerare</td><td>Intrare / ieșire autostradă</td></tr>
+      <tr><td>Traversare pietoni</td><td>Trecere pentru pietoni</td></tr>
+    </table>
+  </section>
+
+  <section class="slide" data-module="1">
+    <span class="module-badge m1">Modul 1 · Semnalizarea rutieră</span>
+    <h2>Semnalele polițistului rutier</h2>
+    <table>
+      <tr><th>Semnal</th><th>Semnificație</th></tr>
+      <tr><td>Braț ridicat vertical</td><td>„Atenție, oprire” pentru toți (excepție: cei care nu pot opri în siguranță)</td></tr>
+      <tr><td>Brațe întinse orizontal</td><td>„Oprire” pentru cei din direcția intersectată</td></tr>
+      <tr><td>Balansare dispozitiv roșu (noaptea)</td><td>„Oprire” pentru cei spre care e îndreptat</td></tr>
+      <tr><td>Rotire vioaie a brațului</td><td>Mărirea vitezei / grăbirea traversării</td></tr>
+      <tr><td>Balansare verticală (palma în jos)</td><td>Reducerea vitezei</td></tr>
+    </table>
+    <div class="card"><p><strong>Oprire obligatorie și la:</strong> polițiștii de frontieră, îndrumătorii MAPN, agenții de cale ferată, personalul din lucrări, patrulele școlare, nevăzătorii cu baston alb.</p></div>
+  </section>
+
+  <section class="slide" data-module="1">
+    <span class="module-badge m1">Modul 1 · Semnalizarea rutieră</span>
+    <h2>Semnale speciale de avertizare</h2>
+    <table>
+      <tr><th>Culoare</th><th>Vehicule</th><th>Obligație</th></tr>
+      <tr><td><strong>Roșu + sonor</strong></td><td>Poliție, Pompieri</td><td>Oprire imediată pe acostament sau cât mai aproape de margine</td></tr>
+      <tr><td><strong>Albastru + sonor</strong></td><td>Salvare, Jandarmerie, SRI, MAPN</td><td>Reduci viteza, circuli cât mai aproape de margine, acorzi prioritate</td></tr>
+    </table>
+    <div class="card tip">💡 Polițistul rutier poate executa semnale cu brațul pe partea laterală dreapta — semnalul înseamnă <strong>oprire</strong> pentru cei din spate.</div>
+  </section>
+
+  <section class="slide" data-module="1">
+    <span class="module-badge m1">Modul 1 · Semnalizarea rutieră</span>
+    <h2>Semafoare</h2>
+    <div class="grid2">
+      <div class="card ok">
+        <h4>Semnificația culorilor</h4>
+        <ul>
+          <li><strong>Verde:</strong> permite trecerea</li>
+          <li><strong>Roșu:</strong> interzice trecerea</li>
+          <li><strong>Galben:</strong> interzice trecerea (excepție: nu poți opri în siguranță)</li>
+          <li><strong>Galben intermitent:</strong> permite cu viteză redusă</li>
+        </ul>
+      </div>
+      <div class="card warn">
+        <h4>Observații</h4>
+        <ul>
+          <li>Săgeți verzi → permit trecerea doar în direcția indicată</li>
+          <li>Semafor de intersecție → vizibil de la cel puțin <strong>50 m</strong></li>
+          <li>Semafor deasupra benzii → respecți semnalul benzii tale</li>
+          <li><strong>Roșu + galben simultan</strong> → anunță verdele</li>
+        </ul>
+      </div>
+    </div>
+    <div class="quiz">
+      <p class="q">❓ Ce faci la semnalul galben intermitent?</p>
+      <button class="reveal-btn" onclick="toggleAnswer(this)">Arată răspunsul</button>
+      <p class="answer hidden">Trecerea este permisă cu <strong>viteză redusă</strong>, respectând semnalizarea și regulile aplicabile.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-module="1">
+    <span class="module-badge m1">Modul 1 · Quiz</span>
+    <h2>Verificare — Semnalizare</h2>
+    <div class="mcq quiz">
+      <p class="q">1. Care este ordinea corectă de prioritate?</p>
+      <div class="options">
+        <button class="opt" data-correct="false">Semafor → polițist → indicator → marcaj</button>
+        <button class="opt" data-correct="true">Polițist → semnale speciale → temporar → semafor → indicator → marcaj</button>
+        <button class="opt" data-correct="false">Indicator → semafor → polițist → marcaj</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">2. Indicatorul „Copii” impune viteza maximă de 30/50 km/h în intervalul:</p>
+      <div class="options">
+        <button class="opt" data-correct="false">6:00–20:00</button>
+        <button class="opt" data-correct="true">7:00–22:00</button>
+        <button class="opt" data-correct="false">8:00–18:00</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">3. Indicatoarele temporare au:</p>
+      <div class="options">
+        <button class="opt" data-correct="false">Fond alb</button>
+        <button class="opt" data-correct="true">Fond galben</button>
+        <button class="opt" data-correct="false">Fond roșu</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+  </section>
+
+  <!-- MODUL 2 -->
+  <section class="slide" data-module="2">
+    <span class="module-badge m2">Modul 2 · Reguli de circulație</span>
+    <h2>Utilizarea părții carosabile</h2>
+    <ul>
+      <li>Drum cu 2+ benzi pe sens → circuli pe banda de lângă acostament/bordură.</li>
+      <li>Benzi suplimentare → folosite succesiv de la dreapta spre stânga, cu revenire pe dreapta când e posibil.</li>
+      <li>Vehicule lente/grele → pe banda de lângă acostament.</li>
+      <li>Transport public → pe banda rezervată.</li>
+      <li>Categoriile <strong>AM, A1, A2, A</strong> → numai pe un singur rând.</li>
+      <li>Drum cu linie de tramvai → lași liber tramvaiul la apropiere.</li>
+      <li><strong>Selectarea benzii:</strong> cu cel puțin <strong>50 m</strong> înainte de intersecție.</li>
+    </ul>
+    <div class="card tip">💡 Fără marcaje: dreapta → rândul de lângă bordură; stânga → rândul de lângă ax; înainte → oricare rând.</div>
+  </section>
+
+  <section class="slide" data-module="2">
+    <span class="module-badge m2">Modul 2 · Reguli de circulație</span>
+    <h2>Semnalele conducătorilor de vehicule</h2>
+    <p><strong>Sonore:</strong> de la cel puțin <strong>25 m</strong>; interzise în „Claxonarea interzisă” (excepție: pericol imediat, vehicule prioritare).</p>
+    <table>
+      <tr><th>Lumini</th><th>Când se folosesc</th></tr>
+      <tr><td>Poziție / staționare</td><td>Imobilizare în afara localităților, noaptea, ploaie torențială, ninsoare, ceață</td></tr>
+      <tr><td>Întâlnire (faza scurtă)</td><td>În mers; la apropierea vehiculelor din sens opus (<strong>200 m</strong>); în spatele altui vehicul (<strong>100 m</strong>)</td></tr>
+      <tr><td>Drum (faza lungă)</td><td>După gradul de iluminare</td></tr>
+      <tr><td>Indicatoare de direcție</td><td>Cu <strong>50 m</strong> în localitate, <strong>100 m</strong> în afara</td></tr>
+      <tr><td>Avarii</td><td>Imobilizare involuntară, deplasare foarte lentă, remorcare</td></tr>
+      <tr><td>Roșie spate</td><td>Reducere viteză / oprire</td></tr>
+    </table>
+  </section>
+
+  <section class="slide" data-module="2">
+    <span class="module-badge m2">Modul 2 · Reguli de circulație</span>
+    <h2>Viteza maximă admisă</h2>
+    <table>
+      <tr><th>Categorie</th><th>Localitate</th><th>Național/Județean</th><th>European/Expres</th><th>Autostradă</th></tr>
+      <tr><td><strong>A, B</strong></td><td>50</td><td>90</td><td>100</td><td><strong>130</strong></td></tr>
+      <tr><td><strong>C, D, D1</strong></td><td>50</td><td>80</td><td>90</td><td>110</td></tr>
+      <tr><td><strong>A1, B1, C1</strong></td><td>50</td><td>70</td><td>80</td><td>90</td></tr>
+      <tr><td><strong>AM (scuter)</strong></td><td>45</td><td>45</td><td>45</td><td>—</td></tr>
+    </table>
+    <div class="grid2">
+      <div class="card"><p>Zonă rezidențială: max. <strong>20 km/h</strong> · Zonă pietonală: max. <strong>5 km/h</strong></p></div>
+      <div class="card"><p>Începători (&lt;1 an): cu <strong>20 km/h</strong> mai puțin în afara localităților; cu remorcă: cu <strong>10 km/h</strong> mai puțin</p></div>
+    </div>
+  </section>
+
+  <section class="slide" data-module="2">
+    <span class="module-badge m2">Modul 2 · Reguli de circulație</span>
+    <h2>Zona rezidențială și zona pietonală</h2>
+    <div class="grid2">
+      <div class="card">
+        <h4>🏘️ Zona rezidențială</h4>
+        <ul>
+          <li>Pietonii pot folosi <strong>toată partea carosabilă</strong></li>
+          <li><strong>Jocul copiilor este permis</strong></li>
+          <li>Viteză maximă <strong>20 km/h</strong></li>
+          <li>Interzis: staționarea în afara spațiilor prevăzute</li>
+        </ul>
+      </div>
+      <div class="card ok">
+        <h4>🚶 Zona pietonală</h4>
+        <ul>
+          <li>Străzi rezervate <strong>exclusiv pietonilor</strong></li>
+          <li>Intrare doar dacă <strong>locuiești în zonă</strong> sau prestezi <strong>servicii „din poartă în poartă”</strong></li>
+          <li>Viteză maximă <strong>5 km/h</strong></li>
+          <li>Nu stânjenești circulația pietonilor</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card tip">
+      <p>💡 <strong>La ieșirea din zonele rezidențiale sau pietonale</strong>, conducătorii sunt obligați să acorde prioritate de trecere <strong>tuturor vehiculelor</strong>.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-module="2">
+    <span class="module-badge m2">Modul 2 · Reguli de circulație</span>
+    <h2>Intersecții și obligația de a ceda trecerea</h2>
+    <div class="grid2">
+      <div class="card">
+        <h4>Intersecție nedirijată</h4>
+        <ul>
+          <li>Prioritate de <strong>dreapta</strong></li>
+          <li>Vehiculele pe șine au prioritate (pierd la viraj stânga)</li>
+          <li>Național &gt; județean &gt; comunal &gt; local</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Intersecție dirijată</h4>
+        <ul>
+          <li>Respecți indicatoarele, semaforul, polițistul</li>
+          <li>Sens giratoriu → acorzi prioritate celor din interior</li>
+        </ul>
+      </div>
+    </div>
+    <h3>Alte situații de acordare prioritate</h3>
+    <ul class="cols-2">
+      <li>Stație transport public cu alveolă</li>
+      <li>Pietoni la tramvai (stație fără refugiu)</li>
+      <li>Obstacol pe sensul tău → prioritate celor din sens opus</li>
+      <li>Ieșire din zone rezidențiale/pietonale</li>
+      <li>Pantă vs. coborâre: cel care urcă</li>
+      <li>Intrare pe drum public de pe proprietate</li>
+      <li>Bicicliști pe pistă</li>
+      <li>Pietoni pe trecere/verde</li>
+    </ul>
+  </section>
+
+  <section class="slide" data-module="2">
+    <span class="module-badge m2">Modul 2 · Reguli de circulație</span>
+    <h2>Trecerea la nivel cu calea ferată</h2>
+    <div class="grid2">
+      <div class="card">
+        <h4>Fără bariere</h4>
+        <ul>
+          <li>Oprești în loc cu vizibilitate maximă</li>
+          <li>Traversezi după ce te asiguri că nu se apropie tren</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Cu instalație automată</h4>
+        <ul>
+          <li>Oprești dacă lumina roșie/semnalul sonor funcționează</li>
+          <li>Poți traversa dacă semnalele nu funcționează, dar lumina albă intermitentă e în funcțiune</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Cu bariere</h4>
+        <ul>
+          <li>Oprești dacă barierele sunt coborâte/în mișcare</li>
+          <li>Poți traversa dacă barierele sunt ridicate și semnalele nu funcționează</li>
+        </ul>
+      </div>
+      <div class="card warn">
+        <h4>Imobilizare pe calea ferată</h4>
+        <ul>
+          <li>Scoți imediat pasagerii și eliberezi platforma</li>
+          <li>Semnalizezi cu orice mijloc adecvat</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-module="2">
+    <span class="module-badge m2">Modul 2 · Quiz</span>
+    <h2>Verificare — Reguli de circulație</h2>
+    <div class="mcq quiz">
+      <p class="q">1. Viteza maximă pentru categoria B pe autostradă este:</p>
+      <div class="options">
+        <button class="opt" data-correct="false">110 km/h</button>
+        <button class="opt" data-correct="true">130 km/h</button>
+        <button class="opt" data-correct="false">100 km/h</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">2. Lumina de întâlnire se folosește la apropierea vehiculelor din sensuri opuse, de la cel puțin:</p>
+      <div class="options">
+        <button class="opt" data-correct="true">200 m</button>
+        <button class="opt" data-correct="false">100 m</button>
+        <button class="opt" data-correct="false">50 m</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">3. În intersecția nedirijată, prioritatea este:</p>
+      <div class="options">
+        <button class="opt" data-correct="false">De stânga</button>
+        <button class="opt" data-correct="true">De dreapta</button>
+        <button class="opt" data-correct="false">Celui cu vehicul mai mare</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">4. Care este viteza maximă în zona rezidențială?</p>
+      <div class="options">
+        <button class="opt" data-correct="false">5 km/h</button>
+        <button class="opt" data-correct="false">30 km/h</button>
+        <button class="opt" data-correct="true">20 km/h</button>
+        <button class="opt" data-correct="false">50 km/h</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+  </section>
+
+  <!-- MODUL 3 -->
+  <section class="slide" data-module="3">
+    <span class="module-badge m3">Modul 3 · Manevre</span>
+    <h2>Reguli generale pentru manevre</h2>
+    <div class="card">
+      <p>Conducătorul care execută o manevră este obligat:</p>
+      <ul>
+        <li>Să <strong>semnalizeze din timp</strong></li>
+        <li>Să <strong>se asigure</strong> că poate face manevra fără să perturbe circulația</li>
+      </ul>
+    </div>
+    <div class="card tip"><p>Semnalizarea schimbării direcției: cu <strong>50 m</strong> înainte în localitate, <strong>100 m</strong> în afara.</p></div>
+  </section>
+
+  <section class="slide" data-module="3">
+    <span class="module-badge m3">Modul 3 · Manevre</span>
+    <h2>Depășirea</h2>
+    <div class="card"><p><strong>Definiție:</strong> manevra prin care un vehicul trece înaintea altuia pe același sens, prin schimbarea direcției și ieșirea de pe banda inițială.</p></div>
+    <ul>
+      <li>Se face pe <strong>partea stângă</strong>.</li>
+      <li>Tramvaiul/vehiculul care semnalizează stânga → se depășește pe <strong>dreapta</strong>.</li>
+      <li>Nu constituie depășire circulația mai rapidă pe altă bandă.</li>
+    </ul>
+    <div class="grid2">
+      <div class="card">
+        <h4>Obligațiile celui depășit</h4>
+        <ul><li>Nu mărește viteza</li><li>Circulă cât mai aproape de marginea dreaptă</li></ul>
+      </div>
+      <div class="card">
+        <h4>Obligațiile celui care depășește</h4>
+        <ul>
+          <li>Se asigură <strong>din față</strong> că banda opusă este liberă <strong>și din spate</strong> că niciun vehicul nu este deja angajat în depășire</li>
+          <li>Semnalizează</li>
+          <li>Păstrează distanță laterală suficientă</li>
+          <li>Reintră pe bandă după semnalizare și asigurare</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-module="3">
+    <span class="module-badge m3">Modul 3 · Manevre</span>
+    <h2>Depășirea este interzisă în 12 situații</h2>
+    <ol class="cols-2">
+      <li>Intersecții cu circulația nedirijată</li>
+      <li>Curbe cu vizibilitate sub <strong>50 m</strong></li>
+      <li>Apropierea vârfurilor de rampă cu vizibilitate sub 50 m</li>
+      <li>Trecerea la nivel cu calea ferată și la mai puțin de 50 m</li>
+      <li>Pasaje denivelate, poduri, tuneluri (excepții: tracțiune animală, motociclete fără ataș, mopede, biciclete, dacă vizibilitate &gt;20 m și lățime ≥7 m)</li>
+      <li>Dreptul stației de tramvai fără refugiu</li>
+      <li>Trecerea pentru pietoni semnalizată</li>
+      <li>Zona „Depășirea interzisă”</li>
+      <li>Marcaj continuu (încălcare)</li>
+      <li>Vehiculul din sens opus e obligat să evite coliziunea</li>
+      <li>Coloană de vehicule în așteptare</li>
+      <li>Coloana oficială</li>
+    </ol>
+  </section>
+
+  <section class="slide" data-module="3">
+    <span class="module-badge m3">Modul 3 · Manevre</span>
+    <h2>Oprirea voluntară</h2>
+    <div class="card">
+      <p><strong>Definiție:</strong> imobilizarea voluntară pe drumul public pe o durată de <strong>cel mult 5 minute</strong>. Peste 5 minute → staționare.</p>
+    </div>
+    <ul>
+      <li>Vehiculul se așează lângă și paralel cu marginea părții carosabile, pe un singur rând.</li>
+      <li>Motocicletele fără ataș, mopedele, bicicletele → câte două.</li>
+      <li>La părăsire → frână de ajutor, oprești motorul, cuplezi o treaptă.</li>
+    </ul>
+  </section>
+
+  <section class="slide" data-module="3">
+    <span class="module-badge m3">Modul 3 · Manevre</span>
+    <h2>Oprirea voluntară — 16 situații interzise</h2>
+    <ol class="cols-2">
+      <li>Zona „Oprirea interzisă”</li>
+      <li>Trecerea pentru pietoni și la mai puțin de <strong>25 m</strong> înainte/după</li>
+      <li>Intersecții și zona de preselecție; la mai puțin de 25 m de colț</li>
+      <li>Stații transport public și la mai puțin de 25 m</li>
+      <li>Curbe și locuri cu vizibilitate sub 50 m</li>
+      <li>Trecerea la nivel cu calea ferată și la mai puțin de 50 m</li>
+      <li>Platforma căii ferate industriale/tramvai sau la mai puțin de 50 m</li>
+      <li>Poduri, pasaje denivelate, viaducte</li>
+      <li>Dreptul altui vehicul oprit dacă stânjenești</li>
+      <li>Locuri unde împiedici vizibilitatea indicatorului</li>
+      <li>Locuri unde este interzisă depășirea</li>
+      <li>Zone cu „Drum îngustat”, „Prioritate sens invers”</li>
+      <li>Piste pietoni/bicicliști sau benzi rezervate</li>
+      <li>Piste pentru biciclete</li>
+      <li>Trotuar (dacă nu asiguri 1 m pentru pietoni)</li>
+      <li>Partea carosabilă a autostrăzilor, drumurilor expres, E</li>
+    </ol>
+  </section>
+
+  <section class="slide" data-module="3">
+    <span class="module-badge m3">Modul 3 · Manevre</span>
+    <h2>Staționarea & Parcarea</h2>
+    <div class="card warn">
+      <p><strong>Staționarea este interzisă în 6 situații:</strong></p>
+      <ol>
+        <li>Toate cazurile în care este interzisă oprirea voluntară</li>
+        <li>Zona „Staționarea interzisă” / marcaj</li>
+        <li>Drumuri cu lățime mai mică de <strong>6 m</strong></li>
+        <li>Dreptul căilor de acces la proprietăți</li>
+        <li>Pante și rampe</li>
+        <li>„Staționare alternantă” în altă zi sau „Zonă limitată”</li>
+      </ol>
+    </div>
+    <div class="card"><p><strong>Parcarea</strong> = staționarea în spații special amenajate/semnalizate.</p></div>
+  </section>
+
+  <section class="slide" data-module="3">
+    <span class="module-badge m3">Modul 3 · Manevre</span>
+    <h2>Întoarcerea & Mersul înapoi</h2>
+    <div class="grid2">
+      <div class="card warn">
+        <h4>Întoarcerea interzisă în 6 situații</h4>
+        <ol>
+          <li>Locuri cu oprire voluntară interzisă (excepție: intersecții)</li>
+          <li>Intersecții cu viraj stânga interzis</li>
+          <li>Locuri unde soliditatea drumului nu permite</li>
+          <li>Drumuri cu sens unic</li>
+          <li>Marcaj pietonal</li>
+          <li>Zona „Întoarcerea interzisă”</li>
+        </ol>
+      </div>
+      <div class="card warn">
+        <h4>Mersul înapoi interzis în 3 situații</h4>
+        <ol>
+          <li>Toate locurile unde întoarcerea este interzisă (excepție: drumuri cu sens unic)</li>
+          <li>Pe o distanță mai mare de <strong>50 m</strong></li>
+          <li>La ieșirea de pe proprietăți alăturate drumurilor publice</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-module="3">
+    <span class="module-badge m3">Modul 3 · Manevre</span>
+    <h2>Remorcarea & Autostrăzi</h2>
+    <div class="grid2">
+      <div class="card">
+        <h4>Remorcarea</h4>
+        <ol>
+          <li>Permise valabile pentru ambele categorii</li>
+          <li>Bară metalică max. <strong>4 m</strong>; cu direcție/frânare funcțională → legătură flexibilă <strong>3–5 m</strong></li>
+          <li>Fără iluminare → interzisă noaptea</li>
+        </ol>
+      </div>
+      <div class="card warn">
+        <h4>Interzis pe autostrăzi</h4>
+        <ul>
+          <li>Vehicule care nu pot depăși 50 km/h</li>
+          <li>Învățarea conducerii</li>
+          <li>Manifestații, competiții, cortegii</li>
+          <li>Întoarcerea sau mersul înapoi</li>
+          <li>Circulația/oprirea pe banda de urgență</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-module="3">
+    <span class="module-badge m3">Modul 3 · Quiz</span>
+    <h2>Verificare — Manevre</h2>
+    <div class="mcq quiz">
+      <p class="q">1. Oprirea voluntară durează cel mult:</p>
+      <div class="options">
+        <button class="opt" data-correct="false">10 minute</button>
+        <button class="opt" data-correct="true">5 minute</button>
+        <button class="opt" data-correct="false">3 minute</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">2. Depășirea se face:</p>
+      <div class="options">
+        <button class="opt" data-correct="true">Pe partea stângă a vehiculului depășit</button>
+        <button class="opt" data-correct="false">Pe partea dreaptă, întotdeauna</button>
+        <button class="opt" data-correct="false">Pe orice parte</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">3. Mersul înapoi este interzis pe o distanță mai mare de:</p>
+      <div class="options">
+        <button class="opt" data-correct="false">30 m</button>
+        <button class="opt" data-correct="true">50 m</button>
+        <button class="opt" data-correct="false">100 m</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+  </section>
+
+  <!-- MODUL 4 -->
+  <section class="slide" data-module="4">
+    <span class="module-badge m4">Modul 4 · Obligații & Contravenții</span>
+    <h2>Accident cu victime — obligații</h2>
+    <p>Conducătorul implicat într-un accident soldat cu moartea sau vătămarea unei persoane <strong>ESTE OBLIGAT</strong>:</p>
+    <ol>
+      <li>Să <strong>oprească</strong>, să <strong>anunțe imediat poliția</strong>, să <strong>nu modifice urmele</strong> și să <strong>nu părăsească locul faptei</strong></li>
+      <li>Să <strong>nu consume alcool, stupefiante sau medicamente</strong> după accident, până la testare</li>
+    </ol>
+    <div class="card warn">
+      <p>⚠️ Conducătorilor li se recoltează <strong>obligatoriu probe biologice</strong>.</p>
+    </div>
+    <div class="card tip">
+      <p>📞 <strong>Orice persoană</strong> implicată sau care are cunoștință este obligată să anunțe la <strong>112</strong>.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-module="4">
+    <span class="module-badge m4">Modul 4 · Obligații & Contravenții</span>
+    <h2>Accident cu pagube materiale & constatare amiabilă</h2>
+    <ol>
+      <li>Să <strong>scoată vehiculele în afara părții carosabile</strong>, semnalizate</li>
+      <li>Prezentare la poliție <strong>în 24 de ore</strong> pentru autorizație de reparație</li>
+    </ol>
+    <div class="card ok">
+      <h4>✅ Excepție</h4>
+      <p>Cei cu <strong>CASCO</strong> și cu avariere doar a propriului vehicul — autorizație de la asigurător.</p>
+    </div>
+    <div class="card">
+      <h4>📋 Constatare amiabilă (fără poliție) dacă:</h4>
+      <ol>
+        <li>Pagubele se despăgubesc prin asigurare obligatorie</li>
+        <li>Nu presupune suspendarea permisului</li>
+        <li>Cel puțin unul și-a recunoscut vinovăția + are asigurare</li>
+        <li>Formular completat fără obiecțiuni</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="slide" data-module="4">
+    <span class="module-badge m4">Modul 4 · Obligații & Contravenții</span>
+    <h2>Obligații & interdicții</h2>
+    <div class="grid2">
+      <div class="card">
+        <h4>Obligații</h4>
+        <ul>
+          <li>Distanță față de vehiculul din față</li>
+          <li>Centura (excepții: mers înapoi, staționare, gravide, taxi)</li>
+          <li>Copii &lt;12 ani sau &lt;150 cm → centuri adaptate</li>
+          <li>Act identitate, permis, certificat (RCA, ITP)</li>
+          <li>Verificare medicală periodică</li>
+          <li>Semn distinctiv „începător”</li>
+          <li>Trusă medicală, 2 triunghiuri, stingător</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Interdicții</h4>
+        <ul>
+          <li>Copii &lt;12 ani pe scaunul din față</li>
+          <li>Deschiderea ușilor în mers</li>
+          <li>Volan liber, oprirea motorului în mers</li>
+          <li>Telefon mobil fără hands-free</li>
+          <li>Sisteme anti-radar</li>
+          <li>Aruncarea de obiecte pe drum</li>
+          <li>Începător (&lt;1 an): fără mărfuri periculoase</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-module="4">
+    <span class="module-badge m4">Modul 4 · Obligații & Contravenții</span>
+    <h2>Infracțiuni (răspundere penală + anulare permis)</h2>
+    <ol class="cols-2">
+      <li>Vehicul neînmatriculat / număr fals</li>
+      <li>Plăcuțe retrase / vehicul străin fără drept</li>
+      <li>Alcoolemie <strong>&gt;0,8 g/l</strong> alcool pur în sânge</li>
+      <li>Sub influența stupefiantelor</li>
+      <li>Refuzul recoltării probelor biologice</li>
+      <li>Părăsirea locului accidentului cu victime</li>
+      <li>Organizarea/participarea la întreceri neautorizate</li>
+      <li>Conducerea fără permis</li>
+      <li>Încredințarea vehiculului unei persoane necalificate</li>
+      <li>Modificarea semnalizării fără autorizație</li>
+      <li>Repararea vehiculelor avariate fără documente poliție</li>
+    </ol>
+    <div class="card warn"><p>Permisul se <strong>anulează</strong> la condamnare definitivă pentru ucidere/vătămare prin nerespectarea regulilor.</p></div>
+  </section>
+
+  <section class="slide" data-module="4">
+    <span class="module-badge m4">Modul 4 · Sancțiuni</span>
+    <h2>Sancțiuni contravenționale</h2>
+    <div class="grid2">
+      <div class="card ok">
+        <h4>✅ Principale</h4>
+        <ul>
+          <li><strong>Amenda contravențională</strong></li>
+          <li><strong>Avertismentul</strong></li>
+        </ul>
+      </div>
+      <div class="card warn">
+        <h4>⚠️ Complementare</h4>
+        <ul>
+          <li><strong>Punctele de penalizare</strong></li>
+          <li><strong>Suspendarea</strong> dreptului de a conduce</li>
+          <li><strong>Confiscarea</strong> bunurilor</li>
+          <li><strong>Imobilizarea</strong> vehiculului</li>
+          <li><strong>Radierea din oficiu</strong></li>
+          <li><strong>Ridicarea vehiculelor</strong> staționate neregulamentar</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <h4>🔧 Măsuri tehnico-administrative</h4>
+      <ul>
+        <li><strong>Reținerea</strong> permisului / certificatului</li>
+        <li><strong>Retragerea</strong> permisului (inapt medical) / certificatului / plăcuțelor</li>
+        <li><strong>Anularea permisului</strong></li>
+      </ul>
+    </div>
+    <div class="card tip">
+      <p>💡 <strong>15 puncte de penalizare</strong> în 6 luni → <strong>suspendarea permisului 30 zile</strong>.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-module="4">
+    <span class="module-badge m4">Modul 4 · Sancțiuni</span>
+    <h2>Punctul de amendă & clasele de sancțiuni</h2>
+    <div class="card">
+      <p><strong>Punctul-amendă</strong> = <strong>10% din salariul minim brut</strong> (OUG 195/2002, art. 98).</p>
+    </div>
+    <table>
+      <tr><th>Clasa</th><th>Puncte-amendă</th><th>Valoare orientativă*</th><th>Gravitate</th></tr>
+      <tr><td><strong>Clasa I</strong></td><td>2 sau 3</td><td>810 – 1.215 lei</td><td>Minore</td></tr>
+      <tr><td><strong>Clasa a II-a</strong></td><td>4 sau 5</td><td>1.620 – 2.025 lei</td><td>Medii</td></tr>
+      <tr><td><strong>Clasa a III-a</strong></td><td>6, 7 sau 8</td><td>2.430 – 3.240 lei</td><td>Grave</td></tr>
+      <tr><td><strong>Clasa a IV-a</strong></td><td>9 – 20</td><td>3.645 – 8.100 lei</td><td>Foarte grave</td></tr>
+      <tr><td><strong>Clasa a V-a</strong></td><td>21 – 100</td><td>8.505 – 40.500 lei</td><td>Maxime</td></tr>
+    </table>
+    <div class="card tip"><p>* Pentru punct-amendă de <strong>405 lei</strong> (salariu minim 4.050 lei).</p></div>
+  </section>
+
+  <section class="slide" data-module="4">
+    <span class="module-badge m4">Modul 4 · Sancțiuni</span>
+    <h2>Detalii pe clase + conducere agresivă</h2>
+    <div class="grid2">
+      <div class="card">
+        <h4><span class="class-tag">Clasa I</span> 2–3 puncte</h4>
+        <ul>
+          <li>Nefolosirea centurii</li>
+          <li>Oprire/staționare neregulamentară</li>
+          <li>Lipsa luminilor de întâlnire ziua</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4><span class="class-tag c2">Clasa a II-a</span> 4–5 puncte</h4>
+        <ul>
+          <li>Telefon mobil fără hands-free</li>
+          <li>Viteză 10–20 km/h peste limită</li>
+          <li>Depășire neregulamentară</li>
+          <li><strong>Conducere agresivă</strong> (art. 100 alin. 3¹)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4><span class="class-tag c3">Clasa a III-a</span> 6–8 puncte</h4>
+        <ul>
+          <li>Trecere pe roșu</li>
+          <li>Viteză 21–30 km/h</li>
+          <li>Neacordare prioritate pietoni</li>
+          <li><strong>Conducere agresivă cu accident</strong></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4><span class="class-tag c4">Clasa a IV-a</span> 9–20 puncte</h4>
+        <ul>
+          <li>Viteză peste 30 km/h</li>
+          <li>Alcool (limite contravenționale)</li>
+          <li>Defecțiuni grave</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card warn">
+      <h4><span class="class-tag c5">Clasa a V-a</span> 21–100 puncte</h4>
+      <ul>
+        <li>Întreceri auto neautorizate</li>
+        <li>Transport mărfuri periculoase neregulamentar</li>
+        <li>Transport persoane fără autorizație</li>
+      </ul>
+    </div>
+    <div class="card ok">
+      <h4>⚖️ Conducere agresivă — sancțiune</h4>
+      <ul>
+        <li>Amendă <strong>clasa a II-a</strong> + suspendare <strong>30 zile</strong></li>
+        <li>Cu accident: clasa a III-a + suspendare <strong>60 zile</strong></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide" data-module="4">
+    <span class="module-badge m4">Modul 4 · Documente</span>
+    <h2>Permis de conducere & reținere</h2>
+    <div class="grid2">
+      <div class="card">
+        <h4>Categorii principale</h4>
+        <ul>
+          <li><strong>A</strong> — motociclete &gt;50 cm³ / &gt;45 km/h</li>
+          <li><strong>B</strong> — ≤3.500 kg, max. 8 locuri</li>
+          <li><strong>BE</strong> — B cu remorcă &gt;750 kg</li>
+          <li><strong>C</strong> — &gt;3.500 kg (altul decât D)</li>
+          <li><strong>D</strong> — transport persoane, &gt;8 locuri</li>
+          <li><strong>Tr, Tb, Tv</strong></li>
+        </ul>
+        <p style="margin-top:.4rem"><strong>Vârste:</strong> A1/B1 — 16 ani · C — 18 ani · D — 21 ani</p>
+      </div>
+      <div class="card">
+        <h4>Permisul se reține:</h4>
+        <ol>
+          <li><strong>15 puncte</strong> (pentru suspendare)</li>
+          <li>În vederea <strong>anulării</strong></li>
+          <li>În vederea <strong>retragerii</strong> (inapt medical)</li>
+          <li><strong>Expirare</strong></li>
+          <li><strong>Neconcordanțe</strong></li>
+          <li><strong>Modificări / ștersături</strong></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-module="4">
+    <span class="module-badge m4">Modul 4 · Documente</span>
+    <h2>Suspendare & reținere certificat</h2>
+    <div class="grid3">
+      <div class="card ok">
+        <h4>30 zile</h4>
+        <ul>
+          <li>15 puncte</li>
+          <li>Coloane oprite</li>
+          <li>Neacordare prioritate</li>
+          <li>Neoprire la roșu</li>
+          <li>Nerespectare semnale polițist</li>
+        </ul>
+      </div>
+      <div class="card warn">
+        <h4>60 zile</h4>
+        <ul>
+          <li>Din nou 15 puncte în 12 luni</li>
+          <li>Accident cu avarii din roșu/prioritate</li>
+          <li>Circulație pe sens opus</li>
+        </ul>
+      </div>
+      <div class="card warn" style="border-left-color:#dc2626">
+        <h4>90 zile</h4>
+        <ul>
+          <li>Alcool</li>
+          <li>Frâne/direcție grave</li>
+          <li>Viteză &gt;50 km/h</li>
+          <li>Neoprire la calea ferată</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card tip">
+      <h4>Certificatul de înmatriculare se reține:</h4>
+      <p>ITP expirat · avarii nereparate în 30 zile · frâne/direcție defecte · anvelope neconforme · folii neomologate · scurgeri · lipsă asigurare · date neconcordante.</p>
+    </div>
+    <div class="card">
+      <h4>Radierea (la cerere)</h4>
+      <ol>
+        <li>Retragere definitivă din circulație</li>
+        <li>Scoatere definitivă din România</li>
+        <li>Dezmembrare / casare</li>
+        <li>Furt</li>
+      </ol>
+      <p>⚠️ <strong>Interzisă</strong> circulația vehiculelor radiate.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-module="4">
+    <span class="module-badge m4">Modul 4 · Quiz</span>
+    <h2>Verificare — Obligații & Sancțiuni</h2>
+    <div class="mcq quiz">
+      <p class="q">1. La accident cu pagube materiale te prezinți la poliție în:</p>
+      <div class="options">
+        <button class="opt" data-correct="false">12 ore</button>
+        <button class="opt" data-correct="true">24 de ore</button>
+        <button class="opt" data-correct="false">48 de ore</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">2. Alcoolemia care constituie infracțiune este:</p>
+      <div class="options">
+        <button class="opt" data-correct="false">&gt;0,4 g/l</button>
+        <button class="opt" data-correct="true">&gt;0,8 g/l alcool pur în sânge</button>
+        <button class="opt" data-correct="false">&gt;0,2 g/l</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">3. Care sunt sancțiunile contravenționale principale?</p>
+      <div class="options">
+        <button class="opt" data-correct="false">Punctele de penalizare și suspendarea</button>
+        <button class="opt" data-correct="true">Amenda contravențională și avertismentul</button>
+        <button class="opt" data-correct="false">Confiscarea și imobilizarea</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">4. Conducerea agresivă se sancționează, de regulă, cu:</p>
+      <div class="options">
+        <button class="opt" data-correct="true">Amendă clasa a II-a + suspendare 30 zile</button>
+        <button class="opt" data-correct="false">Avertisment</button>
+        <button class="opt" data-correct="false">Amendă clasa V-a + anulare permis</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">5. Cumularea a 15 puncte de penalizare duce la:</p>
+      <div class="options">
+        <button class="opt" data-correct="true">Suspendarea dreptului de a conduce 30 zile</button>
+        <button class="opt" data-correct="false">Anularea permisului</button>
+        <button class="opt" data-correct="false">Suspendarea 90 zile</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">6. Ce procent din salariul minim brut reprezintă un punct-amendă?</p>
+      <div class="options">
+        <button class="opt" data-correct="false">5%</button>
+        <button class="opt" data-correct="true">10%</button>
+        <button class="opt" data-correct="false">15%</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+  </section>
+
+  <!-- MODUL 5 -->
+  <section class="slide" data-module="5">
+    <span class="module-badge m5">Modul 5 · Prim ajutor</span>
+    <h2>Prim ajutor — cadru legal & primele măsuri</h2>
+    <div class="card">
+      <p>⚖️ <strong>Acordarea primului ajutor este o îndatorire legală și cetățenească.</strong> Orice persoană trebuie să anunțe la <strong>112</strong>.</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h4>🚑 Scoaterea victimelor</h4>
+        <ul>
+          <li>Prin <strong>ridicare</strong> (mișcare atentă)</li>
+          <li>Sub mașină → <strong>prin tragere</strong></li>
+          <li>Blocate → <strong>NU se mișcă</strong>; se sună la 112, descarcerare</li>
+        </ul>
+      </div>
+      <div class="card ok">
+        <h4>📋 Primele măsuri (ordine)</h4>
+        <ol>
+          <li><strong>Degajarea căilor respiratorii</strong></li>
+          <li><strong>Funcții respiratorii/circulatorii</strong></li>
+          <li><strong>Oprirea hemoragiilor</strong></li>
+          <li><strong>Imobilizarea fracturilor</strong></li>
+          <li><strong>Dezinfectarea plăgilor</strong></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-module="5">
+    <span class="module-badge m5">Modul 5 · Prim ajutor</span>
+    <h2>Așezarea victimelor & Stop cardiac/respirator</h2>
+    <table>
+      <tr><th>Stare victimă</th><th>Poziție corectă</th></tr>
+      <tr><td>Inconștientă</td><td>Cu <strong>capul într-o parte</strong></td></tr>
+      <tr><td>Fracturi coloană</td><td><strong>NU se mișcă</strong>; dacă e necesar → platformă rigidă</td></tr>
+      <tr><td>Pierdere mult sânge</td><td>Cu <strong>picioarele mai sus</strong></td></tr>
+      <tr><td>Răni torace/abdomen</td><td>În <strong>poziție ghemuită</strong></td></tr>
+      <tr><td>Blocate</td><td>Se sună la 112, <strong>NU se scot</strong></td></tr>
+    </table>
+    <div class="grid2">
+      <div class="card warn">
+        <h4>❤️ Stop cardiac</h4>
+        <ul>
+          <li>Lipsa pulsului (pe partea laterală a epiglotei)</li>
+          <li><strong>Masaj cardiac</strong> — podul palmei suprapuse</li>
+        </ul>
+      </div>
+      <div class="card warn">
+        <h4>💨 Stop respirator</h4>
+        <ul>
+          <li>Lipsa mișcărilor respiratorii / aburirii oglinzii</li>
+          <li><strong>Gură la gură</strong>; dacă gura e încleștată → prin nări</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-module="5">
+    <span class="module-badge m5">Modul 5 · Prim ajutor</span>
+    <h2>Hemoragii, fracturi & răni</h2>
+    <div class="grid2">
+      <div class="card warn">
+        <h4>🩸 Hemoragii</h4>
+        <ul>
+          <li>Cap/trunchi → <strong>pansament compresiv</strong></li>
+          <li>Membre → <strong>garou</strong> deasupra rănii, <strong>max. 2 ore</strong>, bilet cu ora</li>
+          <li>Victimele <strong>NU se dezbrace</strong></li>
+        </ul>
+      </div>
+      <div class="card ok">
+        <h4>🦴 Fracturi</h4>
+        <ul>
+          <li>Atele <strong>ușoare</strong> (lemn/plastic)</li>
+          <li>Să cuprindă <strong>articulația superioară ȘI inferioară</strong></li>
+          <li>Braț → eșarfă; laba piciorului → bandaj gros</li>
+          <li><strong>Nu repuneți osul!</strong></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>🩹 Răni</h4>
+        <ul>
+          <li>Dezinfectare (iod, apă oxigenată, alcool)</li>
+          <li>Compresă tifon steril</li>
+          <li><strong>Corpii străini NU se extrag</strong></li>
+        </ul>
+      </div>
+      <div class="card tip">
+        <h4>🌱 Ecologic + preventiv</h4>
+        <ul>
+          <li>Presiune pneuri la rece, lunar</li>
+          <li>Frână de motor la încetinire</li>
+          <li>Pauză după 2 ore</li>
+          <li>Centura obligatorie chiar și la 20 km/h</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-module="5">
+    <span class="module-badge m5">Modul 5 · Quiz</span>
+    <h2>Verificare — Prim ajutor & Preventivă</h2>
+    <div class="mcq quiz">
+      <p class="q">1. Care este prima măsură care trebuie luată înainte de transportul victimei?</p>
+      <div class="options">
+        <button class="opt" data-correct="false">Imobilizarea fracturilor</button>
+        <button class="opt" data-correct="true">Degajarea căilor respiratorii</button>
+        <button class="opt" data-correct="false">Dezinfectarea plăgilor</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">2. În ce poziție se așează victima care a pierdut mult sânge?</p>
+      <div class="options">
+        <button class="opt" data-correct="false">Cu capul într-o parte</button>
+        <button class="opt" data-correct="true">Cu picioarele mai sus decât corpul</button>
+        <button class="opt" data-correct="false">În poziție ghemuită</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">3. Garoul de cauciuc se menține maximum:</p>
+      <div class="options">
+        <button class="opt" data-correct="false">1 oră</button>
+        <button class="opt" data-correct="true">2 ore</button>
+        <button class="opt" data-correct="false">4 ore</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">4. Pulsul victimei se verifică:</p>
+      <div class="options">
+        <button class="opt" data-correct="true">Pe partea laterală a epiglotei (mărul lui Adam)</button>
+        <button class="opt" data-correct="false">La încheietura mâinii</button>
+        <button class="opt" data-correct="false">La tâmplă</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">5. Ce facem cu un corp străin înfipt într-o rană?</p>
+      <div class="options">
+        <button class="opt" data-correct="false">Se extrage imediat</button>
+        <button class="opt" data-correct="true">NU se extrage — se lasă în rană</button>
+        <button class="opt" data-correct="false">Se împinge mai adânc</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+  </section>
+
+  <!-- MODUL 6 -->
+  <section class="slide" data-module="6">
+    <span class="module-badge m6">Modul 6 · Curs practic</span>
+    <h2>Instalarea & Comenzile</h2>
+    <div class="grid2">
+      <div class="card">
+        <h4>Instalare</h4>
+        <ul>
+          <li>Reglezi scaun, oglinzi, centură</li>
+          <li>Oglinda interioară → vezi spatele</li>
+          <li>Oglinzi laterale → vezi stânga/dreapta-spate</li>
+          <li>Unghi mort → întorci capul la schimbarea benzii</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Contact / cheie</h4>
+        <ul>
+          <li><strong>St</strong> — oprire motor + blocare direcție</li>
+          <li><strong>A</strong> — accesorii</li>
+          <li><strong>M</strong> — contact pus</li>
+          <li><strong>D</strong> — demaraj</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Pedale</h4>
+        <ul>
+          <li><strong>Ambreiaj</strong> — talpa stângă</li>
+          <li><strong>Accelerație</strong> — piciorul drept, fin</li>
+          <li><strong>Frână</strong> — drept, fără bruscare</li>
+          <li><strong>Frână mână</strong> — roțile spate</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Volan</h4>
+        <ul>
+          <li>Mâini la „ora 10 și 10”</li>
+          <li>Viraje → „mână peste mână”</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-module="6">
+    <span class="module-badge m6">Modul 6 · Curs practic</span>
+    <h2>Motor & Transmisie</h2>
+    <div class="grid2">
+      <div class="card">
+        <h4>Motorul</h4>
+        <ul>
+          <li>Transformă energia chimică în mecanică</li>
+          <li>Bielă-manivelă: alternativ → rotație</li>
+          <li>Distribuție: umplere + evacuare</li>
+          <li>Răcire: lichid <strong>90–95°C</strong>; antigel (3 ani)</li>
+          <li>Ungere: jojă MIN-MAX</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Ambreiaj & cutie</h4>
+        <ul>
+          <li>Liber → cuplat (toată energia)</li>
+          <li>La podea → decuplat (schimbare trepte)</li>
+          <li>Semiridicat → semicuplat (pornire)</li>
+          <li><strong>Punct de lucru:</strong> scade tonul motorului</li>
+          <li>Cutia: I forță mare; V forță mică</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Frânare</h4>
+        <ul>
+          <li>Frâna de serviciu → încetinire/oprire</li>
+          <li>Frâna de ajutor → imobilizare</li>
+          <li>ABS → previne blocarea roților</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Pneuri</h4>
+        <ul>
+          <li>TUBELES → fără cameră</li>
+          <li>Presiune → la rece, înainte de plecare</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-module="6">
+    <span class="module-badge m6">Modul 6 · Curs practic</span>
+    <h2>Pornirea & Mersul</h2>
+    <div class="grid2">
+      <div class="card">
+        <h4>Pornirea de pe loc</h4>
+        <ol>
+          <li>Apăși ambreiajul la podea</li>
+          <li>Pornești motorul · Cuplezi I</li>
+          <li>Coboară frâna de mână</li>
+          <li>Semnalizezi + te asiguri</li>
+          <li>Accelerezi la <strong>1200–1500 rot/min</strong></li>
+          <li>Ridici ambreiajul până la punctul de lucru</li>
+          <li>Menții 4–5 m; ridici complet ambreiajul</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h4>Mers foarte redus</h4>
+        <ul>
+          <li>Treapta I + 1200–1500 rot/min</li>
+          <li>Ridici ambreiajul la punctul de lucru</li>
+          <li>Jonglezi: viteză crește → apăși; scade → ridici</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Mersul înapoi</h4>
+        <ul>
+          <li>Bust răsucit dreapta-spate; mâna stângă la „ora 12”</li>
+          <li>Viteză foarte redusă</li>
+          <li>Abatere mică → rotire în sens opus, aștepți</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Schimbare trepte</h4>
+        <ol>
+          <li>Eliberezi accelerația</li>
+          <li>Apăși ambreiajul</li>
+          <li>Cuplezi treapta superioară</li>
+          <li>Eliberezi lin ambreiajul</li>
+          <li>Apăși progresiv accelerația</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-module="6">
+    <span class="module-badge m6">Modul 6 · Curs practic</span>
+    <h2>Viraje, intersecții & rampă</h2>
+    <div class="grid2">
+      <div class="card">
+        <h4>Virajul la dreapta</h4>
+        <ol>
+          <li><strong>Preselecție</strong> (200–100 m): banda 1</li>
+          <li><strong>Reducere + treapta II</strong> (100–50 m)</li>
+          <li><strong>Ordine de trecere</strong> (50–20 m)</li>
+          <li><strong>Asigurare finală</strong> (ultimii 10 m)</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h4>Virajul la stânga</h4>
+        <ol>
+          <li><strong>Preselecție</strong>: banda de lângă ax</li>
+          <li><strong>Reducere + treapta II</strong></li>
+          <li><strong>Ordine de trecere</strong></li>
+          <li><strong>Asigurare</strong>: pietoni → stânga → centrul imaginar (prioritate sens opus)</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h4>Traversarea drept înainte</h4>
+        <ul>
+          <li>Drum fără prioritate → 15–20 km/h, treapta II</li>
+          <li>Drum cu prioritate → nu reduci decât pentru pietoni</li>
+          <li>Verde → nu reduci; roșu/galben → oprești</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Pornirea din rampă</h4>
+        <ol>
+          <li>Fixezi turația 1200–1500 rot/min</li>
+          <li>Ridici ambreiajul la punctul de lucru</li>
+          <li>Eliberezi frâna de ajutor</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-module="6">
+    <span class="module-badge m6">Modul 6 · Curs practic</span>
+    <h2>Parcarea & Gararea</h2>
+    <div class="grid2">
+      <div class="card">
+        <h4>Parcarea laterală</h4>
+        <ol>
+          <li><strong>Pasul 1:</strong> paralel cu A (~0,8 m), depășire ~2 m</li>
+          <li><strong>Pasul 2:</strong> C1 dispare din lunetă → volan maxim dreapta</li>
+          <li><strong>Pasul 3:</strong> unghi ~45° → 2 ture stânga (îndrepți)</li>
+          <li><strong>Pasul 4:</strong> C1 la ștergătorul dreapta → volan maxim stânga</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h4>Gararea cu spatele</h4>
+        <ol>
+          <li><strong>Pasul 1:</strong> paralel cu axul, ~1,5 m lateral, depășire ~1 lungime</li>
+          <li><strong>Pasul 2:</strong> C2 apare în geam spate dreapta → volan maxim dreapta</li>
+          <li><strong>Pasul 3:</strong> perpendicular pe ax → 2 ture stânga (îndrepți)</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h4>Depășirea practic</h4>
+        <ol>
+          <li><strong>Asigurare prealabilă</strong></li>
+          <li><strong>Semnalizare</strong> (50 m localitate / 100 m afara)</li>
+          <li><strong>Asigurare definitivă</strong>: față (banda opusă liberă) + spate (nimeni nu e angajat)</li>
+          <li>Distanță laterală suficientă</li>
+          <li>Revenire după semnalizare</li>
+        </ol>
+      </div>
+      <div class="card tip">
+        <h4>Ieșirea din parcare</h4>
+        <ol>
+          <li>Semnalizezi, te asiguri</li>
+          <li>Viteză foarte mică</li>
+          <li>Colț față dreapta trece de C1 → 2 ture dreapta</li>
+          <li>C1 la jumătate → volan maxim dreapta</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-module="6">
+    <span class="module-badge m6">Modul 6 · Quiz</span>
+    <h2>Verificare — Curs practic</h2>
+    <div class="mcq quiz">
+      <p class="q">1. Punctul de lucru al ambreiajului se recunoaște prin:</p>
+      <div class="options">
+        <button class="opt" data-correct="true">Scăderea tonului motorului</button>
+        <button class="opt" data-correct="false">Creșterea bruscă a turației</button>
+        <button class="opt" data-correct="false">Oprirea motorului</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">2. La parcarea laterală, distanța laterală față de vehiculul A este:</p>
+      <div class="options">
+        <button class="opt" data-correct="false">1,5 m</button>
+        <button class="opt" data-correct="true">0,8 m</button>
+        <button class="opt" data-correct="false">2 m</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">3. La gararea cu spatele, te oprești la distanța laterală de:</p>
+      <div class="options">
+        <button class="opt" data-correct="true">1,5 m</button>
+        <button class="opt" data-correct="false">0,8 m</button>
+        <button class="opt" data-correct="false">3 m</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+  </section>
+
+  <!-- QUIZ FINAL -->
+  <section class="slide" data-module="7">
+    <span class="module-badge m7">Quiz final</span>
+    <h2>Verificare generală</h2>
+    <div class="mcq quiz">
+      <p class="q">1. Ordinea de prioritate a semnalizării:</p>
+      <div class="options">
+        <button class="opt" data-correct="false">Semafoare → polițist → indicatoare</button>
+        <button class="opt" data-correct="true">Polițist → semnale speciale → temporar → semafor → indicator → marcaj</button>
+        <button class="opt" data-correct="false">Indicatoare → marcaje → semafoare</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">2. Viteza maximă categoria B pe autostradă:</p>
+      <div class="options">
+        <button class="opt" data-correct="false">110 km/h</button>
+        <button class="opt" data-correct="true">130 km/h</button>
+        <button class="opt" data-correct="false">100 km/h</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">3. Oprirea voluntară durează cel mult:</p>
+      <div class="options">
+        <button class="opt" data-correct="false">10 minute</button>
+        <button class="opt" data-correct="true">5 minute</button>
+        <button class="opt" data-correct="false">3 minute</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">4. La accident cu victime:</p>
+      <div class="options">
+        <button class="opt" data-correct="true">Anunți imediat poliția</button>
+        <button class="opt" data-correct="false">Părăsești locul</button>
+        <button class="opt" data-correct="false">Modifici urmele</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">5. Garoul se menține maximum:</p>
+      <div class="options">
+        <button class="opt" data-correct="false">1 oră</button>
+        <button class="opt" data-correct="true">2 ore</button>
+        <button class="opt" data-correct="false">4 ore</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">6. Conducerea agresivă:</p>
+      <div class="options">
+        <button class="opt" data-correct="true">Amendă clasa a II-a + suspendare 30 zile</button>
+        <button class="opt" data-correct="false">Avertisment</button>
+        <button class="opt" data-correct="false">Anulare permis</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">7. Permisul se reține:</p>
+      <div class="options">
+        <button class="opt" data-correct="false">Doar pentru accidente cu victime</button>
+        <button class="opt" data-correct="true">La 15 puncte, anulare, retragere, expirare, neconcordanțe</button>
+        <button class="opt" data-correct="false">Doar la expirare</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+    <div class="mcq quiz">
+      <p class="q">8. Victima cu pierdere mare de sânge:</p>
+      <div class="options">
+        <button class="opt" data-correct="false">Capul într-o parte</button>
+        <button class="opt" data-correct="true">Picioarele mai sus decât corpul</button>
+        <button class="opt" data-correct="false">Poziție ghemuită</button>
+      </div>
+      <p class="feedback"></p>
+    </div>
+  </section>
+
+  <section class="slide" data-module="7">
+    <span class="module-badge m7">Final</span>
+    <h2>🎉 Felicitări!</h2>
+    <div class="card ok"><p>Ai parcurs întreaga prezentare interactivă — <strong>Curs - Conducerea automobilului</strong>.</p></div>
+    <h3>Recapitulare rapidă</h3>
+    <ul>
+      <li><strong>Modul 1:</strong> Semnalizarea rutieră — ordine de prioritate, indicatoare, marcaje, semafoare</li>
+      <li><strong>Modul 2:</strong> Reguli de circulație — benzi, semnale, viteze, intersecții, cale ferată, zone rezidențiale/pietonale</li>
+      <li><strong>Modul 3:</strong> Manevre — depășire, oprire, staționare, întoarcere, mers înapoi, remorcare, autostrăzi</li>
+      <li><strong>Modul 4:</strong> Obligații, infracțiuni, contravenții, conducere agresivă, permis, reținerea permisului, suspendarea, radierea, clasele de sancțiuni</li>
+      <li><strong>Modul 5:</strong> Prim ajutor, conducere ecologică și preventivă</li>
+      <li><strong>Modul 6:</strong> Curs practic — de la instalarea la postul de conducere până la parcare și garare</li>
+    </ul>
+    <div class="card tip"><p>💡 <strong>Sfat:</strong> folosește <strong>🗺️ Harta</strong> (tasta M), comută pe <strong>📖 Studiu</strong>, apasă <strong>F</strong> pentru fullscreen.</p></div>
+    <p style="text-align:center;margin-top:.9rem"><button class="reveal-btn" onclick="goToSlide(0)">↺ Reia de la început</button></p>
+    <div style="text-align:center">
+      <div class="site-credit site-credit-bottom">Pagină realizată și administrată de Țîcșa Cristian Costel</div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav">
+  <button id="btnPrev" onclick="prev()">← Anterior</button>
+  <div class="counter">
+    <span>Slide <b id="curNum">1</b> / <span id="totalNum">1</span></span>
+    <span class="hint">← → Space · F fullscreen · M harta · ESC închide</span>
+  </div>
+  <button id="btnNext" onclick="next()">Următor →</button>
+</div>
+
+<!-- ===== MODAL OVERVIEW ===== -->
+<div class="overview-modal" id="ovModal" onclick="if(event.target===this)closeOverview()">
+  <div class="overview-panel">
+    <button class="ov-close" onclick="closeOverview()" title="Închide">✕</button>
+    <h3>🗺️ Harta cursului</h3>
+    <p class="ov-sub">Click pe un modul pentru a sări direct la primul slide al acestuia.</p>
+    <div class="ov-grid" id="ovGrid"></div>
+  </div>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide, .title-slide');
+  let current = 0;
+  document.getElementById('totalNum').textContent = slides.length;
+
+  slides.forEach(s => {
+    if (s.querySelectorAll(':scope > .quiz').length >= 2) {
+      s.classList.add('scrollable');
+    }
+  });
+
+  function showSlide(n){
+    if(n < 0) n = 0;
+    if(n >= slides.length) n = slides.length - 1;
+    slides[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+    slides[current].scrollTop = 0;
+    updateUI();
+  }
+
+  function updateUI(){
+    document.getElementById('curNum').textContent = current + 1;
+    const pct = ((current + 1) / slides.length) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('btnPrev').disabled = current === 0;
+    document.getElementById('btnNext').disabled = current === slides.length - 1;
+
+    const mod = slides[current].dataset.module;
+    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    const map = {1:0,2:1,3:2,4:3,5:4,6:5,7:6};
+    if(mod && map[mod] !== undefined){
+      const pills = document.querySelectorAll('.pill');
+      if(pills[map[mod]]) pills[map[mod]].classList.add('active');
+    }
+  }
+
+  function next(){ showSlide(current + 1); }
+  function prev(){ showSlide(current - 1); }
+  function goToSlide(i){ showSlide(i); }
+
+  function goToModule(m){
+    for(let i=0;i<slides.length;i++){
+      if(slides[i].dataset.module == m){ showSlide(i); return; }
+    }
+  }
+
+  function setTheme(name){
+    document.body.setAttribute('data-theme', name);
+    document.querySelectorAll('.theme-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.t === name);
+    });
+    try { localStorage.setItem('rutiera-theme', name); } catch(e){}
+  }
+  (function(){
+    let saved = null;
+    try { saved = localStorage.getItem('rutiera-theme'); } catch(e){}
+    if(saved && ['clasic','intunecat','verde','violet','portocaliu'].includes(saved)){
+      setTheme(saved);
+    }
+  })();
+
+  function toggleFullscreen(){
+    if(!document.fullscreenElement){
+      (document.documentElement.requestFullscreen && document.documentElement.requestFullscreen()) ||
+      (document.documentElement.webkitRequestFullscreen && document.documentElement.webkitRequestFullscreen());
+    } else {
+      (document.exitFullscreen && document.exitFullscreen()) ||
+      (document.webkitExitFullscreen && document.webkitExitFullscreen());
+    }
+  }
+
+  function setMode(mode){
+    document.body.setAttribute('data-mode', mode);
+    document.getElementById('modePres').classList.toggle('active', mode==='prezentare');
+    document.getElementById('modeStudy').classList.toggle('active', mode==='studiu');
+    try{ localStorage.setItem('rutiera-mode', mode); }catch(e){}
+    if(mode==='studiu'){
+      document.querySelectorAll('.slide, .title-slide').forEach(s=>{
+        s.style.display='block';
+      });
+      const stage = document.querySelector('.stage');
+      if(stage) stage.scrollTop = 0;
+    } else {
+      document.querySelectorAll('.slide, .title-slide').forEach(s=>{
+        s.style.display='';
+      });
+      showSlide(current);
+    }
+  }
+  (function(){
+    let saved='prezentare';
+    try{ saved=localStorage.getItem('rutiera-mode')||'prezentare'; }catch(e){}
+    if(saved==='studiu') setTimeout(()=>setMode('studiu'), 0);
+  })();
+
+  const MODULES = [
+    {m:1, title:'Semnalizare rutieră', badge:'M1'},
+    {m:2, title:'Reguli de circulație', badge:'M2'},
+    {m:3, title:'Manevre', badge:'M3'},
+    {m:4, title:'Contravenții & Sancțiuni', badge:'M4'},
+    {m:5, title:'Prim ajutor & Preventivă', badge:'M5'},
+    {m:6, title:'Curs practic', badge:'M6'},
+    {m:7, title:'Quiz final', badge:'M7'}
+  ];
+
+  function buildOverview(){
+    const grid = document.getElementById('ovGrid');
+    grid.innerHTML = '';
+    MODULES.forEach(mod => {
+      const count = Array.from(slides).filter(s => s.dataset.module == mod.m).length;
+      const card = document.createElement('div');
+      card.className = 'ov-module m' + mod.m;
+      card.innerHTML = `
+        <span class="ov-badge">${mod.badge}</span>
+        <div class="ov-title">${mod.title}</div>
+        <div class="ov-count">${count} slide-uri</div>
+      `;
+      card.onclick = () => {
+        closeOverview();
+        if(document.body.getAttribute('data-mode')==='studiu'){
+          const target = Array.from(slides).find(s => s.dataset.module == mod.m);
+          if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+        } else {
+          goToModule(mod.m);
+        }
+      };
+      grid.appendChild(card);
+    });
+  }
+
+  function openOverview(){
+    buildOverview();
+    document.getElementById('ovModal').classList.add('open');
+    const curMod = slides[current].dataset.module;
+    document.querySelectorAll('.ov-module').forEach((el,i)=>{
+      el.classList.toggle('active', MODULES[i].m == curMod);
+    });
+  }
+  function closeOverview(){
+    document.getElementById('ovModal').classList.remove('open');
+  }
+
+  document.addEventListener('keydown', e => {
+    if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if(e.key==='Escape'){ closeOverview(); return; }
+    if((e.key==='m' || e.key==='M') && !e.ctrlKey && !e.metaKey){ e.preventDefault(); openOverview(); return; }
+    if(e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown'){
+      if(document.body.getAttribute('data-mode')==='prezentare'){ e.preventDefault(); next(); }
+    }
+    if(e.key === 'ArrowLeft' || e.key === 'PageUp'){
+      if(document.body.getAttribute('data-mode')==='prezentare'){ e.preventDefault(); prev(); }
+    }
+    if(e.key === 'Home'){ e.preventDefault(); if(document.body.getAttribute('data-mode')==='prezentare') showSlide(0); }
+    if(e.key === 'End'){ e.preventDefault(); if(document.body.getAttribute('data-mode')==='prezentare') showSlide(slides.length - 1); }
+    if((e.key === 'f' || e.key === 'F') && !e.ctrlKey && !e.metaKey){ e.preventDefault(); toggleFullscreen(); }
+  });
+
+  function toggleAnswer(btn){
+    const ans = btn.nextElementSibling;
+    ans.classList.toggle('hidden');
+    btn.textContent = ans.classList.contains('hidden') ? 'Arată răspunsul' : 'Ascunde răspunsul';
+  }
+
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('.opt');
+    if(!btn) return;
+    const mcq = btn.closest('.mcq');
+    if(mcq.dataset.answered === 'true') return;
+    mcq.dataset.answered = 'true';
+    const correct = btn.dataset.correct === 'true';
+    btn.classList.add(correct ? 'correct' : 'wrong');
+    if(!correct){
+      mcq.querySelectorAll('.opt').forEach(o => {
+        if(o.dataset.correct === 'true') o.classList.add('correct');
+      });
+    }
+    mcq.querySelectorAll('.opt').forEach(o => o.disabled = true);
+    const fb = mcq.querySelector('.feedback');
+    fb.textContent = correct ? '✅ Corect!' : '❌ Greșit. Răspunsul corect este evidențiat cu verde.';
+    fb.style.color = correct ? '#16a34a' : '#dc2626';
+  });
+
+  updateUI();
+</script>
+
+</body>
+</html>
